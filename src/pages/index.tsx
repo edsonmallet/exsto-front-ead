@@ -56,7 +56,7 @@ const index = () => {
             placeholder="Senha"
           />
           <Button
-            onClick={() => navigateTo("/course/haushsua")}
+            onClick={() => navigateTo("/course")}
             colorScheme="orange"
             borderRadius="0"
             variant={"ghost"}
@@ -66,7 +66,7 @@ const index = () => {
             Esqueceu a senha?
           </Button>
           <Button
-            onClick={() => navigateTo("/course/haushsua")}
+            onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="cyan"
             borderRadius="0"
@@ -74,7 +74,7 @@ const index = () => {
             Acessar
           </Button>
           <Button
-            onClick={() => navigateTo("/course/haushsua")}
+            onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="cyan"
             borderRadius="0"
@@ -91,8 +91,8 @@ const index = () => {
         h="50vh"
         alt="img"
       />
-    </VStack>
-  );
+    </VStack> 
+  ); 
 };
 
 export default index;
