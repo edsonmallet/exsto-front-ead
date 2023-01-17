@@ -66,8 +66,11 @@ export const Header = () => {
         />
         <IconButton
           aria-label="Sign out"
+          borderRadius={"full"}
+          size={"sm"}
+          colorScheme="red"
           onClick={() => navigateTo("/logout")}
-          icon={<SignOut />}
+          icon={<SignOut weight="bold" />}
         />
       </HStack>
     </HStack>
