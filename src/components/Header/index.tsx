@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { ArrowDown, SignOut } from "phosphor-react";
+import { ArrowDown, HouseSimple, SignOut } from "phosphor-react";
 import { navigateTo } from "../../utils/navigateTo";
 import { LogoBlack } from "../LogoBlack";
 
@@ -16,25 +16,31 @@ export const Header = () => {
   return (
     <HStack w="full" height="full" px="8" justify="space-between" bg="white">
       <LogoBlack />
-      <HStack spacing={8}>
+      <HStack spacing={2}>
+        <IconButton
+          aria-label="Home"
+          onClick={() => navigateTo("/home")}
+          icon={<HouseSimple />}
+          variant="ghost"
+        />
         <Button
           variant="ghost"
           fontWeight={"hairline"}
-          onClick={() => navigateTo("/")}
+          onClick={() => navigateTo("/mycourses")}
         >
           Meus Cursos
         </Button>
         <Button
           variant="ghost"
           fontWeight={"hairline"}
-          onClick={() => navigateTo("/")}
+          onClick={() => navigateTo("/notifications")}
         >
           Notificação
         </Button>
         <Button
           variant="ghost"
           fontWeight={"hairline"}
-          onClick={() => navigateTo("/")}
+          onClick={() => navigateTo("/messages")}
         >
           Mensagens
         </Button>
@@ -55,6 +61,7 @@ export const Header = () => {
         <Avatar
           name="Dan Abrahmov"
           src="https://bit.ly/dan-abramov"
+          cursor={"pointer"}
           onClick={() => navigateTo("/profile")}
         />
         <IconButton
