@@ -20,7 +20,12 @@ export default function Index() {
       <HStack w="full" maxW="container.lg" minH="50vh" spacing="16">
         <VStack w="full" align="flex-start" spacing="8">
           <Logo />
-          <Text fontSize="5xl" fontWeight="bold" lineHeight={1.15}>
+          <Text
+            fontSize="5xl"
+            fontWeight="bold"
+            lineHeight={1.15}
+            textTransform="uppercase"
+          >
             Comece agora sua jornada 4.0.
           </Text>
           <Text fontSize="2xl" fontWeight={"hairline"}>

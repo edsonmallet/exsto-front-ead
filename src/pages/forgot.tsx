@@ -8,6 +8,10 @@ export default function Forgot() {
     <VStack
       w="full"
       bgGradient="linear(to-b, gray.900, gray.700)"
+      backgroundImage={"url(/homebg.webp)"}
+      backgroundRepeat="no-repeat"
+      backgroundSize={"cover"}
+      backgroundPosition={"center"}
       color="gray.50"
       minH="100vh"
       spacing="0"
@@ -16,7 +20,12 @@ export default function Forgot() {
       <HStack w="full" maxW="container.lg" minH="50vh" spacing="16">
         <VStack w="full" align="flex-start" spacing="8">
           <Logo />
-          <Text fontSize="5xl" fontWeight="bold" lineHeight={1.15}>
+          <Text
+            fontSize="5xl"
+            fontWeight="bold"
+            lineHeight={1.15}
+            textTransform={"uppercase"}
+          >
             Comece agora sua jornada 4.0.
           </Text>
           <Text fontSize="2xl" fontWeight={"hairline"}>
@@ -29,13 +38,13 @@ export default function Forgot() {
         <VStack
           w="full"
           maxW="450px"
-          bg="gray.900"
-          p="12"
-          style={{ outline: "1px solid #2D3748" }}
-          spacing="4"
-          align="flex-start"
+          bgColor="#ffffff20"
+          borderRadius="lg"
+          p={12}
+          spacing={8}
+          align="flex-end"
         >
-          <Text fontWeight="bold" fontSize="lg">
+          <Text fontWeight="bold" fontSize="lg" w={"full"}>
             Recupere a senha
           </Text>
           <Input
