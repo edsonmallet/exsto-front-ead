@@ -58,7 +58,6 @@ export default function Register() {
           <VStack w="full">
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               placeholder="Nome"
@@ -66,7 +65,6 @@ export default function Register() {
             />
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               placeholder="Whatsapp"
@@ -74,7 +72,6 @@ export default function Register() {
             />
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               placeholder="E-mail"
@@ -82,7 +79,6 @@ export default function Register() {
             />
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               type="password"
@@ -99,7 +95,6 @@ export default function Register() {
             onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="green"
-            borderRadius="0"
           >
             Cadastrar
           </Button>

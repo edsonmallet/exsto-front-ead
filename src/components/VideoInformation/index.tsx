@@ -60,7 +60,6 @@ export const VideoInformation = () => {
           spacing="4"
         >
           <Button
-            borderRadius="0"
             colorScheme="green"
             w="full"
             p="8"
@@ -71,7 +70,6 @@ export const VideoInformation = () => {
             Respositório Github
           </Button>
           <Button
-            borderRadius="0"
             colorScheme="green"
             variant="outline"
             w="full"

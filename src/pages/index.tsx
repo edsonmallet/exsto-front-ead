@@ -50,7 +50,6 @@ export default function Index() {
           <VStack w="full">
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               placeholder="E-mail"
@@ -58,7 +57,6 @@ export default function Index() {
             />
             <Input
               border="1px"
-              borderRadius="0"
               borderColor="#B3C52D"
               bg="gray.800"
               type="password"
@@ -78,7 +76,6 @@ export default function Index() {
             onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="green"
-            borderRadius="0"
           >
             Acessar
           </Button>
@@ -86,7 +83,6 @@ export default function Index() {
             onClick={() => navigateTo("/register")}
             w="full"
             colorScheme="green"
-            borderRadius="0"
             variant={"link"}
           >
             Cadastre-se

@@ -49,7 +49,6 @@ export default function Forgot() {
           </Text>
           <Input
             border="1px"
-            borderRadius="0"
             borderColor="#B3C52D"
             bg="gray.800"
             placeholder="E-mail"
@@ -60,7 +59,6 @@ export default function Forgot() {
             onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="green"
-            borderRadius="0"
           >
             Recuperar Senha
           </Button>

@@ -6,7 +6,12 @@ import { navigateTo } from "../utils/navigateTo";
 export default function Index() {
   return (
     <VStack
+      w="full"
       bgGradient="linear(to-b, gray.900, gray.700)"
+      backgroundImage={"url(/homebg.webp)"}
+      backgroundRepeat="no-repeat"
+      backgroundSize={"cover"}
+      backgroundPosition={"center"}
       color="gray.50"
       minH="100vh"
       spacing="0"
