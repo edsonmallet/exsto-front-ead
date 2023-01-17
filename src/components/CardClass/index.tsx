@@ -12,7 +12,7 @@ interface Props {
 export const CardClass = ({ classProps }: Props) => {
   return (
     <VStack w="full" height="fit-content" align="flex-start" spacing="2">
-      <Text color={classProps.isPublished ? "cyan.300" : "gray.600"}>
+      <Text color={classProps.isPublished ? "green" : "gray.600"}>
         {formatDate(classProps.date)}
       </Text>
       <VStack
@@ -20,13 +20,11 @@ export const CardClass = ({ classProps }: Props) => {
         height="fit-content"
         align="flex-start"
         borderRadius={"2"}
-        style={{ outline: "1px solid #2D3748" }}
+        style={{ outline: "1px solid #bbb" }}
         p="4"
         spacing="4"
         cursor={classProps.isPublished ? "pointer" : "not-allowed"}
-        _hover={
-          classProps.isPublished ? { bg: "#171923" } : { bg: "transparent" }
-        }
+        _hover={classProps.isPublished ? { bg: "#ccc" } : { bg: "transparent" }}
         transition="0.5s"
       >
         {classProps.isPublished ? (

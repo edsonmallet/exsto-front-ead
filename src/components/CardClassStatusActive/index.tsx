@@ -1,13 +1,12 @@
 import { HStack, Icon, Text } from "@chakra-ui/react";
-import { HiOutlineLockOpen } from "react-icons/hi";
+import { LockKeyOpen } from "phosphor-react";
 
 export const CardClassStatusAcitve = () => {
   return (
     <>
       <HStack w="full" bg="transparent" justify="space-between">
         <HStack color="gray.900">
-          <Icon as={HiOutlineLockOpen} />
-
+          <Icon as={LockKeyOpen} />
           <Text fontSize="xs">CONTEÚDO LIBERADO</Text>
         </HStack>
 

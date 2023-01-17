@@ -5,7 +5,7 @@ export const CardClassPublished = () => {
   return (
     <>
       <HStack w="full" justify="space-between">
-        <HStack color="cyan.500">
+        <HStack color="green">
           <Icon as={HiOutlineLockOpen} />
 
           <Text fontSize="xs">CONTEÚDO LIBERADO</Text>
@@ -14,7 +14,7 @@ export const CardClassPublished = () => {
         <Text
           fontSize="xs"
           border="1px"
-          color="cyan.500"
+          color="green"
           p="1"
           px="2"
           borderRadius={"2"}

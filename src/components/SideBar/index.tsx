@@ -60,12 +60,12 @@ const classes: IClass[] = [
 
 export const SideBar = () => {
   return (
-    <VStack w="full" h="full" p="8" align="flex-start" spacing="8">
+    <VStack w="full" h="full" py="8" px="4" align="flex-start" spacing="8">
       <Text fontWeight="bold" fontSize="lg">
-        Cronograma de Aulas
+        Aulas
       </Text>
 
-      <VStack w="full" spacing="8">
+      <VStack w="full" spacing="8" pb={16}>
         {classes?.map((classProps) => (
           <CardClassContainer key={classProps.id} classProps={classProps} />
         ))}

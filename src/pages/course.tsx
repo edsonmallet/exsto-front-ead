@@ -21,18 +21,18 @@ export default function CoursePage() {
   );
 }
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
+// export async function getStaticProps() {
+//   const apolloClient = initializeApollo();
 
-  const { data } = await apolloClient.query({
-    query: GET_COURSES,
-    variables: { limit: 9 },
-  });
+//   const { data } = await apolloClient.query({
+//     query: GET_COURSES,
+//     variables: { limit: 9 },
+//   });
 
-  return {
-    props: {
-      revalidate: 60,
-      courses: data.courses,
-    },
-  };
-}
+//   return {
+//     props: {
+//       revalidate: 60,
+//       courses: data.courses,
+//     },
+//   };
+// }

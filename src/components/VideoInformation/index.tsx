@@ -13,13 +13,13 @@ import { navigateTo } from "../../utils/navigateTo";
 
 export const VideoInformation = () => {
   return (
-    <VStack w="full" justify="center" bg="gray.900" p="8">
+    <VStack w="full" justify="center" bg="white" p="8">
       <HStack w="full" maxW="container.lg" align="flex-start">
         <VStack w="full" align="flex-start" spacing="8">
           <Text fontWeight="bold" fontSize="xl">
             Aula 01 - Criando o projeto e realizando o setup inicial
           </Text>
-          <Text lineHeight={1.5} color="gray.300">
+          <Text lineHeight={1.5} color="gray.600">
             Nessa aula vamos dar início ao projeto criando a estrutura base da
             aplicação utilizando ReactJS, Vite e TailwindCSS. Vamos também
             realizar o setup do nosso projeto no GraphCMS criando as entidades
@@ -43,7 +43,7 @@ export const VideoInformation = () => {
               variant="ghost"
               aria-label="Linkedin"
               fontSize={32}
-              colorScheme="cyan"
+              colorScheme="green"
               icon={<AiOutlineLinkedin />}
               onClick={() =>
                 navigateTo("https://www.linkedin.com/in/fischerafael/")
@@ -61,7 +61,7 @@ export const VideoInformation = () => {
         >
           <Button
             borderRadius="0"
-            colorScheme="cyan"
+            colorScheme="green"
             w="full"
             p="8"
             onClick={() =>
@@ -72,7 +72,7 @@ export const VideoInformation = () => {
           </Button>
           <Button
             borderRadius="0"
-            colorScheme="cyan"
+            colorScheme="green"
             variant="outline"
             w="full"
             p="8"

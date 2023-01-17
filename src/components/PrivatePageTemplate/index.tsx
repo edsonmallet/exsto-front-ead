@@ -10,21 +10,19 @@ interface Props {
 export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
   return (
     <Grid
+      bgColor={{ base: "#fff" }}
       w="full"
-      bg="gray.900"
       minH="100vh"
       templateColumns="repeat(1, 1fr)"
-      color="gray.50"
       fontFamily="sans-serif"
     >
-      <GridItem colSpan={2} h="10vh" style={{ outline: "1px solid #2D3748" }}>
+      <GridItem colSpan={2} h="10vh">
         {header}
       </GridItem>
       <Grid templateColumns={{ md: "repeat(1, 1fr 380px)" }}>
         <GridItem
           colSpan={1}
           h="90vh"
-          style={{ outline: "1px solid #2D3748" }}
           overflowY="auto"
           css={{
             "&::-webkit-scrollbar": {
@@ -34,7 +32,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
               width: "8px",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "#2D3748",
+              background: "#ccc",
               borderRadius: "8px",
             },
           }}
@@ -44,8 +42,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
         <GridItem
           colSpan={1}
           h="90vh"
-          bg="gray.800"
-          style={{ outline: "1px solid #2D3748" }}
+          bg="gray.100"
           overflowY="auto"
           css={{
             "&::-webkit-scrollbar": {
@@ -55,7 +52,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
               width: "8px",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "#2D3748",
+              background: "#ccc",
               borderRadius: "8px",
             },
           }}
