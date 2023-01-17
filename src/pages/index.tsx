@@ -1,4 +1,5 @@
 import { Button, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
+import { Lock } from "phosphor-react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
 
@@ -7,6 +8,10 @@ export default function Index() {
     <VStack
       w="full"
       bgGradient="linear(to-b, gray.900, gray.700)"
+      backgroundImage={"url(/homebg.webp)"}
+      backgroundRepeat="no-repeat"
+      backgroundSize={"cover"}
+      backgroundPosition={"center"}
       color="gray.50"
       minH="100vh"
       spacing="0"
@@ -28,38 +33,39 @@ export default function Index() {
         <VStack
           w="full"
           maxW="450px"
-          bg="gray.900"
-          p="12"
-          style={{ outline: "1px solid #2D3748" }}
-          spacing="4"
-          align="flex-start"
+          bgColor="#ffffff20"
+          borderRadius="lg"
+          p={12}
+          spacing={8}
+          align="flex-end"
         >
-          <Text fontWeight="bold" fontSize="lg">
+          <Text fontWeight="bold" fontSize="lg" w="full">
             Acesse
           </Text>
-          <Input
-            border="1px"
-            borderRadius="0"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            placeholder="E-mail"
-            type="email"
-          />
-          <Input
-            border="1px"
-            borderRadius="0"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            type="password"
-            placeholder="Senha"
-          />
+          <VStack w="full">
+            <Input
+              border="1px"
+              borderRadius="0"
+              borderColor="#B3C52D"
+              bg="gray.800"
+              placeholder="E-mail"
+              type="email"
+            />
+            <Input
+              border="1px"
+              borderRadius="0"
+              borderColor="#B3C52D"
+              bg="gray.800"
+              type="password"
+              placeholder="Senha"
+            />
+          </VStack>
+
           <Button
             onClick={() => navigateTo("/forgot")}
-            colorScheme="gray"
-            borderRadius="0"
+            colorScheme="white"
             variant={"link"}
-            size="sm"
-            w="full"
+            leftIcon={<Lock />}
           >
             Esqueceu a senha?
           </Button>
