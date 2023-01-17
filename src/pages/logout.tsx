@@ -1,4 +1,4 @@
-import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, Image, Text, VStack } from "@chakra-ui/react";
 import { ArrowLeft } from "phosphor-react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
