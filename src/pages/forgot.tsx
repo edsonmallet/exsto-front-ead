@@ -1,8 +1,9 @@
 import { Button, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
+import { ArrowLeft } from "phosphor-react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
 
-export default function Index() {
+export default function Forgot() {
   return (
     <VStack
       w="full"
@@ -35,7 +36,7 @@ export default function Index() {
           align="flex-start"
         >
           <Text fontWeight="bold" fontSize="lg">
-            Acesse
+            Recupere a senha
           </Text>
           <Input
             border="1px"
@@ -45,40 +46,24 @@ export default function Index() {
             placeholder="E-mail"
             type="email"
           />
-          <Input
-            border="1px"
-            borderRadius="0"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            type="password"
-            placeholder="Senha"
-          />
-          <Button
-            onClick={() => navigateTo("/forgot")}
-            colorScheme="gray"
-            borderRadius="0"
-            variant={"link"}
-            size="sm"
-            w="full"
-          >
-            Esqueceu a senha?
-          </Button>
+
           <Button
             onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="green"
             borderRadius="0"
           >
-            Acessar
+            Recuperar Senha
           </Button>
           <Button
-            onClick={() => navigateTo("/register")}
-            w="full"
+            onClick={() => navigateTo("/")}
             colorScheme="green"
-            borderRadius="0"
             variant={"link"}
+            w="full"
+            leftIcon={<ArrowLeft />}
+            size="sm"
           >
-            Cadastre-se
+            Voltar para login
           </Button>
         </VStack>
       </HStack>

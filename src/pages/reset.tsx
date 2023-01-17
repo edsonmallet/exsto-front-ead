@@ -2,7 +2,7 @@ import { Button, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
 
-export default function Index() {
+export default function Reset() {
   return (
     <VStack
       w="full"
@@ -35,15 +35,15 @@ export default function Index() {
           align="flex-start"
         >
           <Text fontWeight="bold" fontSize="lg">
-            Acesse
+            Resetar sua senha
           </Text>
           <Input
             border="1px"
             borderRadius="0"
             borderColor="#B3C52D"
             bg="gray.800"
-            placeholder="E-mail"
-            type="email"
+            type="password"
+            placeholder="Senha"
           />
           <Input
             border="1px"
@@ -53,32 +53,14 @@ export default function Index() {
             type="password"
             placeholder="Senha"
           />
-          <Button
-            onClick={() => navigateTo("/forgot")}
-            colorScheme="gray"
-            borderRadius="0"
-            variant={"link"}
-            size="sm"
-            w="full"
-          >
-            Esqueceu a senha?
-          </Button>
+
           <Button
             onClick={() => navigateTo("/course")}
             w="full"
             colorScheme="green"
             borderRadius="0"
           >
-            Acessar
-          </Button>
-          <Button
-            onClick={() => navigateTo("/register")}
-            w="full"
-            colorScheme="green"
-            borderRadius="0"
-            variant={"link"}
-          >
-            Cadastre-se
+            Salvar nova senha
           </Button>
         </VStack>
       </HStack>
