@@ -10,21 +10,19 @@ const index = () => {
       color="gray.50"
       minH="100vh"
       spacing="0"
-      px="8"
+      pt={32}
     >
       <HStack w="full" maxW="container.lg" minH="50vh" spacing="16">
         <VStack w="full" align="flex-start" spacing="8">
           <Logo />
-
-          <Text fontSize="2xl" fontWeight="bold" lineHeight={1.15}>
-            Plataforma de cursos online da{" "}
-            <Text as="span" color="cyan.500">
-              Exsto
-            </Text>
+          <Text fontSize="5xl" fontWeight="bold" lineHeight={1.15}>
+            Comece agora sua jornada 4.0.
           </Text>
-          <Text>
-            Tenha acesso aos melhores cursos online de tecnologia da internet.
+          <Text fontSize="2xl" fontWeight={"hairline"}>
+            Aprenda tudo sobre a plataforma didática revolucionaria SMART 4.0 e
+            suas tecnologias.
           </Text>
+          <Image src="/smart40.svg" alt="Smart 4.0" width={300} />
         </VStack>
 
         <VStack
@@ -42,7 +40,7 @@ const index = () => {
           <Input
             border="1px"
             borderRadius="0"
-            borderColor="#2D3748"
+            borderColor="#B3C52D"
             bg="gray.800"
             placeholder="E-mail"
             type="email"
@@ -50,16 +48,16 @@ const index = () => {
           <Input
             border="1px"
             borderRadius="0"
-            borderColor="#2D3748"
+            borderColor="#B3C52D"
             bg="gray.800"
             type="password"
             placeholder="Senha"
           />
           <Button
             onClick={() => navigateTo("/course")}
-            colorScheme="orange"
+            colorScheme="gray"
             borderRadius="0"
-            variant={"ghost"}
+            variant={"link"}
             size="sm"
             w="full"
           >
@@ -68,7 +66,7 @@ const index = () => {
           <Button
             onClick={() => navigateTo("/course")}
             w="full"
-            colorScheme="cyan"
+            colorScheme="green"
             borderRadius="0"
           >
             Acessar
@@ -76,7 +74,7 @@ const index = () => {
           <Button
             onClick={() => navigateTo("/course")}
             w="full"
-            colorScheme="cyan"
+            colorScheme="green"
             borderRadius="0"
             variant={"outline"}
           >
@@ -84,15 +82,8 @@ const index = () => {
           </Button>
         </VStack>
       </HStack>
-      <Image
-        w="full"
-        maxW="container.lg"
-        src="/hero-bg.svg"
-        h="50vh"
-        alt="img"
-      />
-    </VStack> 
-  ); 
+    </VStack>
+  );
 };
 
 export default index;
