@@ -59,7 +59,7 @@ export const Header = () => {
         />
         <IconButton
           aria-label="Sign out"
-          onClick={() => navigateTo("/")}
+          onClick={() => navigateTo("/logout")}
           icon={<SignOut />}
         />
       </HStack>
