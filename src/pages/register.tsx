@@ -11,7 +11,6 @@ import {
 import { ArrowLeft } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";
-import { MUTATION_REGISTER } from "../graphql/mutations/register";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function Register() {
@@ -21,22 +20,11 @@ export default function Register() {
     email: "",
   });
 
-  const [createUser] = useMutation(MUTATION_REGISTER);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues({ ...values, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUser({
-      variables: {
-        input: {
-          username: values.username,
-          password: values.password,
-          email: values.email,
-        },
-      },
-    });
   };
 
   return (

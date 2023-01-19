@@ -1,12 +1,8 @@
-import { ApolloProvider } from "@apollo/client";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useApollo } from "../utils/apollo";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const client = useApollo(pageProps.initialApolloState);
-
   const theme = extendTheme({
     colors: {
       green: {
@@ -25,17 +21,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <ApolloProvider client={client}>
-      <ChakraProvider theme={theme}>
-        <Head>
-          <title>Exsto Academy</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </ApolloProvider>
+    <ChakraProvider theme={theme}>
+      <Head>
+        <title>Exsto Academy</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Component {...pageProps} />
+    </ChakraProvider>
   );
 }

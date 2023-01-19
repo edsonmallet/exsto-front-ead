@@ -3,9 +3,7 @@ import { Player } from "../components/Player";
 import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
 import { SideBar } from "../components/SideBar";
 import { VideoInformation } from "../components/VideoInformation";
-import { GET_COURSES } from "../graphql/querys/courses";
 import api from "../services/api";
-import { initializeApollo } from "../utils/apollo";
 
 export default function CoursePage() {
   return (
