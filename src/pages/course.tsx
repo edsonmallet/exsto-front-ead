@@ -4,6 +4,7 @@ import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
 import { SideBar } from "../components/SideBar";
 import { VideoInformation } from "../components/VideoInformation";
 import { GET_COURSES } from "../graphql/querys/courses";
+import api from "../services/api";
 import { initializeApollo } from "../utils/apollo";
 
 export default function CoursePage() {
@@ -21,18 +22,15 @@ export default function CoursePage() {
   );
 }
 
-// export async function getStaticProps() {
-//   const apolloClient = initializeApollo();
+export async function getStaticProps() {
+  const res = await api.get("/courses");
 
-//   const { data } = await apolloClient.query({
-//     query: GET_COURSES,
-//     variables: { limit: 9 },
-//   });
+  console.log(res.data);
 
-//   return {
-//     props: {
-//       revalidate: 60,
-//       courses: data.courses,
-//     },
-//   };
-// }
+  return {
+    props: {
+      revalidate: 60,
+      courses: res.data,
+    },
+  };
+}

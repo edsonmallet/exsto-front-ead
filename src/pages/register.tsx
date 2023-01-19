@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import {
   Button,
   Checkbox,
@@ -8,10 +9,36 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ArrowLeft } from "phosphor-react";
+import React from "react";
 import { Logo } from "../components/Logo";
+import { MUTATION_REGISTER } from "../graphql/mutations/register";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function Register() {
+  const [values, setValues] = React.useState({
+    username: "",
+    password: "",
+    email: "",
+  });
+
+  const [createUser] = useMutation(MUTATION_REGISTER);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues({ ...values, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createUser({
+      variables: {
+        input: {
+          username: values.username,
+          password: values.password,
+          email: values.email,
+        },
+      },
+    });
+  };
+
   return (
     <VStack
       w="full"
@@ -55,49 +82,55 @@ export default function Register() {
           <Text fontWeight="bold" fontSize="lg">
             Preencha os dados e prepare-se para alavancar sua carreira
           </Text>
-          <VStack w="full">
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              placeholder="Nome"
-              type="text"
-            />
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              placeholder="Whatsapp"
-              type="text"
-            />
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              placeholder="E-mail"
-              type="email"
-            />
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              type="password"
-              placeholder="Senha"
-            />
-            <Checkbox colorScheme="green" defaultChecked size="md">
-              <Text fontSize={"small"} fontWeight="hairline">
-                Ao informar seus dados a seguir para a próxima etapa. Você
-                automaticamente con- corda com nossa Política de privacidade.
-              </Text>
-            </Checkbox>
-          </VStack>
-          <Button
-            onClick={() => navigateTo("/course")}
-            w="full"
-            colorScheme="green"
-          >
-            Cadastrar
-          </Button>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <VStack w="full">
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                placeholder="Nome"
+                type="text"
+                name="username"
+                onChange={(e) => handleChange(e)}
+              />
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                placeholder="Whatsapp"
+                type="text"
+                name="whatsapp"
+                onChange={(e) => handleChange(e)}
+              />
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                placeholder="E-mail"
+                type="email"
+                name="email"
+                onChange={(e) => handleChange(e)}
+              />
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                type="password"
+                placeholder="Senha"
+                name="password"
+                onChange={(e) => handleChange(e)}
+              />
+              <Checkbox colorScheme="green" defaultChecked size="md">
+                <Text fontSize={"small"} fontWeight="hairline">
+                  Ao informar seus dados a seguir para a próxima etapa. Você
+                  automaticamente con- corda com nossa Política de privacidade.
+                </Text>
+              </Checkbox>
+            </VStack>
+            <Button w="full" type="submit" colorScheme="green">
+              Cadastrar
+            </Button>
+          </form>
           <Button
             onClick={() => navigateTo("/")}
             colorScheme="green"
