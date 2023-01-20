@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/toastify.css";
 import "../styles/global.css";
+import NextNProgress from "nextjs-progressbar";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const theme = extendTheme({
@@ -31,6 +32,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ToastContainer limit={3} />
+      <NextNProgress
+        color="#29D"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
+      />
       <Component {...pageProps} />
     </ChakraProvider>
   );
