@@ -20,10 +20,13 @@ export default function HomePage() {
       <Flex
         gap={10}
         wrap="wrap"
-        maxW={"80vw"}
+        w="80vw"
         justifyContent="center"
         alignItems="center"
       >
+        <CardCourse />
+        <CardCourse />
+        <CardCourse />
         <CardCourse />
         <CardCourse />
         <CardCourse />

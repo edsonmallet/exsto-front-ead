@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import Image from "next/image";
 import {
   Box,
   Center,
@@ -8,37 +6,39 @@ import {
   Stack,
   Avatar,
   useColorModeValue,
+  Flex,
 } from "@chakra-ui/react";
+import { HourglassMedium, RocketLaunch } from "phosphor-react";
 
 export default function CardCourse() {
   return (
     <Center>
       <Box
+        cursor={"pointer"}
         maxW={"400px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"xl"}
         rounded={"md"}
-        p={6}
         overflow={"hidden"}
       >
-        <Box
-          h={"210px"}
-          bg={"gray.100"}
-          mt={-6}
-          mx={-6}
-          mb={6}
-          pos={"relative"}
-        ></Box>
-        <Stack>
+        <Flex bgColor={"#B3C52D"} w={"full"} p={3} gap={4}>
+          <RocketLaunch size={32} weight="bold" />
+          <HourglassMedium size={32} weight="bold" />
+          <Text fontSize={"xl"} fontWeight="bold">
+            Lançamento
+          </Text>
+        </Flex>
+        <Box h={"210px"} bg={"gray.100"} mb={6} pos={"relative"}></Box>
+        <Stack px={4}>
           <Text
             color={"green.500"}
             textTransform={"uppercase"}
-            fontWeight={800}
-            fontSize={"sm"}
+            fontWeight={400}
+            fontSize={"2xl"}
             letterSpacing={1.1}
           >
-            Blog
+            TECH
           </Text>
           <Heading
             color={useColorModeValue("gray.700", "white")}
@@ -54,7 +54,7 @@ export default function CardCourse() {
             et ea rebum.
           </Text>
         </Stack>
-        <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
+        <Stack mt={6} direction={"row"} spacing={4} align={"center"} p={4}>
           <Avatar
             src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
           />
