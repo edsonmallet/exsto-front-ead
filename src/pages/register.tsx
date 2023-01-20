@@ -1,4 +1,3 @@
-import { useMutation } from "@apollo/client";
 import {
   Button,
   Checkbox,
@@ -8,12 +7,17 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import { ArrowLeft } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";
+import { register } from "../services/login";
+import { useLoadingStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function Register() {
+  const { showToast } = useToastStore();
+  const { isLoading, setLoading } = useLoadingStore();
   const [values, setValues] = React.useState({
     username: "",
     password: "",
@@ -25,6 +29,11 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = await register(setLoading, showToast, values);
+    if (token) {
+      Cookies.set("Exsto_token", token);
+      navigateTo("/home");
+    }
   };
 
   return (
@@ -81,15 +90,7 @@ export default function Register() {
                 name="username"
                 onChange={(e) => handleChange(e)}
               />
-              <Input
-                border="1px"
-                borderColor="#B3C52D"
-                bg="gray.800"
-                placeholder="Whatsapp"
-                type="text"
-                name="whatsapp"
-                onChange={(e) => handleChange(e)}
-              />
+
               <Input
                 border="1px"
                 borderColor="#B3C52D"
@@ -115,7 +116,13 @@ export default function Register() {
                 </Text>
               </Checkbox>
             </VStack>
-            <Button w="full" type="submit" colorScheme="green">
+            <Button
+              w="full"
+              type="submit"
+              colorScheme="green"
+              isLoading={isLoading}
+              loadingText="Cadastrando..."
+            >
               Cadastrar
             </Button>
           </form>

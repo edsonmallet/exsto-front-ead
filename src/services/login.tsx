@@ -35,3 +35,15 @@ export const signin = async (
     setLoading(false);
   }
 };
+
+export const register = async (setLoading: any, showToast: any, data: any) => {
+  setLoading(true);
+  try {
+    const response = await api.post<Login>("/auth/local/register", data);
+    return response.data.jwt;
+  } catch (e) {
+    showToast("error", "Erro ao fazer Cadastro! Verifique suas credenciais.");
+  } finally {
+    setLoading(false);
+  }
+};
