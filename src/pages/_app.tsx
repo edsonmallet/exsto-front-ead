@@ -1,6 +1,9 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/toastify.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const theme = extendTheme({
@@ -26,6 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <title>Exsto Academy</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <ToastContainer limit={3} />
       <Component {...pageProps} />
     </ChakraProvider>
   );

@@ -1,0 +1,43 @@
+.Toastify__toast-container {
+  width: 500px !important;
+}
+.Toastify__toast {
+  border-radius: 8px !important;
+}
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: 100vw !important;
+  }
+  .Toastify__toast {
+    border-radius: 0px !important;
+  }
+}
+.Toastify__progress-bar--info {
+  background: #e4f1fe !important;
+}
+.Toastify__progress-bar--error {
+  background: #f03434 !important;
+}
+.Toastify__progress-bar--success {
+  background: #04d47e !important;
+}
+.Toastify__progress-bar--warning {
+  background: #f9bf3b !important;
+}
+
+.Toastify__toast--error svg {
+  fill: #f03434 !important;
+}
+.Toastify__toast--info svg {
+  fill: #e4f1fe !important;
+}
+.Toastify__toast--success svg {
+  fill: #04d47e !important;
+}
+.Toastify__toast--warning svg {
+  fill: #f9bf3b !important;
+}
+
+.Toastify__close-button svg {
+  fill: #fff !important;
+}

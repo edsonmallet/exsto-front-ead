@@ -1,9 +1,46 @@
-import { Button, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  HStack,
+  Image,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Lock } from "phosphor-react";
+import React from "react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
+import Cookies from "js-cookie";
+import { signin } from "../services/login";
+import { useLoadingStore, useToastStore } from "../stores";
 
 export default function Index() {
+  const { showToast } = useToastStore();
+  const { isLoading, setLoading } = useLoadingStore();
+  const [values, setValues] = React.useState({
+    identifier: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues({ ...values, [e.target.name]: e.target.value });
+
+  const handleSubmit = async () => {
+    const token = await signin(
+      setLoading,
+      showToast,
+      values.identifier,
+      values.password
+    );
+    if (token) {
+      Cookies.set("Exsto_token", token);
+      navigateTo("/home");
+    }
+  };
+
+  const isDisabled = !values.identifier || !values.password;
+
   return (
     <VStack
       w="full"
@@ -47,6 +84,7 @@ export default function Index() {
           <Text fontWeight="bold" fontSize="lg" w="full">
             Acesse
           </Text>
+
           <VStack w="full">
             <Input
               border="1px"
@@ -54,12 +92,16 @@ export default function Index() {
               bg="gray.800"
               placeholder="E-mail"
               type="email"
+              name="identifier"
+              onChange={(e) => handleChange(e)}
             />
             <Input
               border="1px"
               borderColor="#B3C52D"
               bg="gray.800"
               type="password"
+              name="password"
+              onChange={(e) => handleChange(e)}
               placeholder="Senha"
             />
           </VStack>
@@ -72,13 +114,19 @@ export default function Index() {
           >
             Esqueceu a senha?
           </Button>
+
           <Button
-            onClick={() => navigateTo("/course")}
+            onClick={handleSubmit}
+            type="submit"
             w="full"
             colorScheme="green"
+            isDisabled={isDisabled || isLoading}
+            isLoading={isLoading}
+            loadingText="Aguarde..."
           >
             Acessar
           </Button>
+
           <Button
             onClick={() => navigateTo("/register")}
             w="full"
