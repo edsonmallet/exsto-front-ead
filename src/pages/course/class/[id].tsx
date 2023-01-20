@@ -19,16 +19,3 @@ export default function CoursePage() {
     />
   );
 }
-
-export async function getStaticProps() {
-  const res = await api.get("/courses");
-
-  console.log(res.data);
-
-  return {
-    props: {
-      revalidate: 60,
-      courses: res.data,
-    },
-  };
-}

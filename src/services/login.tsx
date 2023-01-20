@@ -47,3 +47,19 @@ export const register = async (setLoading: any, showToast: any, data: any) => {
     setLoading(false);
   }
 };
+
+export const forgotPassword = async (
+  setLoading: any,
+  showToast: any,
+  data: any
+) => {
+  setLoading(true);
+  try {
+    const response = await api.post("/auth/forgot-password", data);
+    return response.data;
+  } catch (e) {
+    showToast("error", "Erro ao enviar email!");
+  } finally {
+    setLoading(false);
+  }
+};

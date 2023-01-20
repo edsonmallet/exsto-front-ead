@@ -1,9 +1,27 @@
 import { Button, HStack, Image, Input, Text, VStack } from "@chakra-ui/react";
+
 import { ArrowLeft } from "phosphor-react";
+import React from "react";
 import { Logo } from "../components/Logo";
+import { forgotPassword } from "../services/login";
+import { useLoadingStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function Forgot() {
+  const { showToast } = useToastStore();
+  const { isLoading, setLoading } = useLoadingStore();
+  const [values, setValues] = React.useState({
+    email: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues({ ...values, [e.target.name]: e.target.value });
+
+  const handleSubmit = async () => {
+    const res = await forgotPassword(setLoading, showToast, values);
+    if (res?.ok) navigateTo("/login");
+  };
+
   return (
     <VStack
       w="full"
@@ -47,21 +65,29 @@ export default function Forgot() {
           <Text fontWeight="bold" fontSize="lg" w={"full"}>
             Recupere a senha
           </Text>
-          <Input
-            border="1px"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            placeholder="E-mail"
-            type="email"
-          />
+          <VStack w="full">
+            <Input
+              border="1px"
+              borderColor="#B3C52D"
+              bg="gray.800"
+              placeholder="E-mail"
+              type="email"
+              name="email"
+              onChange={(e) => handleChange(e)}
+            />
 
-          <Button
-            onClick={() => navigateTo("/course")}
-            w="full"
-            colorScheme="green"
-          >
-            Recuperar Senha
-          </Button>
+            <Button
+              onClick={() => handleSubmit()}
+              type="submit"
+              colorScheme="green"
+              isDisabled={isLoading || !values.email}
+              isLoading={isLoading}
+              loadingText="Cadastrando..."
+              w="full"
+            >
+              Recuperar
+            </Button>
+          </VStack>
           <Button
             onClick={() => navigateTo("/")}
             colorScheme="green"

@@ -3,18 +3,12 @@ import {
   Button,
   Flex,
   Heading,
-  HStack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Flag } from "phosphor-react";
-import { Header } from "../../components/Header";
-import { Player } from "../../components/Player";
-import { PrivatePageTemplate } from "../../components/PrivatePageTemplate";
-import { SideBar } from "../../components/SideBar";
-import { TitlePage } from "../../components/TitlePage";
-import { VideoInformation } from "../../components/VideoInformation";
-import api from "../../services/api";
+import { Header, PrivatePageTemplate } from "../../components";
+import { navigateTo } from "../../utils/navigateTo";
 
 export default function CourseDetailPage() {
   const Details = () => (
@@ -57,7 +51,11 @@ export default function CourseDetailPage() {
               erat, sed diam voluptua. At vero eos et accusam et justo duo
               dolores et ea rebum.
             </Text>
-            <Button w="full" colorScheme={"green"}>
+            <Button
+              w="full"
+              colorScheme={"green"}
+              onClick={() => navigateTo("/course/class/123")}
+            >
               Continue Aprendendto
             </Button>
           </Flex>

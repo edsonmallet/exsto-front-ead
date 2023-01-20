@@ -1,10 +1,13 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
+import { GetServerSideProps } from "next";
 import CardCourse from "../components/CardCourse";
 import { Header } from "../components/Header";
 import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
+import api from "../services/api";
 import { navigateTo } from "../utils/navigateTo";
 
-export default function HomePage() {
+export default function HomePage({ data }: any) {
+  console.log(data);
   const Home = () => (
     <Flex
       my={10}
@@ -25,18 +28,35 @@ export default function HomePage() {
         justifyContent="center"
         alignItems="center"
       >
-        <CardCourse onClick={() => navigateTo("/course/1234")} />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
-        <CardCourse />
+        {data?.map((item: any) => (
+          <>
+            {item.attributes.visibility && (
+              <CardCourse
+                course={item.attributes}
+                key={item.id}
+                onClick={() => navigateTo(`/course/${item.id}`)}
+              />
+            )}
+          </>
+        ))}
       </Flex>
     </Flex>
   );
 
   return <PrivatePageTemplate header={<Header />} main={<Home />} />;
 }
+
+export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
+  context
+) => {
+  let res = await api.get("/courses?&populate=*");
+  res = res.data;
+
+  res?.data?.map((item: any) => console.log(item.attributes.categories));
+
+  return {
+    props: {
+      data: res.data,
+    },
+  };
+};

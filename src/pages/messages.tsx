@@ -1,7 +1,28 @@
 import { Flex } from "@chakra-ui/react";
-import { Header } from "../components/Header";
-import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
-import { TitlePage } from "../components/TitlePage";
+import {
+  Header,
+  PrivatePageTemplate,
+  TableData,
+  TitlePage,
+} from "../components";
+
+const messages = [
+  {
+    message: "Mensagem 1",
+    date: "01/01/2021",
+    action: "Ação 1",
+  },
+  {
+    message: "Mensagem 2",
+    date: "01/01/2021",
+    action: "Ação 1",
+  },
+  {
+    message: "Mensagem 3",
+    date: "01/01/2021",
+    action: "Ação 1",
+  },
+];
 
 export default function MyMessagesPage() {
   const Messages = () => (
@@ -20,7 +41,7 @@ export default function MyMessagesPage() {
         justifyContent="center"
         alignItems="center"
       >
-        <p>messages</p>
+        <TableData head={Object.keys(messages[0])} body={messages} />
       </Flex>
     </Flex>
   );
