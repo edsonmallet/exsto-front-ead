@@ -4,6 +4,7 @@ import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/toastify.css";
+import "../styles/global.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const theme = extendTheme({

@@ -24,7 +24,9 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
       >
         {header}
       </GridItem>
-      <Grid templateColumns={{ md: "repeat(1, 1fr 380px)" }}>
+      <Grid
+        templateColumns={{ md: `repeat(1, 1fr ${sidebar ? "380px" : ""})` }}
+      >
         <GridItem
           colSpan={1}
           h="90vh"
