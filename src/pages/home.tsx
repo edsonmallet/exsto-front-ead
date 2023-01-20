@@ -2,6 +2,7 @@ import { Flex, Image, Text } from "@chakra-ui/react";
 import CardCourse from "../components/CardCourse";
 import { Header } from "../components/Header";
 import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
+import { navigateTo } from "../utils/navigateTo";
 
 export default function HomePage() {
   const Home = () => (
@@ -24,7 +25,7 @@ export default function HomePage() {
         justifyContent="center"
         alignItems="center"
       >
-        <CardCourse />
+        <CardCourse onClick={() => navigateTo("/course/1234")} />
         <CardCourse />
         <CardCourse />
         <CardCourse />

@@ -10,10 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { HourglassMedium, RocketLaunch } from "phosphor-react";
 
-export default function CardCourse() {
+interface CardCourseProps {
+  onClick?: () => void;
+}
+
+export default function CardCourse({ onClick }: CardCourseProps) {
   return (
     <Center>
       <Box
+        onClick={onClick}
         cursor={"pointer"}
         maxW={"400px"}
         w={"full"}
