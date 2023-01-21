@@ -14,6 +14,7 @@ import { GetServerSideProps } from "next";
 import { Flag, GraduationCap, Laptop, Medal, PlayCircle } from "phosphor-react";
 import {
   BadgeCourseContent,
+  CardModuleCourse,
   Header,
   PrivatePageTemplate,
 } from "../../components";
@@ -26,7 +27,7 @@ export default function CourseDetailPage({ data }: any) {
   const Details = () => (
     <Flex
       w="full"
-      my={10}
+      py={10}
       alignItems={"center"}
       justifyContent="flex-start"
       direction={"column"}
@@ -38,11 +39,7 @@ export default function CourseDetailPage({ data }: any) {
         justifyContent="center"
         alignItems="center"
       >
-        <Flex
-          gap={8}
-          w={{ base: "90vw", md: "50vw" }}
-          direction={{ base: "column", lg: "row" }}
-        >
+        <Flex gap={6} px={8} direction={{ base: "column", lg: "row" }}>
           <Flex flex={1} direction={"column"} gap={4}>
             {data?.coverImage?.data?.attributes?.url && (
               <Image
@@ -52,9 +49,8 @@ export default function CourseDetailPage({ data }: any) {
               />
             )}
             {!data?.coverImage?.data && (
-              <AspectRatio maxW="500px" ratio={16 / 9}>
+              <AspectRatio ratio={16 / 9}>
                 <iframe
-                  width="560"
                   src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
                   title="YouTube video player"
                   allowFullScreen
@@ -97,7 +93,7 @@ export default function CourseDetailPage({ data }: any) {
           </Flex>
         </Flex>
 
-        <Flex gap={8} wrap="wrap" w={{ base: "90vw", md: "50vw" }} py={2}>
+        <Flex gap={6} px={8} wrap="wrap">
           <BadgeCourseContent
             icon={<Medal size={56} weight="fill" />}
             title="CERTIFICADO DE CONCLUSÃO"
@@ -120,70 +116,34 @@ export default function CourseDetailPage({ data }: any) {
           />
         </Flex>
 
-        <Flex gap={8} w="full" bgColor="#B3C52D70" justifyContent="center">
-          <Flex w={"50vw"} py={50} justifyContent="center">
-            <Heading> Com esse curso você estará apto a </Heading>
-          </Flex>
+        <Flex
+          gap={8}
+          p={8}
+          w="full"
+          bgColor="#B3C52D70"
+          justifyContent="center"
+        >
+          <Heading> Com esse curso você estará apto a </Heading>
         </Flex>
 
-        <Flex gap={8} w="full" justifyContent="center">
-          <Flex w={"50vw"} py={50} justifyContent="space-between">
-            <Flex flex={1} justifyContent="center">
-              <Flex direction={"column"}>
-                <Heading>
-                  O que você vai{" "}
-                  <span style={{ color: "#B3C52D" }}>aprender</span>
-                </Heading>
-                <Text mt={5}>
-                  Os conteúdos ofertados aqui são embassados nas experiências
-                  dos instrutores no mercado.
-                </Text>
-              </Flex>
-
-              <Flex gap={4} wrap="wrap">
-                <Flex alignItems={"stretch"} w="40%" gap={2}>
-                  <Flex>
-                    <Flag fontSize={44} weight="fill" />
-                  </Flex>
-                  <Flex direction={"column"}>
-                    <Heading fontSize={20}>Metodologia</Heading>
-                    <Text>
-                      Você vai conferir aulas em vídeo com direcionamento claro
-                      e prático. Também vale a pena consultar e ler com atenção
-                      o material de apoio para fixar os aprendizados.
-                    </Text>
-                  </Flex>
-                </Flex>
-
-                <Flex alignItems={"stretch"} w="40%" gap={2}>
-                  <Flex>
-                    <Flag fontSize={44} weight="fill" />
-                  </Flex>
-                  <Flex direction={"column"}>
-                    <Heading fontSize={20}>Metodologia</Heading>
-                    <Text>
-                      Você vai conferir aulas em vídeo com direcionamento claro
-                      e prático. Também vale a pena consultar e ler com atenção
-                      o material de apoio para fixar os aprendizados.
-                    </Text>
-                  </Flex>
-                </Flex>
-
-                <Flex alignItems={"stretch"} w="40%" gap={2}>
-                  <Flex>
-                    <Flag fontSize={44} weight="fill" />
-                  </Flex>
-                  <Flex direction={"column"}>
-                    <Heading fontSize={20}>Metodologia</Heading>
-                    <Text>
-                      Você vai conferir aulas em vídeo com direcionamento claro
-                      e prático. Também vale a pena consultar e ler com atenção
-                      o material de apoio para fixar os aprendizados.
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Flex>
+        <Flex gap={8} p={8} w="full" justifyContent="center">
+          <Flex flex={1} justifyContent="center">
+            <Flex direction={"column"} w={"300px"}>
+              <Heading>
+                O que você vai{" "}
+                <span style={{ color: "#B3C52D" }}>aprender</span>
+              </Heading>
+              <Text mt={5}>
+                Os conteúdos ofertados aqui são embassados nas experiências dos
+                instrutores no mercado.
+              </Text>
             </Flex>
+          </Flex>
+
+          <Flex flex={1} gap={4} wrap="wrap">
+            {data?.modules?.map((module: any) => (
+              <CardModuleCourse module={module} key={module.id} />
+            ))}
           </Flex>
         </Flex>
 
@@ -203,12 +163,13 @@ export default function CourseDetailPage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  let res = await api.get(`/courses/${context?.params?.id}?populate=*`);
-  console.log(res.data);
+  const course = await api.get(
+    `/courses/${context?.params?.id}?populate[modules][populate]=*&populate[authors][populate]=*&populate=*&populate[categories][populate]=*`
+  );
 
   return {
     props: {
-      data: { id: res.data.data.id, ...res.data.data.attributes },
+      data: { id: course.data.data.id, ...course.data.data.attributes },
     },
   };
 };
