@@ -8,49 +8,40 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { ArrowDown, HouseSimple, SignOut } from "phosphor-react";
+import { ArrowDown, House, SignOut } from "phosphor-react";
 import { navigateTo } from "../../utils/navigateTo";
 import { LogoBlack } from "../LogoBlack";
 
 export const Header = () => {
   return (
-    <HStack w="full" height="full" px="8" justify="space-between" bg="white">
+    <HStack
+      w="full"
+      height="full"
+      px="8"
+      justify="space-between"
+      bg="transparent"
+    >
       <LogoBlack />
       <HStack spacing={2}>
-        <IconButton
+        <Button
           aria-label="Home"
           onClick={() => navigateTo("/home")}
-          icon={<HouseSimple />}
+          leftIcon={<House weight="bold" />}
           variant="ghost"
-        />
-        <Button
-          variant="ghost"
-          fontWeight={"hairline"}
-          onClick={() => navigateTo("/mycourses")}
         >
+          Home
+        </Button>
+        <Button variant="ghost" onClick={() => navigateTo("/mycourses")}>
           Meus Cursos
         </Button>
-        <Button
-          variant="ghost"
-          fontWeight={"hairline"}
-          onClick={() => navigateTo("/notifications")}
-        >
+        <Button variant="ghost" onClick={() => navigateTo("/notifications")}>
           Notificação
         </Button>
-        <Button
-          variant="ghost"
-          fontWeight={"hairline"}
-          onClick={() => navigateTo("/messages")}
-        >
+        <Button variant="ghost" onClick={() => navigateTo("/messages")}>
           Mensagens
         </Button>
         <Menu>
-          <MenuButton
-            as={Button}
-            fontWeight={"hairline"}
-            variant="ghost"
-            rightIcon={<ArrowDown />}
-          >
+          <MenuButton as={Button} variant="ghost" rightIcon={<ArrowDown />}>
             Conteudo Extra
           </MenuButton>
           <MenuList>

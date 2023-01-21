@@ -20,7 +20,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
         colSpan={2}
         h="10vh"
         borderBottom="1px solid"
-        borderBottomColor={"gray.300"}
+        borderBottomColor={"gray.200"}
       >
         {header}
       </GridItem>
@@ -31,6 +31,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
           colSpan={1}
           h="90vh"
           overflowY="auto"
+          bgColor="gray.50"
           css={{
             "&::-webkit-scrollbar": {
               width: "8px",

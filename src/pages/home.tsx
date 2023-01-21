@@ -26,7 +26,7 @@ export default function HomePage({ data }: any) {
         wrap="wrap"
         w="80vw"
         justifyContent="center"
-        alignItems="center"
+        alignItems="stretch"
       >
         {data?.map((item: any) => (
           <>
@@ -49,7 +49,9 @@ export default function HomePage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  let res = await api.get("/courses?&populate=*");
+  let res = await api.get(
+    "/courses?populate[authors][populate]=*&populate[categories]=*&populate[coverImage]=*"
+  );
   res = res.data;
 
   res?.data?.map((item: any) => console.log(item.attributes.categories));

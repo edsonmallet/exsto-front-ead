@@ -29,7 +29,7 @@ export default function MyCoursePage({ data }: any) {
           wrap="wrap"
           w="80vw"
           justifyContent="center"
-          alignItems="center"
+          alignItems="stretch"
         >
           {data?.map((item: any) => (
             <>
