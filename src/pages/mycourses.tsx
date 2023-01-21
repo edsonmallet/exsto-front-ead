@@ -50,17 +50,14 @@ export default function MyCoursePage({ data }: any) {
   return <PrivatePageTemplate header={<Header />} main={<MyCourses />} />;
 }
 
-export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<{
+  data: any;
+}> = async () => {
   let res = await api.get("/courses?populate=*");
-  res = res.data;
-
-  res?.data?.map((item: any) => console.log(item));
 
   return {
     props: {
-      data: res.data,
+      data: res.data.data,
     },
   };
 };

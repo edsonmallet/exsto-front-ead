@@ -1,16 +1,28 @@
 import {
+  AspectRatio,
+  Badge,
   Box,
   Button,
   Flex,
   Heading,
+  HStack,
+  Image,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Flag } from "phosphor-react";
-import { Header, PrivatePageTemplate } from "../../components";
+import { GetServerSideProps } from "next";
+import { Flag, GraduationCap, Laptop, Medal, PlayCircle } from "phosphor-react";
+import {
+  BadgeCourseContent,
+  Header,
+  PrivatePageTemplate,
+} from "../../components";
+import api from "../../services/api";
 import { navigateTo } from "../../utils/navigateTo";
+import { parseHtml } from "../../utils/parseHtml";
 
-export default function CourseDetailPage() {
+export default function CourseDetailPage({ data }: any) {
+  console.log(data);
   const Details = () => (
     <Flex
       w="full"
@@ -26,54 +38,86 @@ export default function CourseDetailPage() {
         justifyContent="center"
         alignItems="center"
       >
-        <Flex gap={8} w="50vw">
-          <Box w="70%">Image</Box>
-          <Flex direction={"column"} gap={4}>
-            <Text
-              color={"green.500"}
-              textTransform={"uppercase"}
-              fontWeight={400}
-              fontSize={"2xl"}
-              letterSpacing={1.1}
-            >
-              TECH
-            </Text>
+        <Flex
+          gap={8}
+          w={{ base: "90vw", md: "50vw" }}
+          direction={{ base: "column", lg: "row" }}
+        >
+          <Flex flex={1} direction={"column"} gap={4}>
+            {data?.coverImage?.data?.attributes?.url && (
+              <Image
+                alt={data?.coverImage?.data?.attributes?.alternativeText}
+                src={data?.coverImage?.data?.attributes?.url}
+                w="full"
+              />
+            )}
+            {!data?.coverImage?.data && (
+              <AspectRatio maxW="500px" ratio={16 / 9}>
+                <iframe
+                  width="560"
+                  src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
+                  title="YouTube video player"
+                  allowFullScreen
+                />
+              </AspectRatio>
+            )}
+          </Flex>
+          <Flex flex={1} direction={"column"} gap={4}>
+            <Flex gap={2}>
+              {data?.categories?.data?.map((category: any) => (
+                <Badge
+                  size="lg"
+                  colorScheme="green"
+                  key={category.id}
+                  py={2}
+                  px={2}
+                  borderRadius="full"
+                >
+                  {category?.attributes?.name}
+                </Badge>
+              ))}
+            </Flex>
             <Heading
               color={useColorModeValue("gray.700", "white")}
               fontSize={"2xl"}
               fontFamily={"body"}
             >
-              Boost your conversion rate
+              {data?.name}
             </Heading>
-            <Text color={"gray.500"}>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores et ea rebum.
+            <Text color={"gray.500"} fontSize="md">
+              {parseHtml(data?.sinopse)}
             </Text>
             <Button
               w="full"
               colorScheme={"green"}
               onClick={() => navigateTo("/course/class/123")}
             >
-              Continue Aprendendto
+              Continue Aprendendo
             </Button>
           </Flex>
         </Flex>
 
-        <Flex gap={8} w="50vw" py={50}>
-          <Flex w={"25%"} h={100} bgColor="#B3C52D">
-            Image
-          </Flex>
-          <Flex w={"25%"} h={100} bgColor="#B3C52D70">
-            Image
-          </Flex>
-          <Flex w={"25%"} h={100} bgColor="#B3C52D">
-            Image
-          </Flex>
-          <Flex w={"25%"} h={100} bgColor="#B3C52D70">
-            Image
-          </Flex>
+        <Flex gap={8} wrap="wrap" w={{ base: "90vw", md: "50vw" }} py={2}>
+          <BadgeCourseContent
+            icon={<Medal size={56} weight="fill" />}
+            title="CERTIFICADO DE CONCLUSÃO"
+            bgColor="#B3C52D"
+          />
+          <BadgeCourseContent
+            icon={<PlayCircle size={56} weight="fill" />}
+            title={` ${data?.workload} HORAS AULA`}
+            bgColor="#B3C52D70"
+          />
+          <BadgeCourseContent
+            icon={<Laptop size={56} weight="fill" />}
+            title="ASSISTA QUANDO E ONDE QUISER"
+            bgColor="#B3C52D"
+          />
+          <BadgeCourseContent
+            icon={<GraduationCap size={56} weight="fill" />}
+            title="VÍDEOS E MATERIAIS COMPLEMENTARES"
+            bgColor="#B3C52D70"
+          />
         </Flex>
 
         <Flex gap={8} w="full" bgColor="#B3C52D70" justifyContent="center">
@@ -155,3 +199,16 @@ export default function CourseDetailPage() {
   );
   return <PrivatePageTemplate header={<Header />} main={<Details />} />;
 }
+
+export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
+  context
+) => {
+  let res = await api.get(`/courses/${context?.params?.id}?populate=*`);
+  console.log(res.data);
+
+  return {
+    props: {
+      data: { id: res.data.data.id, ...res.data.data.attributes },
+    },
+  };
+};

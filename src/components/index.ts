@@ -15,3 +15,4 @@ export * from "./SideBar";
 export * from "./Table";
 export * from "./TitlePage";
 export * from "./VideoInformation";
+export * from "./BadgeCourseContent";

@@ -46,15 +46,11 @@ export default function HomePage({ data }: any) {
   return <PrivatePageTemplate header={<Header />} main={<Home />} />;
 }
 
-export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
-  context
-) => {
-  let res = await api.get(
-    "/courses?populate[authors][populate]=*&populate[categories]=*&populate[coverImage]=*"
-  );
+export const getServerSideProps: GetServerSideProps<{
+  data: any;
+}> = async () => {
+  let res = await api.get("/courses?populate=*");
   res = res.data;
-
-  res?.data?.map((item: any) => console.log(item.attributes.categories));
 
   return {
     props: {
