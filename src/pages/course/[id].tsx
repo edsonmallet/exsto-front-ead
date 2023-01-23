@@ -32,31 +32,35 @@ export default function CourseDetailPage({ data }: any) {
       justifyContent="flex-start"
       direction={"column"}
     >
-      <Flex
-        gap={10}
-        wrap="wrap"
-        maxW={"full"}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Flex gap={6} px={8} direction={{ base: "column", lg: "row" }}>
+      <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="center">
+        <Flex
+          maxW={"50vw"}
+          gap={6}
+          px={8}
+          direction={{ base: "column", lg: "row" }}
+        >
           <Flex flex={1} direction={"column"} gap={4}>
             {data?.coverImage?.data?.attributes?.url && (
               <Image
                 alt={data?.coverImage?.data?.attributes?.alternativeText}
                 src={data?.coverImage?.data?.attributes?.url}
-                w="full"
               />
             )}
-            {!data?.coverImage?.data && (
-              <AspectRatio ratio={16 / 9}>
-                <iframe
-                  src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
-                  title="YouTube video player"
-                  allowFullScreen
-                />
-              </AspectRatio>
-            )}
+            {!data?.coverImage?.data?.attributes?.url &&
+              data?.urlVideoPreview && (
+                <AspectRatio maxW="400px" ratio={16 / 9}>
+                  <iframe
+                    width="560"
+                    src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
+                    title="YouTube video player"
+                    allowFullScreen
+                  />
+                </AspectRatio>
+              )}
+            {!data?.coverImage?.data?.attributes?.url &&
+              !data?.urlVideoPreview && (
+                <Image w="full" alt="Generico" src="/courseGenericImage.png" />
+              )}
           </Flex>
           <Flex flex={1} direction={"column"} gap={4}>
             <Flex gap={2}>

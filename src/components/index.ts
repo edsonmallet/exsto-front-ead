@@ -17,3 +17,4 @@ export * from "./TitlePage";
 export * from "./VideoInformation";
 export * from "./BadgeCourseContent";
 export * from "./CardModuleCourse";
+export * from "./ListModules";

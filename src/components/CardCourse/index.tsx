@@ -7,6 +7,7 @@ import {
   AspectRatio,
   Badge,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import { HourglassMedium, RocketLaunch } from "phosphor-react";
 import parse from "html-react-parser";
@@ -17,7 +18,6 @@ interface CardCourseProps {
 }
 
 export default function CardCourse({ onClick, course }: CardCourseProps) {
-  console.log(course);
   return (
     <Flex
       direction={"column"}
@@ -75,54 +75,60 @@ export default function CardCourse({ onClick, course }: CardCourseProps) {
               src={course?.coverImage?.data?.attributes?.url}
             />
           )}
-          {!course?.coverImage?.data?.attributes?.url && (
-            <AspectRatio maxW="400px" ratio={16 / 9}>
-              <iframe
-                width="560"
-                src={`${course?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
-                title="YouTube video player"
-                allowFullScreen
-              />
-            </AspectRatio>
-          )}
+          {!course?.coverImage?.data?.attributes?.url &&
+            course?.urlVideoPreview && (
+              <AspectRatio maxW="400px" ratio={16 / 9}>
+                <iframe
+                  width="560"
+                  src={`${course?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
+                  title="YouTube video player"
+                  allowFullScreen
+                />
+              </AspectRatio>
+            )}
+          {!course?.coverImage?.data?.attributes?.url &&
+            !course?.urlVideoPreview && (
+              <Image w="full" alt="Generico" src="/courseGenericImage.png" />
+            )}
         </Box>
-        <Flex direction="column" p={4} gap={4}>
+        <Flex direction="column" p={4} gap={2}>
           <Flex gap={2}>
             {course?.categories?.data?.map((category: any) => (
-              <Badge
-                size="lg"
-                colorScheme="green"
-                key={category.id}
-                py={2}
-                px={2}
-                borderRadius="full"
-              >
+              <Badge size="xs" colorScheme="green" key={category.id} p={1}>
                 {category?.attributes?.name}
               </Badge>
             ))}
           </Flex>
-          <Heading
-            color={useColorModeValue("gray.700", "white")}
-            fontSize={"xl"}
-            fontFamily={"body"}
-          >
-            {course?.name}
-          </Heading>
+          <Flex justifyContent={"space-between"} alignItems="center">
+            <Heading
+              color={useColorModeValue("gray.700", "white")}
+              fontSize={"md"}
+              fontFamily={"body"}
+            >
+              {course?.name}
+            </Heading>
+            <Tooltip label="Carga Horária" aria-label="Carga Horária">
+              <Badge colorScheme={"gray"} size="xs" p={1}>
+                {course?.workload} hr
+              </Badge>
+            </Tooltip>
+          </Flex>
           <Text
             color={"gray.500"}
             maxHeight={"150px"}
             overflowY="scroll"
-            fontSize={"sm"}
+            fontSize={"small"}
+            pr={2}
             css={{
               "&::-webkit-scrollbar": {
-                width: "8px",
+                width: "4px",
               },
               "&::-webkit-scrollbar-track": {
-                width: "8px",
+                width: "4px",
               },
               "&::-webkit-scrollbar-thumb": {
                 background: "#ccc",
-                borderRadius: "8px",
+                borderRadius: "4px",
               },
             }}
           >
