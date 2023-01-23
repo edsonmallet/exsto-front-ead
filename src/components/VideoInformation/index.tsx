@@ -1,35 +1,20 @@
-import {
-  AspectRatio,
-  Avatar,
-  Button,
-  HStack,
-  IconButton,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Avatar, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
 import { AiOutlineLinkedin } from "react-icons/ai";
+import { useLessonStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
+import { parseHtml } from "../../utils/parseHtml";
 
 export const VideoInformation = () => {
+  const { currentLesson } = useLessonStore();
   return (
     <VStack w="full" justify="center" bg="white" p="8">
       <HStack w="full" maxW="container.lg" align="flex-start">
-        <VStack w="full" align="flex-start" spacing="8">
+        <VStack w="full" align="flex-start">
           <Text fontWeight="bold" fontSize="xl">
-            Aula 01 - Criando o projeto e realizando o setup inicial
+            {currentLesson?.attributes?.title}
           </Text>
           <Text lineHeight={1.5} color="gray.600">
-            Nessa aula vamos dar início ao projeto criando a estrutura base da
-            aplicação utilizando ReactJS, Vite e TailwindCSS. Vamos também
-            realizar o setup do nosso projeto no GraphCMS criando as entidades
-            da aplicação e integrando a API GraphQL gerada pela plataforma no
-            nosso front-end utilizando Apollo Client. Nessa aula vamos dar
-            início ao projeto criando a estrutura base da aplicação utilizando
-            ReactJS, Vite e TailwindCSS. Vamos também realizar o setup do nosso
-            projeto no GraphCMS criando as entidades da aplicação e integrando a
-            API GraphQL gerada pela plataforma no nosso front-end utilizando
-            Apollo Client.
+            {parseHtml(currentLesson?.attributes?.sinopse)}
           </Text>
           <HStack w="full" justify="space-between" spacing="8">
             <Avatar src="https://avatars.githubusercontent.com/u/47259718?v=4" />
@@ -50,38 +35,6 @@ export const VideoInformation = () => {
               }
             />
           </HStack>
-        </VStack>
-        <VStack
-          w="full"
-          maxW="300px"
-          h="full"
-          align="flex-end"
-          justify="flex-start"
-          spacing="4"
-        >
-          <Button
-            colorScheme="green"
-            w="full"
-            p="8"
-            onClick={() =>
-              navigateTo("https://github.com/fischerafael/coursefy")
-            }
-          >
-            Respositório Github
-          </Button>
-          <Button
-            colorScheme="green"
-            variant="outline"
-            w="full"
-            p="8"
-            onClick={() =>
-              navigateTo(
-                "https://www.youtube.com/channel/UCz75xXTimMhZkbK__XOM8hQ"
-              )
-            }
-          >
-            Canal no Youtube
-          </Button>
         </VStack>
       </HStack>
     </VStack>

@@ -7,8 +7,15 @@ interface SideBarProps {
 
 export const SideBar = ({ modules }: SideBarProps) => {
   return (
-    <VStack w="full" h="full" py="8" align="flex-start" spacing="8">
-      <Text fontWeight="bold" fontSize="lg" px="4">
+    <VStack w="full" h="full" align="flex-start">
+      <Text
+        fontWeight="bold"
+        fontSize="lg"
+        p="2"
+        w="full"
+        bg="gray.400"
+        color="white"
+      >
         Módulos
       </Text>
 

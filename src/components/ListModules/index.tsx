@@ -13,18 +13,19 @@ import {
 } from "@chakra-ui/react";
 import { CircleWavyCheck } from "phosphor-react";
 import React from "react";
+import { useLessonStore } from "../../stores";
 
 interface ListModulesProps {
   module: any;
 }
 
 export const ListModules: React.FC<ListModulesProps> = ({ module }) => {
-  console.log(module);
+  const { setCurrentLesson } = useLessonStore();
   return (
-    <Accordion w="full" defaultIndex={[0]} allowMultiple mt={0}>
+    <Accordion w="full" defaultIndex={[0]} allowMultiple>
       <AccordionItem>
         <AccordionButton
-          bg="gray.200"
+          bg="gray.300"
           _expanded={{ bg: "green.500", color: "white" }}
         >
           <Box as="span" flex="1" textAlign="left" fontWeight={"bold"} py={2}>
@@ -44,6 +45,7 @@ export const ListModules: React.FC<ListModulesProps> = ({ module }) => {
                 _hover={{ bg: "gray.200" }}
                 cursor={"pointer"}
                 transition={"all 0.2s ease-in-out"}
+                onClick={() => setCurrentLesson(lesson)}
               >
                 <Flex direction={"column"} gap={2}>
                   <Flex alignItems={"center"} gap={2}>
