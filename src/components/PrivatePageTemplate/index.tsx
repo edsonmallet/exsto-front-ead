@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -24,6 +24,7 @@ export const PrivatePageTemplate = ({ header, main, sidebar }: Props) => {
       >
         {header}
       </GridItem>
+
       <Grid
         templateColumns={{ md: `repeat(1, 1fr ${!!sidebar ? "380px" : ""})` }}
       >
