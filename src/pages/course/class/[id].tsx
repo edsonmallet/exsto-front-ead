@@ -8,7 +8,6 @@ import { VideoInformation } from "../../../components/VideoInformation";
 import api from "../../../services/api";
 
 export default function CoursePage({ data }: any) {
-  console.log(data);
   return (
     <PrivatePageTemplate
       header={<Header />}
