@@ -1,12 +1,12 @@
-import { AspectRatio, HStack } from "@chakra-ui/react";
+import { AspectRatio, HStack, Image } from "@chakra-ui/react";
 import { useLessonStore } from "../../stores";
 
 export const Player = () => {
   const { currentLesson } = useLessonStore();
   return (
     <>
-      {currentLesson?.attributes?.urlVideo && (
-        <HStack w="full" justify="center" px="8" bg="white">
+      <HStack w="full" justify="center" bg="gray.100">
+        {currentLesson?.attributes?.urlVideo ? (
           <AspectRatio maxW="container.lg" w="full" ratio={16 / 9}>
             <iframe
               width="560"
@@ -15,8 +15,10 @@ export const Player = () => {
               allowFullScreen
             />
           </AspectRatio>
-        </HStack>
-      )}
+        ) : (
+          <Image src="/notvideo.jpg" alt="Not video" />
+        )}
+      </HStack>
     </>
   );
 };

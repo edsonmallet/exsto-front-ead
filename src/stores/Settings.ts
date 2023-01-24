@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 type SettingsState = {
   logoUrl: string;
@@ -17,7 +17,7 @@ export const useSettingsStore = create(
     }),
     {
       name: "@Exsto_settings",
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

@@ -19,9 +19,7 @@ export const SideBar = ({ modules }: SideBarProps) => {
         Módulos
       </Text>
 
-      {modules?.map((module: any) => (
-        <ListModules module={module} key={module.id} />
-      ))}
+      <ListModules modules={modules} />
     </VStack>
   );
 };
