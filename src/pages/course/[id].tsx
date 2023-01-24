@@ -32,9 +32,15 @@ export default function CourseDetailPage({ data }: any) {
       justifyContent="flex-start"
       direction={"column"}
     >
-      <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        gap={10}
+        wrap="wrap"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Flex
-          maxW={"50vw"}
+          maxW={{ base: "90vw", lg: "50vw" }}
           gap={6}
           px={8}
           direction={{ base: "column", lg: "row" }}
@@ -126,8 +132,11 @@ export default function CourseDetailPage({ data }: any) {
           w="full"
           bgColor="#B3C52D70"
           justifyContent="center"
+          alignItems={"center"}
+          direction={{ base: "column" }}
         >
           <Heading> Com esse curso você estará apto a </Heading>
+          <Text>{parseHtml(data?.objective)}</Text>
         </Flex>
 
         <Flex gap={8} p={8} w="full" justifyContent="center">
@@ -151,12 +160,32 @@ export default function CourseDetailPage({ data }: any) {
           </Flex>
         </Flex>
 
-        <Flex gap={8} w="full" bgColor="#B3C52D70" justifyContent="center">
-          <Flex w={"50vw"} py={50} justifyContent="center">
-            <Heading>
-              Pra <span style={{ color: "#B3C52D" }}>quem</span> é
-            </Heading>
-          </Flex>
+        <Flex
+          gap={8}
+          p={8}
+          w="full"
+          bgColor="#B3C52D70"
+          justifyContent="center"
+          alignItems={"center"}
+          direction={{ base: "column" }}
+        >
+          <Heading>
+            Pra <span style={{ color: "#B3C52D" }}>quem</span> é
+          </Heading>
+          <Text>{parseHtml(data?.targetAudience)}</Text>
+        </Flex>
+
+        <Flex
+          gap={8}
+          p={8}
+          w="full"
+          bgColor="#fff"
+          justifyContent="center"
+          alignItems={"center"}
+          direction={{ base: "column" }}
+        >
+          <Heading>Pré-Requisitos</Heading>
+          <Text>{parseHtml(data?.prerequisites)}</Text>
         </Flex>
       </Flex>
     </Flex>
@@ -167,9 +196,7 @@ export default function CourseDetailPage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  const course = await api.get(
-    `/courses/${context?.params?.id}?populate[modules][populate]=*&populate[authors][populate]=*&populate=*&populate[categories][populate]=*`
-  );
+  const course = await api.get(`/courses/${context?.params?.id}?populate=deep`);
 
   return {
     props: {

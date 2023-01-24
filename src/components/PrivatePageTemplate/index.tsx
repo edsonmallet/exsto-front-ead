@@ -50,7 +50,6 @@ export const PrivatePageTemplate = ({
           colSpan={1}
           h="90vh"
           overflowY="auto"
-          bgColor="gray.50"
           pb={20}
           css={{
             "&::-webkit-scrollbar": {

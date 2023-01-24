@@ -8,8 +8,6 @@ import { VideoInformation } from "../../../components/VideoInformation";
 import api from "../../../services/api";
 
 export default function CoursePage({ data }: any) {
-  console.log(data);
-
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
   return (

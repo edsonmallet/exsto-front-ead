@@ -15,7 +15,7 @@ import { parseHtml } from "../../utils/parseHtml";
 
 export const VideoInformation = () => {
   const { currentLesson } = useLessonStore();
-  console.log(currentLesson);
+
   return (
     <VStack w="full" justify="center" bg="white" p="8">
       <HStack w="full" maxW="container.lg" align="flex-start">
