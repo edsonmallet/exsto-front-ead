@@ -7,7 +7,7 @@ import api from "../services/api";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function HomePage({ data }: any) {
-  console.log(data);
+
   const Home = () => (
     <Flex
       my={10}
@@ -48,8 +48,11 @@ export default function HomePage({ data }: any) {
 
 export const getServerSideProps: GetServerSideProps<{
   data: any;
-}> = async () => {
-  let res = await api.get("/courses?populate=*");
+}> = async (context) => {
+  const { Exsto_token } = context.req.cookies;
+  let res = await api.get("/courses?populate=deep", {
+    headers: { Authorization: `Bearer ${Exsto_token}` },
+  });
   res = res.data;
 
   return {

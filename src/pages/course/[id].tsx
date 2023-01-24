@@ -23,7 +23,6 @@ import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export default function CourseDetailPage({ data }: any) {
-  console.log(data);
   const Details = () => (
     <Flex
       w="full"
@@ -196,7 +195,11 @@ export default function CourseDetailPage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  const course = await api.get(`/courses/${context?.params?.id}?populate=deep`);
+  const { Exsto_token } = context.req.cookies;
+  const course = await api.get(
+    `/courses/${context?.params?.id}?populate=deep`,
+    { headers: { Authorization: `Bearer ${Exsto_token}` } }
+  );
 
   return {
     props: {
