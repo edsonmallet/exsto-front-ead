@@ -54,7 +54,9 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
 ) => {
   const { Exsto_token } = context.req.cookies;
   let endpoint = "/courses";
-  endpoint += `?populate=deep`;
+  endpoint += `?populate[0]=course_modules`;
+  endpoint += `&populate[1]=course_modules.lessons`;
+  endpoint += `&populate[2]=course_modules.lessons.authors`;
   endpoint += `&filters[id][$eq]=${context?.params?.id}`;
   endpoint += `&fields[0]=name`;
 

@@ -49,14 +49,17 @@ export const getServerSideProps: GetServerSideProps<{
   data: any;
 }> = async (context) => {
   const { Exsto_token } = context.req.cookies;
-  let res = await api.get("/courses?populate=deep", {
+
+  let endpoint = "/courses";
+  endpoint += `?populate[0]=categories`;
+
+  const courses = await api.get(endpoint, {
     headers: { Authorization: `Bearer ${Exsto_token}` },
   });
-  res = res.data;
 
   return {
     props: {
-      data: res.data,
+      data: courses.data.data,
     },
   };
 };

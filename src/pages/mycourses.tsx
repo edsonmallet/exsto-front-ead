@@ -52,12 +52,19 @@ export default function MyCoursePage({ data }: any) {
 
 export const getServerSideProps: GetServerSideProps<{
   data: any;
-}> = async () => {
-  let res = await api.get("/courses?populate=*");
+}> = async (context) => {
+  const { Exsto_token } = context.req.cookies;
+
+  let endpoint = "/courses";
+  endpoint += `?populate[0]=categories`;
+
+  const courses = await api.get(endpoint, {
+    headers: { Authorization: `Bearer ${Exsto_token}` },
+  });
 
   return {
     props: {
-      data: res.data.data,
+      data: courses.data.data,
     },
   };
 };

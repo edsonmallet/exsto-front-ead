@@ -15,7 +15,6 @@ import { LogoBlack } from "../LogoBlack";
 
 export const Header = () => {
   const { user } = useSettingsStore();
-  console.log(user);
   return (
     <HStack
       w="full"
@@ -54,7 +53,6 @@ export const Header = () => {
         </Menu>
         <Avatar
           name={user?.username ?? "Aluno"}
-          
           cursor={"pointer"}
           onClick={() => navigateTo("/profile")}
         />
