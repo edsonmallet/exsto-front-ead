@@ -1,40 +1,80 @@
-import { Avatar, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
-import { AiOutlineLinkedin } from "react-icons/ai";
+import {
+  Avatar,
+  Flex,
+  HStack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useLessonStore } from "../../stores";
-import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export const VideoInformation = () => {
   const { currentLesson } = useLessonStore();
+  console.log(currentLesson);
   return (
     <VStack w="full" justify="center" bg="white" p="8">
       <HStack w="full" maxW="container.lg" align="flex-start">
         <VStack w="full" align="flex-start">
-          <Text fontWeight="bold" fontSize="xl">
+          <Text fontWeight="bold" fontSize="xl" mb={8}>
             {currentLesson?.attributes?.title}
           </Text>
-          <Text lineHeight={1.5} color="gray.600">
-            {parseHtml(currentLesson?.attributes?.sinopse)}
-          </Text>
-          <HStack w="full" justify="space-between" spacing="8">
-            <Avatar src="https://avatars.githubusercontent.com/u/47259718?v=4" />
-            <VStack w="full" align="flex-start" spacing="0">
-              <Text>Rafael Fischer</Text>
-              <Text fontSize="xs" color="gray.600">
-                Front-End Developer & UI/UX Designer
-              </Text>
-            </VStack>
-            <IconButton
-              variant="ghost"
-              aria-label="Linkedin"
-              fontSize={32}
-              colorScheme="green"
-              icon={<AiOutlineLinkedin />}
-              onClick={() =>
-                navigateTo("https://www.linkedin.com/in/fischerafael/")
-              }
-            />
-          </HStack>
+
+          <Tabs size="md" variant="solid-rounded">
+            <TabList>
+              <Tab>Autor</Tab>
+              <Tab>Sinopse</Tab>
+              <Tab>Habilidades e Competências</Tab>
+              <Tab>Material de apoio</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <HStack w="full" justify="space-between" spacing="8">
+                  {currentLesson?.attributes?.authors?.data?.map(
+                    (author: any) => (
+                      <>
+                        <Flex gap={2} key={author.id}>
+                          <Avatar
+                            bg="teal"
+                            color="white"
+                            size="2xl"
+                            src={
+                              author?.attributes?.avatar?.data?.attributes
+                                ?.url ?? ""
+                            }
+                            name={author?.attributes?.name}
+                          />
+                          <VStack w="full" align="flex-start" spacing="0">
+                            <Text fontWeight={"bold"}>
+                              {author?.attributes?.name}
+                            </Text>
+                            <Text fontSize="xs" color="gray.600">
+                              {parseHtml(author?.attributes?.minibio)}
+                            </Text>
+                          </VStack>
+                        </Flex>
+                      </>
+                    )
+                  )}
+                </HStack>
+              </TabPanel>
+              <TabPanel>
+                <Text lineHeight={1.5} color="gray.600">
+                  {parseHtml(currentLesson?.attributes?.sinopse)}
+                </Text>
+              </TabPanel>
+              <TabPanel>
+                <Text lineHeight={1.5} color="gray.600">
+                  {parseHtml(currentLesson?.attributes?.skillAndCompetence)}
+                </Text>
+              </TabPanel>
+              <TabPanel></TabPanel>
+            </TabPanels>
+          </Tabs>
         </VStack>
       </HStack>
     </VStack>
