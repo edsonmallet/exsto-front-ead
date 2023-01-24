@@ -95,7 +95,7 @@ export default function CourseDetailPage({ data }: any) {
             <Button
               w="full"
               colorScheme={"green"}
-              onClick={() => navigateTo("/course/class/123")}
+              onClick={() => navigateTo(`/course/class/${data?.id}`)}
             >
               Continue Aprendendo
             </Button>
