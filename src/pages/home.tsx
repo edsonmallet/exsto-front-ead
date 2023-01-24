@@ -7,7 +7,6 @@ import api from "../services/api";
 import { navigateTo } from "../utils/navigateTo";
 
 export default function HomePage({ data }: any) {
-
   const Home = () => (
     <Flex
       my={10}

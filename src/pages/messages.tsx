@@ -41,7 +41,7 @@ export default function MyMessagesPage() {
         justifyContent="center"
         alignItems="center"
       >
-        <TableData head={Object.keys(messages[0])} body={messages} />
+        <TableData head={Object?.keys(messages[0])} body={messages} />
       </Flex>
     </Flex>
   );

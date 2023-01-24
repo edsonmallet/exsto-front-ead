@@ -25,7 +25,7 @@ export default function NotificationsPage({ data }: any) {
         justifyContent="center"
         alignItems="center"
       >
-        <TableData head={Object.keys(data[0]?.attributes)} body={data} />
+        <TableData head={Object?.keys(data[0]?.attributes)} body={data} />
       </Flex>
     </Flex>
   );
