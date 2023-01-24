@@ -200,6 +200,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   let endpoint = `/courses/${context?.params?.id}`;
   endpoint += `?populate[categories]=*`;
   endpoint += `&populate[modules]=*`;
+  endpoint += `&sort[0]=showOrder`;
 
   const course = await api.get(endpoint, {
     headers: { Authorization: `Bearer ${Exsto_token}` },

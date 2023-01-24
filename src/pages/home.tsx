@@ -51,7 +51,9 @@ export const getServerSideProps: GetServerSideProps<{
   const { Exsto_token } = context.req.cookies;
 
   let endpoint = "/courses";
-  endpoint += `?populate[0]=categories`;
+  endpoint += `?populate[categories]=*`;
+  endpoint += `&populate[coverImage]=*`;
+  endpoint += `&sort[0]=showOrder`;
 
   const courses = await api.get(endpoint, {
     headers: { Authorization: `Bearer ${Exsto_token}` },
