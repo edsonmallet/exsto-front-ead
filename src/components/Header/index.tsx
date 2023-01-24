@@ -55,6 +55,7 @@ export const Header = () => {
           name={user?.username ?? "Aluno"}
           cursor={"pointer"}
           onClick={() => navigateTo("/profile")}
+          bg={"green.500"}
         />
         <IconButton
           aria-label="Sign out"

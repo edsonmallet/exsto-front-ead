@@ -24,7 +24,7 @@ export const VideoInformation = () => {
             {currentLesson?.attributes?.title}
           </Text>
 
-          <Tabs size="md" variant="solid-rounded">
+          <Tabs size="md" variant="solid-rounded" colorScheme={"green"}>
             <TabList>
               <Tab>Autor</Tab>
               <Tab>Sinopse</Tab>
@@ -39,7 +39,7 @@ export const VideoInformation = () => {
                       <>
                         <Flex gap={2} key={author.id}>
                           <Avatar
-                            bg="teal"
+                            bg="green.500"
                             color="white"
                             size="2xl"
                             src={

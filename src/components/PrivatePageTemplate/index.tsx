@@ -1,5 +1,5 @@
-import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
-import { CaretCircleDoubleRight, CaretCircleRight } from "phosphor-react";
+import { Flex } from "@chakra-ui/react";
+import { CaretCircleRight } from "phosphor-react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -16,40 +16,54 @@ export const PrivatePageTemplate = ({
   title,
 }: Props) => {
   return (
-    <Grid
+    <Flex
+      direction="column"
       bgColor={{ base: "#fff" }}
       w="full"
       minH="100vh"
-      templateColumns="repeat(1, 1fr)"
-      fontFamily="sans-serif"
+      fontFamily="Open-Sans, sans-serif"
     >
-      <GridItem
-        colSpan={2}
+      <Flex
+        w="full"
         h="10vh"
         borderBottom="1px solid"
         borderBottomColor={"gray.200"}
       >
         {header}
-      </GridItem>
+      </Flex>
       {title && (
-        <GridItem colSpan={2} w="full" bgColor={"gray.200"} py={4} px={8}>
+        <Flex
+          w="full"
+          bgColor={"green.200"}
+          alignItems={"center"}
+          justifyContent="flex-start"
+          gap={2}
+          fontWeight="bold"
+          py={6}
+        >
           <Flex
-            alignItems={"center"}
-            justifyContent="flex-start"
+            w={{ base: "100%", md: "50%" }}
+            alignItems="center"
+            justifyContent="center"
             gap={2}
-            fontWeight="bold"
           >
             <CaretCircleRight weight="bold" fontSize={20} /> {title}
           </Flex>
-        </GridItem>
+        </Flex>
       )}
-      <Grid
-        templateColumns={{ md: `repeat(1, 1fr ${!!sidebar ? "380px" : ""})` }}
+
+      <Flex
+        w="full"
+        gap={2}
+        direction={{ base: "column", md: "row" }}
+        alignItems="stretch"
+        justifyContent="center"
       >
-        <GridItem
-          colSpan={1}
+        <Flex
+          flex={sidebar ? 2 : 1}
           h="90vh"
           overflowY="auto"
+          direction={"column"}
           pb={20}
           css={{
             "&::-webkit-scrollbar": {
@@ -67,10 +81,10 @@ export const PrivatePageTemplate = ({
           }}
         >
           {main}
-        </GridItem>
+        </Flex>
         {sidebar && (
-          <GridItem
-            colSpan={1}
+          <Flex
+            flex={1}
             h="90vh"
             bg="gray.100"
             overflowY="auto"
@@ -90,9 +104,9 @@ export const PrivatePageTemplate = ({
             }}
           >
             {sidebar}
-          </GridItem>
+          </Flex>
         )}
-      </Grid>
-    </Grid>
+      </Flex>
+    </Flex>
   );
 };
