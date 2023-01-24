@@ -9,10 +9,13 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { ArrowDown, House, SignOut } from "phosphor-react";
+import { useSettingsStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
 import { LogoBlack } from "../LogoBlack";
 
 export const Header = () => {
+  const { user } = useSettingsStore();
+  console.log(user);
   return (
     <HStack
       w="full"
@@ -50,8 +53,8 @@ export const Header = () => {
           </MenuList>
         </Menu>
         <Avatar
-          name="Dan Abrahmov"
-          src="https://bit.ly/dan-abramov"
+          name={user?.username ?? "Aluno"}
+          
           cursor={"pointer"}
           onClick={() => navigateTo("/profile")}
         />

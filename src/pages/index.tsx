@@ -13,7 +13,7 @@ import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
 import Cookies from "js-cookie";
 import { signin } from "../services/login";
-import { useLoadingStore, useToastStore } from "../stores";
+import { useLoadingStore, useSettingsStore, useToastStore } from "../stores";
 
 export default function Index() {
   const { showToast } = useToastStore();
@@ -25,16 +25,19 @@ export default function Index() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues({ ...values, [e.target.name]: e.target.value });
+  const { setUser } = useSettingsStore();
 
   const handleSubmit = async () => {
-    const token = await signin(
+    const res: any = await signin(
       setLoading,
       showToast,
       values.identifier,
       values.password
     );
-    if (token) {
-      Cookies.set("Exsto_token", token);
+
+    if (res?.jwt) {
+      setUser(res.user);
+      Cookies.set("Exsto_token", res.jwt);
       navigateTo("/home");
     }
   };

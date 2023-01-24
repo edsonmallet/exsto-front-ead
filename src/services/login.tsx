@@ -28,7 +28,7 @@ export const signin = async (
       identifier,
       password,
     });
-    return response.data.jwt;
+    return response.data;
   } catch (e) {
     showToast("error", "Erro ao fazer login! Verifique suas credenciais.");
   } finally {
