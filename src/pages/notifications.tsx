@@ -1,30 +1,14 @@
 import { Flex } from "@chakra-ui/react";
+import { GetServerSideProps } from "next";
 import {
   Header,
   PrivatePageTemplate,
   TableData,
   TitlePage,
 } from "../components";
+import api from "../services/api";
 
-const messages = [
-  {
-    message: "Mensagem 1",
-    date: "01/01/2021",
-    action: "Ação 1",
-  },
-  {
-    message: "Mensagem 2",
-    date: "01/01/2021",
-    action: "Ação 1",
-  },
-  {
-    message: "Mensagem 3",
-    date: "01/01/2021",
-    action: "Ação 1",
-  },
-];
-
-export default function NotificationsPage() {
+export default function NotificationsPage({ data }: any) {
   const Messages = () => (
     <Flex
       my={10}
@@ -41,9 +25,26 @@ export default function NotificationsPage() {
         justifyContent="center"
         alignItems="center"
       >
-        <TableData head={Object.keys(messages[0])} body={messages} />
+        <TableData head={Object.keys(data[0]?.attributes)} body={data} />
       </Flex>
     </Flex>
   );
   return <PrivatePageTemplate header={<Header />} main={<Messages />} />;
 }
+
+export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
+  context
+) => {
+  const { Exsto_token } = context.req.cookies;
+  let endpoint = "/notifications";
+
+  const notifications = await api.get(endpoint, {
+    headers: { Authorization: `Bearer ${Exsto_token}` },
+  });
+
+  return {
+    props: {
+      data: notifications.data.data,
+    },
+  };
+};

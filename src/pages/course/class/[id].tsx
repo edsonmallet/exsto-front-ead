@@ -10,11 +10,12 @@ import api from "../../../services/api";
 import { useLessonStore } from "../../../stores";
 
 export default function CoursePage({ data }: any) {
+  const { currentLesson, setCurrentLesson } = useLessonStore();
+
   React.useEffect(() => {
     setCurrentLesson(null);
-  }, []);
+  }, [setCurrentLesson]);
 
-  const { currentLesson, setCurrentLesson } = useLessonStore();
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
   return (

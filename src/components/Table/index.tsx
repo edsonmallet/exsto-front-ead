@@ -7,9 +7,12 @@ import {
   Th,
   Td,
   TableCaption,
-  TableContainer,
+  IconButton,
 } from "@chakra-ui/react";
+import { Trash } from "phosphor-react";
 import React from "react";
+import { parseHtml } from "../../utils/parseHtml";
+import { formatDate } from "../../utils/convertDate";
 
 interface Messages {
   message: string;
@@ -28,34 +31,46 @@ export const TableData: React.FC<TableDataProps> = ({
   head,
   body,
 }) => {
+  const format = (row: string, item: any) =>
+    ["createdAt", "updatedAt", "publishedAt"].includes(row)
+      ? formatDate(item)
+      : parseHtml(item);
+
   return (
-    <TableContainer>
-      <Table variant="striped">
-        <TableCaption>{caption}</TableCaption>
-        <Thead>
-          <Tr>
-            {head?.map((item) => (
-              <Th key={Math.random()}>{item}</Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {body?.map((item: any) => (
-            <Tr key={Math.random()}>
-              {Object.keys(item).map((row) => (
-                <Td key={Math.random()}>{item[row]}</Td>
-              ))}
-            </Tr>
+    <Table variant="striped">
+      <TableCaption>{caption}</TableCaption>
+      <Thead>
+        <Tr>
+          {head?.map((item) => (
+            <Th key={Math.random()}>{item}</Th>
           ))}
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            {head?.map((item) => (
-              <Th key={Math.random()}>{item}</Th>
+          <Th>Ações</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {body?.map((item: any) => (
+          <Tr key={Math.random()}>
+            {Object.keys(item?.attributes).map((row) => (
+              <Td key={Math.random()}>{format(row, item?.attributes[row])}</Td>
             ))}
+            <Td>
+              <IconButton
+                aria-label="Delete"
+                icon={<Trash fontSize={20} weight="bold" />}
+                colorScheme="red"
+                size="sm"
+              />
+            </Td>
           </Tr>
-        </Tfoot>
-      </Table>
-    </TableContainer>
+        ))}
+      </Tbody>
+      <Tfoot>
+        <Tr>
+          {head?.map((item) => (
+            <Th key={Math.random()}>{item}</Th>
+          ))}
+        </Tr>
+      </Tfoot>
+    </Table>
   );
 };
