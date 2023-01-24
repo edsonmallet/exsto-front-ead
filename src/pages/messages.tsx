@@ -8,19 +8,25 @@ import {
 
 const messages = [
   {
-    message: "Mensagem 1",
-    date: "01/01/2021",
-    action: "Ação 1",
+    attributes: {
+      message: "Mensagem 1",
+      date: "01/01/2021",
+      action: "Ação 1",
+    },
   },
   {
-    message: "Mensagem 2",
-    date: "01/01/2021",
-    action: "Ação 1",
+    attributes: {
+      message: "Mensagem 2",
+      date: "01/01/2021",
+      action: "Ação 1",
+    },
   },
   {
-    message: "Mensagem 3",
-    date: "01/01/2021",
-    action: "Ação 1",
+    attributes: {
+      message: "Mensagem 3",
+      date: "01/01/2021",
+      action: "Ação 1",
+    },
   },
 ];
 

@@ -15,9 +15,11 @@ import { parseHtml } from "../../utils/parseHtml";
 import { formatDate } from "../../utils/convertDate";
 
 interface Messages {
-  message: string;
-  date: string;
-  action: React.ReactNode | string;
+  attributes: {
+    message: string;
+    date: string;
+    action: React.ReactNode | string;
+  };
 }
 
 interface TableDataProps {
