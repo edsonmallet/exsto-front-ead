@@ -27,82 +27,83 @@ export default function CourseDetailPage({ data }: any) {
     <Flex
       w="full"
       py={10}
+      gap={8}
       alignItems={"center"}
-      justifyContent="flex-start"
+      justifyContent="center"
       direction={"column"}
     >
       <Flex
-        w="full"
-        gap={10}
-        wrap="wrap"
+        w={{ base: "100%", md: "50%" }}
+        gap={4}
+        alignItems={"center"}
         justifyContent="center"
-        alignItems="center"
       >
-        <Flex
-          maxW={{ base: "90vw", lg: "50vw" }}
-          gap={6}
-          px={8}
-          direction={{ base: "column", lg: "row" }}
-        >
-          <Flex flex={1} direction={"column"} gap={4}>
-            {data?.coverImage?.data?.attributes?.url && (
-              <Image
-                alt={data?.coverImage?.data?.attributes?.alternativeText}
-                src={data?.coverImage?.data?.attributes?.url}
-              />
-            )}
-            {!data?.coverImage?.data?.attributes?.url &&
-              data?.urlVideoPreview && (
-                <AspectRatio maxW="400px" ratio={16 / 9}>
-                  <iframe
-                    width="560"
-                    src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
-                    title="YouTube video player"
-                    allowFullScreen
-                  />
-                </AspectRatio>
-              )}
-            {!data?.coverImage?.data?.attributes?.url &&
-              !data?.urlVideoPreview && (
-                <Image w="full" alt="Generico" src="/courseGenericImage.png" />
-              )}
-          </Flex>
-          <Flex flex={1} direction={"column"} gap={4}>
-            <Flex gap={2}>
-              {data?.categories?.data?.map((category: any) => (
-                <Badge
-                  size="lg"
-                  colorScheme="green"
-                  key={category.id}
-                  py={2}
-                  px={2}
-                  borderRadius="full"
-                >
-                  {category?.attributes?.name}
-                </Badge>
-              ))}
-            </Flex>
-            <Heading
-              color={useColorModeValue("gray.700", "white")}
-              fontSize={"2xl"}
-              fontFamily={"body"}
-            >
-              {data?.name}
-            </Heading>
-            <Text color={"gray.500"} fontSize="md">
-              {parseHtml(data?.sinopse)}
-            </Text>
-            <Button
+        <Flex flex={1} direction={"column"} gap={4}>
+          {data?.coverImage?.data?.attributes?.url && (
+            <Image
               w="full"
-              colorScheme={"green"}
-              onClick={() => navigateTo(`/course/class/${data?.id}`)}
-            >
-              Continue Aprendendo
-            </Button>
-          </Flex>
+              alt={data?.coverImage?.data?.attributes?.alternativeText}
+              src={data?.coverImage?.data?.attributes?.url}
+            />
+          )}
+          {!data?.coverImage?.data?.attributes?.url &&
+            data?.urlVideoPreview && (
+              <AspectRatio maxW="400px" ratio={16 / 9}>
+                <iframe
+                  width="560"
+                  src={`${data?.urlVideoPreview}?autoplay=0&showinfo=0&controls=0&rel=0&modestbranding=0&playsinline=0`}
+                  title="YouTube video player"
+                  allowFullScreen
+                />
+              </AspectRatio>
+            )}
+          {!data?.coverImage?.data?.attributes?.url &&
+            !data?.urlVideoPreview && (
+              <Image w="full" alt="Generico" src="/courseGenericImage.png" />
+            )}
         </Flex>
+        <Flex flex={1} direction={"column"} gap={8}>
+          <Flex gap={2}>
+            {data?.categories?.data?.map((category: any) => (
+              <Badge
+                size="lg"
+                colorScheme="green"
+                key={category.id}
+                py={2}
+                px={2}
+                borderRadius="full"
+              >
+                {category?.attributes?.name}
+              </Badge>
+            ))}
+          </Flex>
+          <Heading
+            color={useColorModeValue("gray.700", "white")}
+            fontSize={"2xl"}
+            fontFamily={"body"}
+          >
+            {data?.name}
+          </Heading>
+          <Text color={"gray.500"} fontSize="md">
+            {parseHtml(data?.sinopse)}
+          </Text>
+          <Button
+            w="full"
+            colorScheme={"green"}
+            onClick={() => navigateTo(`/course/class/${data?.id}`)}
+          >
+            Continue Aprendendo
+          </Button>
+        </Flex>
+      </Flex>
 
-        <Flex gap={6} px={8} wrap="wrap">
+      <Flex
+        w={{ base: "100%", md: "50%" }}
+        gap={4}
+        alignItems={"center"}
+        justifyContent="center"
+      >
+        <Flex gap={4} wrap="nowrap">
           <BadgeCourseContent
             icon={<Medal size={56} weight="fill" />}
             title="CERTIFICADO DE CONCLUSÃO"
@@ -124,21 +125,37 @@ export default function CourseDetailPage({ data }: any) {
             bgColor="#B3C52D70"
           />
         </Flex>
+      </Flex>
 
+      <Flex
+        p={16}
+        w="full"
+        bgColor="#B3C52D70"
+        justifyContent="center"
+        alignItems={"center"}
+        direction={{ base: "column" }}
+      >
         <Flex
-          gap={8}
-          p={8}
-          w="full"
-          bgColor="#B3C52D70"
-          justifyContent="center"
+          w={{ base: "100%", md: "50%" }}
+          gap={4}
           alignItems={"center"}
-          direction={{ base: "column" }}
+          justifyContent="center"
+          direction={"column"}
         >
           <Heading> Com esse curso você estará apto a </Heading>
-          <Text>{parseHtml(data?.objective)}</Text>
+          <Text fontSize={30} textAlign="center">
+            {parseHtml(data?.objective)}
+          </Text>
         </Flex>
+      </Flex>
 
-        <Flex gap={8} p={8} w="full" justifyContent="center">
+      <Flex gap={8} p={8} w="full" justifyContent="center">
+        <Flex
+          w={{ base: "100%", md: "50%" }}
+          gap={4}
+          alignItems={"center"}
+          justifyContent="center"
+        >
           <Flex flex={1} justifyContent="center">
             <Flex direction={"column"} w={"300px"}>
               <Heading>
@@ -158,34 +175,45 @@ export default function CourseDetailPage({ data }: any) {
             ))}
           </Flex>
         </Flex>
+      </Flex>
 
+      <Flex
+        gap={8}
+        p={8}
+        w="full"
+        bgColor="#B3C52D70"
+        justifyContent="center"
+        alignItems={"center"}
+      >
         <Flex
-          gap={8}
-          p={8}
-          w="full"
-          bgColor="#B3C52D70"
-          justifyContent="center"
+          w={{ base: "100%", md: "50%" }}
+          gap={4}
           alignItems={"center"}
-          direction={{ base: "column" }}
+          justifyContent="center"
+          direction={"column"}
         >
           <Heading>
             Pra <span style={{ color: "#B3C52D" }}>quem</span> é
           </Heading>
-          <Text>{parseHtml(data?.targetAudience)}</Text>
+          <Text fontSize={30} textAlign="center">
+            {parseHtml(data?.targetAudience)}
+          </Text>
         </Flex>
+      </Flex>
 
-        <Flex
-          gap={8}
-          p={8}
-          w="full"
-          bgColor="#fff"
-          justifyContent="center"
-          alignItems={"center"}
-          direction={{ base: "column" }}
-        >
-          <Heading>Pré-Requisitos</Heading>
-          <Text>{parseHtml(data?.prerequisites)}</Text>
-        </Flex>
+      <Flex
+        gap={8}
+        p={8}
+        w="full"
+        bgColor="#fff"
+        justifyContent="center"
+        alignItems={"center"}
+        direction={{ base: "column" }}
+      >
+        <Heading>Pré-Requisitos</Heading>
+        <Text fontSize={30} textAlign="center">
+          {parseHtml(data?.prerequisites)}
+        </Text>
       </Flex>
     </Flex>
   );
@@ -200,6 +228,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   let endpoint = `/courses/${context?.params?.id}`;
   endpoint += `?populate[categories]=*`;
   endpoint += `&populate[modules]=*`;
+  endpoint += `&populate[coverImage]=*`;
   endpoint += `&sort[0]=showOrder`;
 
   const course = await api.get(endpoint, {

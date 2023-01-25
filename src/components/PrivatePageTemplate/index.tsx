@@ -28,6 +28,8 @@ export const PrivatePageTemplate = ({
         h="100px"
         borderBottom="1px solid"
         borderBottomColor={"gray.300"}
+        boxShadow="lg"
+        zIndex={10}
       >
         {header}
       </Flex>
@@ -62,7 +64,7 @@ export const PrivatePageTemplate = ({
           justifyContent="flex-start"
           w="full"
           pb={20}
-          bg="gray.100"
+          bg="gray.50"
           css={{
             "&::-webkit-scrollbar": {
               background: "#eee",

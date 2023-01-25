@@ -24,7 +24,7 @@ export default function MyCoursePage({ data }: any) {
               <CardCourse
                 course={item.attributes}
                 key={item.id}
-                onClick={() => navigateTo(`/course/class${item.id}`)}
+                onClick={() => navigateTo(`/course/class/${item.id}`)}
               />
             )}
           </>
