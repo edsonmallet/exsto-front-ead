@@ -18,8 +18,6 @@ export default function CoursePage({ data }: any) {
 
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
-  console.log(data);
-
   return (
     <PrivatePageTemplate
       header={<Header />}

@@ -22,6 +22,7 @@ interface ListModulesProps {
 
 export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
   const { setCurrentLesson, currentLesson } = useLessonStore();
+
   return (
     <Accordion w="full" defaultIndex={[0]} allowMultiple>
       {modules?.map((module: any) => (

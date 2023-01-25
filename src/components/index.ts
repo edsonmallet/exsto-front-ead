@@ -18,3 +18,4 @@ export * from "./VideoInformation";
 export * from "./BadgeCourseContent";
 export * from "./CardModuleCourse";
 export * from "./ListModules";
+export * from "./Comments";

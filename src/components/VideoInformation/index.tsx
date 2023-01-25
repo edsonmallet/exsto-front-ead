@@ -13,12 +13,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useLessonStore } from "../../stores";
 import { parseHtml } from "../../utils/parseHtml";
+import { Comments } from "../Comments";
 
 export const VideoInformation = () => {
   const { currentLesson } = useLessonStore();
-  console.log(currentLesson);
+  const router = useRouter();
+
   return (
     <>
       <Flex
@@ -54,12 +57,13 @@ export const VideoInformation = () => {
           justifyContent="flex-start"
           gap={2}
         >
-          <Tabs size="lg" variant="line" colorScheme={"green"}>
+          <Tabs isLazy size="lg" variant="line" colorScheme={"green"}>
             <TabList fontWeight={"bold"}>
               <Tab>Autor</Tab>
               <Tab>Sinopse</Tab>
               <Tab>Habilidades e Competências</Tab>
               <Tab>Material de apoio</Tab>
+              <Tab>Comentários e Dúvidas</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -127,6 +131,12 @@ export const VideoInformation = () => {
                     )}
                   </UnorderedList>
                 </Flex>
+              </TabPanel>
+              <TabPanel>
+                <Comments
+                  courseId={Number(router?.query?.id)}
+                  lessonId={currentLesson?.id}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>
