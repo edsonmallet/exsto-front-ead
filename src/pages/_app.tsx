@@ -30,6 +30,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Exsto Academy</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <ToastContainer limit={3} />
       <NextNProgress

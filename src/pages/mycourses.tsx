@@ -11,38 +11,24 @@ export default function MyCoursePage({ data }: any) {
   const MyCourses = () => (
     <Flex
       my={10}
+      w={{ base: "100%", md: "50%" }}
       alignItems={"center"}
-      justifyContent="flex-start"
       direction={"column"}
     >
       <TitlePage title="Meus Cursos" />
 
-      <Flex
-        gap={10}
-        wrap="wrap"
-        maxW={"80vw"}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Flex
-          gap={10}
-          wrap="wrap"
-          w="80vw"
-          justifyContent="center"
-          alignItems="stretch"
-        >
-          {data?.map((item: any) => (
-            <>
-              {item.attributes.visibility && (
-                <CardCourse
-                  course={item.attributes}
-                  key={item.id}
-                  onClick={() => navigateTo(`/course/class/${item.id}`)}
-                />
-              )}
-            </>
-          ))}
-        </Flex>
+      <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
+        {data?.map((item: any) => (
+          <>
+            {item.attributes.visibility && (
+              <CardCourse
+                course={item.attributes}
+                key={item.id}
+                onClick={() => navigateTo(`/course/class${item.id}`)}
+              />
+            )}
+          </>
+        ))}
       </Flex>
     </Flex>
   );
