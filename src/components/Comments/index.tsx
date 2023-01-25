@@ -15,6 +15,7 @@ import {
   Image,
   Spinner,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { UserCircle } from "phosphor-react";
@@ -23,6 +24,7 @@ import api from "../../services/api";
 import { useLoadingStore, useToastStore } from "../../stores";
 import { formatDate } from "../../utils/convertDate";
 import { Loading } from "../Loading";
+import { NewComments } from "./NewComments";
 
 interface CommentsProps {
   courseId: number;
@@ -31,6 +33,7 @@ interface CommentsProps {
 
 export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
   const [comments, setComments] = React.useState<any[]>([]);
+
   const { setLoading, isLoading } = useLoadingStore();
   const { showToast } = useToastStore();
 
@@ -62,20 +65,21 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
 
   return (
     <>
-      {comments?.length === 0 && (
-        <Alert status="info">
+      {isLoading && <Loading />}
+      {!isLoading && comments?.length === 0 && (
+        <Alert status="info" mb={2}>
           <AlertIcon />
           Nenhuma pergunta encontrada!
         </Alert>
       )}
-      {isLoading && <Loading />}
+
       {!isLoading && (
         <>
-          <Flex mb={5}>
-            <Button colorScheme={"green"} size="sm">
-              Perguntar
-            </Button>
-          </Flex>
+          <NewComments
+            courseId={courseId}
+            lessonId={lessonId}
+            refreshComments={() => getQuestions()}
+          />
           <Accordion allowToggle>
             {comments?.map((comment) => (
               <AccordionItem bgColor={"gray.100"} key={comment.id} mb={4}>

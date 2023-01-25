@@ -43,7 +43,7 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel p={0}>
-            <List>
+            <List bgColor={"white"}>
               {module?.attributes?.lessons?.data?.map((lesson: any) => (
                 <ListItem
                   key={lesson.id}
@@ -55,7 +55,7 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
                   cursor={"pointer"}
                   transition={"all 0.2s ease-in-out"}
                   onClick={() => setCurrentLesson(lesson)}
-                  bg={currentLesson?.id === lesson?.id ? "gray.200" : ""}
+                  bg={currentLesson?.id === lesson?.id ? "green.100" : ""}
                 >
                   <Flex direction={"column"} gap={2}>
                     <Flex alignItems={"center"} gap={2} p={2}>
@@ -65,10 +65,10 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
                         weight={"fill"}
                       />
                       <Text fontSize={"sm"}>{lesson?.attributes?.title}</Text>
-                      <Badge colorScheme={"blackAlpha"}>
+                      <Badge colorScheme={"gray"}>
                         {lesson?.attributes?.workload}
                       </Badge>
-                      <Badge colorScheme={"blue"}>
+                      <Badge colorScheme={"gray"}>
                         {typesLessons(lesson?.attributes?.type)}
                       </Badge>
                     </Flex>

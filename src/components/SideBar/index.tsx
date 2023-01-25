@@ -7,7 +7,14 @@ interface SideBarProps {
 
 export const SideBar = ({ modules }: SideBarProps) => {
   return (
-    <VStack w="full" h="full" align="flex-start">
+    <VStack
+      w="full"
+      h="full"
+      align="flex-start"
+      boxShadow={"2xl"}
+      borderLeft={"1px solid #ddd"}
+      bgColor="gray.100"
+    >
       <Text
         fontWeight="bold"
         fontSize="lg"
