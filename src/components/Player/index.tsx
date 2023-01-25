@@ -5,7 +5,7 @@ export const Player = () => {
   const { currentLesson } = useLessonStore();
   return (
     <>
-      <HStack w="full" justify="center">
+      <HStack w="full" bg="gray.100" justify="center">
         {currentLesson?.attributes?.urlVideo ? (
           <AspectRatio maxW="container.lg" w="full" ratio={16 / 9}>
             <iframe

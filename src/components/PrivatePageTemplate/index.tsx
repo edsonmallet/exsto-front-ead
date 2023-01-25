@@ -86,7 +86,7 @@ export const PrivatePageTemplate = ({
           <Flex
             flex={1}
             h="90vh"
-            bg="gray.100"
+            bg="gray.50"
             overflowY="auto"
             css={{
               "&::-webkit-scrollbar": {

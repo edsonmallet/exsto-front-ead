@@ -13,7 +13,7 @@ export const SideBar = ({ modules }: SideBarProps) => {
         fontSize="lg"
         p="2"
         w="full"
-        bg="gray.400"
+        bg="gray.700"
         color="white"
       >
         Módulos

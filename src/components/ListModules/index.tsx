@@ -27,7 +27,7 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
       {modules?.map((module: any) => (
         <AccordionItem key={module.id} mb={1}>
           <AccordionButton
-            bg="gray.300"
+            bg="gray.200"
             _expanded={{ bg: "green.500", color: "white" }}
           >
             <Box
