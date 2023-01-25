@@ -57,7 +57,7 @@ export const VideoInformation = () => {
           justifyContent="flex-start"
           gap={2}
         >
-          <Tabs isLazy size="lg" variant="line" colorScheme={"green"}>
+          <Tabs isLazy size="sm" variant="line" colorScheme={"green"}>
             <TabList fontWeight={"bold"}>
               <Tab>Autor</Tab>
               <Tab>Sinopse</Tab>
