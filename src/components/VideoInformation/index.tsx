@@ -2,30 +2,60 @@ import {
   Avatar,
   Flex,
   HStack,
+  ListItem,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
+  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { useLessonStore } from "../../stores";
 import { parseHtml } from "../../utils/parseHtml";
 
 export const VideoInformation = () => {
   const { currentLesson } = useLessonStore();
-
+  console.log(currentLesson);
   return (
-    <VStack w="full" justify="center" bg="white" p="8">
-      <HStack w="full" maxW="container.lg" align="flex-start">
-        <VStack w="full" align="flex-start">
-          <Text fontWeight="bold" fontSize="xl" mb={8}>
+    <>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
+        direction={"column"}
+        py={8}
+        w="full"
+        bg="gray.200"
+      >
+        <Flex
+          w={{ base: "100%", md: "80%" }}
+          alignItems="flex-start"
+          justifyContent="flex-start"
+          gap={2}
+        >
+          <Text fontWeight="bold" fontSize="xl">
             {currentLesson?.attributes?.title}
           </Text>
-
-          <Tabs size="md" variant="solid-rounded" colorScheme={"green"}>
-            <TabList>
+        </Flex>
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
+        direction={"column"}
+        w="full"
+      >
+        <Flex
+          w={{ base: "100%", md: "80%" }}
+          alignItems="flex-start"
+          justifyContent="flex-start"
+          gap={2}
+        >
+          <Tabs size="lg" variant="line" colorScheme={"green"}>
+            <TabList fontWeight={"bold"}>
               <Tab>Autor</Tab>
               <Tab>Sinopse</Tab>
               <Tab>Habilidades e Competências</Tab>
@@ -72,11 +102,36 @@ export const VideoInformation = () => {
                   {parseHtml(currentLesson?.attributes?.skillAndCompetence)}
                 </Text>
               </TabPanel>
-              <TabPanel></TabPanel>
+              <TabPanel>
+                <Flex direction={"column"} gap={2} w="full">
+                  <UnorderedList>
+                    {currentLesson?.attributes?.supportMaterial?.map(
+                      (material: any) => (
+                        <ListItem
+                          key={material.id}
+                          _hover={{ bg: "gray.100", cursor: "pointer" }}
+                          fontWeight="bold"
+                          borderBottom={"1px solid"}
+                          borderBottomColor={"gray.300"}
+                          p={2}
+                        >
+                          <Link
+                            href={material?.file?.data[0]?.attributes?.url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {material?.name}
+                          </Link>
+                        </ListItem>
+                      )
+                    )}
+                  </UnorderedList>
+                </Flex>
+              </TabPanel>
             </TabPanels>
           </Tabs>
-        </VStack>
-      </HStack>
-    </VStack>
+        </Flex>
+      </Flex>
+    </>
   );
 };

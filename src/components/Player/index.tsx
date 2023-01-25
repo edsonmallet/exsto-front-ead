@@ -9,14 +9,14 @@ export const Player = () => {
         {currentLesson?.attributes?.urlVideo ? (
           <AspectRatio maxW="container.lg" w="full" ratio={16 / 9}>
             <iframe
-              width="560"
+              width="800"
               src={`${currentLesson?.attributes?.urlVideo}?autoplay=0&showinfo=0&controls=1&rel=0&modestbranding=1&playsinline=0`}
               title="YouTube video player"
               allowFullScreen
             />
           </AspectRatio>
         ) : (
-          <Image src="/notvideo.jpg" alt="Not video" />
+          <Image src="/notvideo.jpg" alt="Not video" w="full" maxW={"800px"} />
         )}
       </HStack>
     </>

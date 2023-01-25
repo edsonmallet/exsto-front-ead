@@ -18,6 +18,8 @@ export default function CoursePage({ data }: any) {
 
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
+  console.log(data);
+
   return (
     <PrivatePageTemplate
       header={<Header />}
@@ -57,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   endpoint += `?populate[course_modules][sort][0]=showOrder`;
   endpoint += `&populate[course_modules][populate][lessons][sort][0]=showOrder`;
   endpoint += `&populate[course_modules][populate][lessons][populate][authors][populate]=*`;
+  endpoint += `&populate[course_modules][populate][lessons][populate][supportMaterial][populate]=file`;
   endpoint += `&fields[0]=name`;
   endpoint += `&sort[0]=name`;
 

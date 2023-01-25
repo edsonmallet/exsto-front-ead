@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { CaretCircleRight } from "phosphor-react";
 import { ReactNode } from "react";
 
@@ -33,28 +33,22 @@ export const PrivatePageTemplate = ({
       </Flex>
       {title && (
         <Flex
-          w="full"
-          bgColor={"green.200"}
-          alignItems={"center"}
-          justifyContent="flex-start"
+          alignItems="center"
+          justifyContent="center"
           gap={2}
-          fontWeight="bold"
-          py={6}
+          direction={"column"}
+          py={8}
+          w="full"
+          bg="green.100"
         >
-          <Flex
-            w={{ base: "100%", md: "50%" }}
-            alignItems="center"
-            justifyContent="center"
-            gap={2}
-          >
-            <CaretCircleRight weight="bold" fontSize={20} /> {title}
-          </Flex>
+          <Heading as="h2" fontSize={"1.3rem"}>
+            {title}
+          </Heading>
         </Flex>
       )}
 
       <Flex
         w="full"
-        gap={2}
         direction={{ base: "column", md: "row" }}
         alignItems="stretch"
         justifyContent="center"
