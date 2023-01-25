@@ -19,3 +19,4 @@ export * from "./BadgeCourseContent";
 export * from "./CardModuleCourse";
 export * from "./ListModules";
 export * from "./Comments";
+export * from "./Loading";
