@@ -1,9 +1,15 @@
 import { Button, Image, Text, VStack } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import { ArrowLeft } from "phosphor-react";
+import React from "react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
 
-export default function Index() {
+export default function Logout() {
+  React.useEffect(() => {
+    Cookies.remove("Exsto_token");
+  }, []);
+
   return (
     <VStack
       w="full"
