@@ -10,7 +10,7 @@ export const CardModuleCourse: React.FC<CardModuleCourseProps> = ({
   module,
 }) => {
   return (
-    <Flex pb={2} alignItems={"flex-start"} flex="1 0 40%" gap={3}>
+    <Flex pb={2} alignItems={"flex-start"} w="full" gap={3}>
       <Image
         w={"24px"}
         src={module?.icon?.data?.attributes?.url ?? "/circlesFourFill.svg"}
@@ -18,7 +18,7 @@ export const CardModuleCourse: React.FC<CardModuleCourseProps> = ({
       />
       <Flex direction={"column"}>
         <Heading fontSize={20}>{module?.name}</Heading>
-        <Text fontSize={"sm"}>{parseHtml(module?.description)}</Text>
+        <Text fontSize={"md"}>{parseHtml(module?.description)}</Text>
       </Flex>
     </Flex>
   );

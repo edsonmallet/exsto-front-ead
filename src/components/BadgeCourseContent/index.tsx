@@ -15,8 +15,7 @@ export const BadgeCourseContent: React.FC<BadgeCourseContentProps> = ({
   return (
     <Flex
       direction={"column"}
-      flex="1 0 21%"
-      w={"210px"}
+      flex="1 0 25%"
       p={6}
       gap={2}
       alignItems={"center"}

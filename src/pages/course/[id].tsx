@@ -5,13 +5,19 @@ import {
   Button,
   Flex,
   Heading,
-  HStack,
   Image,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
-import { Flag, GraduationCap, Laptop, Medal, PlayCircle } from "phosphor-react";
+import {
+  CircleWavy,
+  CircleWavyCheck,
+  GraduationCap,
+  Laptop,
+  Medal,
+  PlayCircle,
+} from "phosphor-react";
 import {
   BadgeCourseContent,
   CardModuleCourse,
@@ -23,6 +29,7 @@ import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export default function CourseDetailPage({ data }: any) {
+  console.log(data);
   const Details = () => (
     <Flex
       w="full"
@@ -33,8 +40,9 @@ export default function CourseDetailPage({ data }: any) {
       direction={"column"}
     >
       <Flex
-        w={{ base: "100%", md: "50%" }}
+        w={{ base: "100%", md: "80%", "2xl": "60%" }}
         gap={4}
+        p={8}
         alignItems={"center"}
         justifyContent="center"
       >
@@ -89,8 +97,10 @@ export default function CourseDetailPage({ data }: any) {
           </Text>
           <Button
             w="full"
+            size="xl"
             colorScheme={"green"}
             onClick={() => navigateTo(`/course/class/${data?.id}`)}
+            py={8}
           >
             Continue Aprendendo
           </Button>
@@ -98,8 +108,9 @@ export default function CourseDetailPage({ data }: any) {
       </Flex>
 
       <Flex
-        w={{ base: "100%", md: "50%" }}
+        w={{ base: "100%", md: "80%", "2xl": "60%" }}
         gap={4}
+        p={8}
         alignItems={"center"}
         justifyContent="center"
       >
@@ -128,7 +139,6 @@ export default function CourseDetailPage({ data }: any) {
       </Flex>
 
       <Flex
-        p={16}
         w="full"
         bgColor="#B3C52D70"
         justifyContent="center"
@@ -136,22 +146,23 @@ export default function CourseDetailPage({ data }: any) {
         direction={{ base: "column" }}
       >
         <Flex
-          w={{ base: "100%", md: "50%" }}
+          w={{ base: "100%", md: "80%", "2xl": "60%" }}
           gap={4}
+          p={16}
           alignItems={"center"}
           justifyContent="center"
           direction={"column"}
         >
           <Heading> Com esse curso você estará apto a </Heading>
-          <Text fontSize={30} textAlign="center">
+          <Text fontSize={"2xl"} textAlign="center">
             {parseHtml(data?.objective)}
           </Text>
         </Flex>
       </Flex>
 
-      <Flex gap={8} p={8} w="full" justifyContent="center">
+      <Flex gap={8} p={16} w="full" justifyContent="center">
         <Flex
-          w={{ base: "100%", md: "50%" }}
+          w={{ base: "100%", md: "80%", "2xl": "60%" }}
           gap={4}
           alignItems={"center"}
           justifyContent="center"
@@ -179,44 +190,114 @@ export default function CourseDetailPage({ data }: any) {
 
       <Flex
         gap={8}
-        p={8}
+        p={16}
         w="full"
         bgColor="#B3C52D70"
         justifyContent="center"
         alignItems={"center"}
       >
         <Flex
-          w={{ base: "100%", md: "50%" }}
+          w={{ base: "100%", md: "80%", "2xl": "60%" }}
           gap={4}
           alignItems={"center"}
           justifyContent="center"
           direction={"column"}
         >
-          <Heading>
+          <Heading mb={10}>
             Pra <span style={{ color: "#B3C52D" }}>quem</span> é
           </Heading>
-          <Text fontSize={30} textAlign="center">
-            {parseHtml(data?.targetAudience)}
-          </Text>
+          <Flex
+            gap={8}
+            wrap="wrap"
+            w={{ base: "100%", md: "80%", "2xl": "60%" }}
+            justifyContent="center"
+            alignItems={"stretch"}
+          >
+            {data?.targetAudiency?.map((target: any) => (
+              <Flex gap={8} key={target?.id}>
+                <Flex
+                  position={"relative"}
+                  alignItems={"center"}
+                  justifyContent="flex-start"
+                >
+                  <Box position={"absolute"} left={-6} zIndex={3}>
+                    <CircleWavyCheck weight="fill" size={48} color="#555" />
+                  </Box>
+                  <Flex
+                    bgColor="#fff"
+                    boxShadow="xl"
+                    minH="120px"
+                    w={"250px"}
+                    alignItems={"center"}
+                    justifyContent="flex-start"
+                    p={4}
+                    pl={8}
+                    border={"1px solid #ddd"}
+                    zIndex={1}
+                    fontWeight={500}
+                    fontSize={"md"}
+                  >
+                    {target?.item}
+                  </Flex>
+                </Flex>
+              </Flex>
+            ))}
+          </Flex>
         </Flex>
       </Flex>
 
       <Flex
         gap={8}
-        p={8}
+        p={16}
         w="full"
         bgColor="#fff"
         justifyContent="center"
         alignItems={"center"}
         direction={{ base: "column" }}
       >
-        <Heading>Pré-Requisitos</Heading>
-        <Text fontSize={30} textAlign="center">
-          {parseHtml(data?.prerequisites)}
-        </Text>
+        <Heading mb={10}>Pré-Requisitos</Heading>
+
+        <Flex
+          gap={8}
+          wrap="wrap"
+          w={{ base: "100%", md: "80%", "2xl": "60%" }}
+          justifyContent="center"
+          alignItems={"stretch"}
+        >
+          {data?.preRequisites?.map((preRequisite: any) => (
+            <Flex gap={8} key={preRequisite?.id}>
+              <Flex
+                position={"relative"}
+                alignItems={"center"}
+                justifyContent="flex-start"
+              >
+                <Box position={"absolute"} left={-6} zIndex={3}>
+                  <CircleWavy weight="fill" size={48} color="#B3C52D" />
+                </Box>
+                <Flex
+                  bgColor="#fff"
+                  boxShadow="xl"
+                  minH="120px"
+                  w={"250px"}
+                  alignItems={"center"}
+                  justifyContent="flex-start"
+                  p={4}
+                  pl={8}
+                  border={"1px solid #ddd"}
+                  zIndex={1}
+                  fontWeight={500}
+                  fontSize={"md"}
+                >
+                  {preRequisite?.item}
+                </Flex>
+              </Flex>
+            </Flex>
+          ))}
+        </Flex>
       </Flex>
     </Flex>
   );
+
   return <PrivatePageTemplate header={<Header />} main={<Details />} />;
 }
 
@@ -229,6 +310,8 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   endpoint += `?populate[categories]=*`;
   endpoint += `&populate[modules]=*`;
   endpoint += `&populate[coverImage]=*`;
+  endpoint += `&populate[targetAudiency]=*`;
+  endpoint += `&populate[preRequisites]=*`;
   endpoint += `&sort[0]=showOrder`;
 
   const course = await api.get(endpoint, {
