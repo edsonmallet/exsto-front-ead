@@ -40,7 +40,6 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
       answers: [...answers, { answer: newAnswer, user: user.id }],
     };
 
-    setIsLoading(true);
     try {
       await api.put(
         `/forums/${commentId}`,
@@ -55,8 +54,6 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
       showToast("success", "Resposta gravada com sucesso!");
     } catch (error) {
       showToast("error", "Erro ao salvar resposta, tente novamente!");
-    } finally {
-      setIsLoading(false);
     }
   }, [
     answers,

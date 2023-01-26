@@ -40,46 +40,48 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
   const { showToast } = useToastStore();
   const { user } = useSettingsStore();
 
-  const getQuestions = React.useCallback(async () => {
-    setLoading(true);
-    try {
-      let endpoint = `/forums`;
-      endpoint += `?sort[0]=createdAt:desc`;
-      endpoint += `&populate[creator][fields][0]=username`;
-      endpoint += `&populate[creator][populate]=avatar`;
-      endpoint += `&populate[answers][populate][user][fields][0]=username`;
-      endpoint += `&populate[answers][populate][user]=avatar`;
-      endpoint += `&filters[course][id][$eq]=${courseId}`;
-      endpoint += `&filters[lesson][id][$eq]=${lessonId}`;
-      const course = await api.get(endpoint, {
-        headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
-      });
-      setComments(course.data.data);
-      console.log(course.data.data);
-    } catch (error) {
-      showToast("error", "Erro ao carregar comentários");
-    } finally {
-      setLoading(false);
-    }
-  }, [courseId, lessonId, setLoading, showToast]);
+  const [accordionIndex, setAccordionIndex] = React.useState<any>(-1);
+
+  const getQuestions = React.useCallback(
+    async (loading?: any) => {
+      setLoading(loading ?? true);
+      try {
+        let endpoint = `/forums`;
+        endpoint += `?sort[0]=createdAt:desc`;
+        endpoint += `&populate[creator][fields][0]=username`;
+        endpoint += `&populate[creator][populate]=avatar`;
+        endpoint += `&populate[answers][populate][user][fields][0]=username`;
+        endpoint += `&populate[answers][populate][user]=avatar`;
+        endpoint += `&filters[course][id][$eq]=${courseId}`;
+        endpoint += `&filters[lesson][id][$eq]=${lessonId}`;
+        const course = await api.get(endpoint, {
+          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+        });
+        setComments(course.data.data);
+        console.log(course.data.data);
+      } catch (error) {
+        showToast("error", "Erro ao carregar comentários");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [courseId, lessonId, setLoading, showToast]
+  );
 
   const handleDeleteComment = React.useCallback(
     async (id: any) => {
-      setLoading(true);
       try {
         let endpoint = `/forums/${id}`;
 
         await api.delete(endpoint, {
           headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
         });
-        getQuestions();
+        getQuestions(false);
       } catch (error) {
         showToast("error", "Erro ao deletar comentários");
-      } finally {
-        setLoading(false);
       }
     },
-    [getQuestions, setLoading, showToast]
+    [getQuestions, showToast]
   );
 
   const handleDeleteAnswer = React.useCallback(
@@ -90,7 +92,6 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         ),
       };
 
-      setLoading(true);
       try {
         let endpoint = `/forums/${comment?.id}`;
         await api.put(
@@ -100,14 +101,12 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
             headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
           }
         );
-        getQuestions();
+        getQuestions(false);
       } catch (error) {
         showToast("error", "Erro ao deletar comentários");
-      } finally {
-        setLoading(false);
       }
     },
-    [getQuestions, setLoading, showToast]
+    [getQuestions, showToast]
   );
 
   React.useEffect(() => {
@@ -129,10 +128,14 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
           <NewComments
             courseId={courseId}
             lessonId={lessonId}
-            refreshComments={() => getQuestions()}
+            refreshComments={() => getQuestions(false)}
           />
-          <Accordion allowToggle>
-            {comments?.map((comment: any, indexComment: any) => (
+          <Accordion
+            allowToggle
+            index={accordionIndex}
+            onChange={(expandedIndex) => setAccordionIndex(expandedIndex)}
+          >
+            {comments?.map((comment: any) => (
               <AccordionItem
                 bgColor={"gray.100"}
                 key={comment?.id}
@@ -203,7 +206,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
                   <AnswerComments
                     commentId={comment?.id}
                     answers={comment?.attributes?.answers}
-                    refreshComments={() => getQuestions()}
+                    refreshComments={() => getQuestions(false)}
                   />
 
                   {comment?.attributes?.answers?.map(
