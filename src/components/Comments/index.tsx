@@ -12,18 +12,20 @@ import {
   Button,
   Flex,
   HStack,
+  IconButton,
   Image,
   Spinner,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import { UserCircle } from "phosphor-react";
+import { Trash, UserCircle } from "phosphor-react";
 import React from "react";
 import api from "../../services/api";
-import { useLoadingStore, useToastStore } from "../../stores";
+import { useLoadingStore, useSettingsStore, useToastStore } from "../../stores";
 import { formatDate } from "../../utils/convertDate";
 import { Loading } from "../Loading";
+import { AnswerComments } from "./AnswerComment";
 import { NewComments } from "./NewComments";
 
 interface CommentsProps {
@@ -36,6 +38,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
 
   const { setLoading, isLoading } = useLoadingStore();
   const { showToast } = useToastStore();
+  const { user } = useSettingsStore();
 
   const getQuestions = React.useCallback(async () => {
     setLoading(true);
@@ -52,12 +55,60 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
       });
       setComments(course.data.data);
+      console.log(course.data.data);
     } catch (error) {
       showToast("error", "Erro ao carregar comentários");
     } finally {
       setLoading(false);
     }
   }, [courseId, lessonId, setLoading, showToast]);
+
+  const handleDeleteComment = React.useCallback(
+    async (id: any) => {
+      setLoading(true);
+      try {
+        let endpoint = `/forums/${id}`;
+
+        await api.delete(endpoint, {
+          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+        });
+        getQuestions();
+      } catch (error) {
+        showToast("error", "Erro ao deletar comentários");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [getQuestions, setLoading, showToast]
+  );
+
+  const handleDeleteAnswer = React.useCallback(
+    async (comment: any, id: any) => {
+      const dataSave = {
+        answers: comment?.attributes?.answers?.filter(
+          (item: any) => item?.id !== id
+        ),
+      };
+
+      setLoading(true);
+      try {
+        let endpoint = `/forums/${comment?.id}`;
+        await api.put(
+          endpoint,
+          { data: dataSave },
+          {
+            headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          }
+        );
+        getQuestions();
+      } catch (error) {
+        showToast("error", "Erro ao deletar comentários");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [getQuestions, setLoading, showToast]
+  );
 
   React.useEffect(() => {
     getQuestions();
@@ -81,83 +132,132 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
             refreshComments={() => getQuestions()}
           />
           <Accordion allowToggle>
-            {comments?.map((comment) => (
-              <AccordionItem bgColor={"gray.100"} key={comment.id} mb={4}>
-                <AccordionButton>
-                  <Flex direction={"column"} gap={2} flex="1" textAlign="left">
-                    <Text fontSize={"lg"}>{comment?.attributes?.title}</Text>
-                    <HStack
-                      marginTop="2"
-                      spacing="2"
-                      display="flex"
-                      alignItems="center"
+            {comments?.map((comment: any, indexComment: any) => (
+              <AccordionItem
+                bgColor={"gray.100"}
+                key={comment?.id}
+                mb={4}
+                position="relative"
+              >
+                <>
+                  <AccordionButton>
+                    <Flex
+                      direction={"column"}
+                      gap={2}
+                      flex="1"
+                      textAlign="left"
                     >
-                      {comment?.attributes?.creator?.data?.attributes?.avatar
-                        ?.data?.url ? (
-                        <Image
-                          borderRadius="full"
-                          boxSize="24px"
-                          src={
-                            comment?.attributes?.creator?.data?.attributes
-                              ?.avatar?.data?.url
-                          }
-                          alt={`Avatar of ${comment?.attributes?.creator?.data?.attributes?.username}`}
-                        />
-                      ) : (
-                        <UserCircle size={24} />
-                      )}
+                      <Text fontSize={"lg"}>{comment?.attributes?.title}</Text>
+                      <HStack
+                        marginTop="2"
+                        spacing="2"
+                        display="flex"
+                        alignItems="center"
+                      >
+                        {comment?.attributes?.creator?.data?.attributes?.avatar
+                          ?.data?.url ? (
+                          <Image
+                            borderRadius="full"
+                            boxSize="24px"
+                            src={
+                              comment?.attributes?.creator?.data?.attributes
+                                ?.avatar?.data?.url
+                            }
+                            alt={`Avatar of ${comment?.attributes?.creator?.data?.attributes?.username}`}
+                          />
+                        ) : (
+                          <UserCircle size={24} />
+                        )}
 
-                      <Text fontSize={"xs"}>
-                        {
-                          comment?.attributes?.creator?.data?.attributes
-                            ?.username
-                        }
-                      </Text>
-                      <Text fontSize={"xs"}>
-                        {formatDate(comment?.attributes?.createdAt)}
-                      </Text>
-                    </HStack>
-                  </Flex>
-                  <Badge colorScheme={"green"}>
-                    {comment?.attributes?.answers?.length} Respostas
-                  </Badge>
-                  <AccordionIcon />
-                </AccordionButton>
+                        <Text fontSize={"xs"}>
+                          {
+                            comment?.attributes?.creator?.data?.attributes
+                              ?.username
+                          }
+                        </Text>
+                        <Text fontSize={"xs"}>
+                          {formatDate(comment?.attributes?.createdAt)}
+                        </Text>
+                      </HStack>
+                    </Flex>
+                    <Badge colorScheme={"green"}>
+                      {comment?.attributes?.answers?.length} Respostas
+                    </Badge>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  {comment?.attributes?.creator?.data?.id === user.id && (
+                    <IconButton
+                      aria-label="Delete"
+                      colorScheme={"red"}
+                      size="xs"
+                      icon={<Trash fontSize={20} />}
+                      position="absolute"
+                      top={-3}
+                      right={-3}
+                      onClick={() => handleDeleteComment(comment?.id)}
+                    />
+                  )}
+                </>
+
                 <AccordionPanel py={4} bg="white" border={"1px solid #eee"}>
-                  <Button colorScheme={"blue"} size="sm" mb={4}>
-                    Responder
-                  </Button>
-                  <Box p={2} bgColor="green.100" borderRadius={"lg"}>
-                    {comment?.attributes?.answers?.map((anwser: any) => (
-                      <>
-                        <p key={anwser?.id}>{anwser?.answer}</p>
+                  <AnswerComments
+                    commentId={comment?.id}
+                    answers={comment?.attributes?.answers}
+                    refreshComments={() => getQuestions()}
+                  />
+
+                  {comment?.attributes?.answers?.map(
+                    (answer: any, indexAnswer: number) => (
+                      <Box
+                        key={answer?.id}
+                        p={3}
+                        bgColor="green.100"
+                        borderRadius={"lg"}
+                        position="relative"
+                        mb={2}
+                      >
+                        <p key={answer?.id}>{answer?.answer}</p>
                         <HStack
                           marginTop="2"
                           spacing="2"
                           display="flex"
                           alignItems="center"
                         >
-                          {anwser?.user?.data?.attributes?.avatar?.data?.url ? (
+                          {answer?.user?.data?.attributes?.avatar?.data?.url ? (
                             <Image
                               borderRadius="full"
                               boxSize="24px"
                               src={
-                                anwser?.user?.data?.attributes?.avatar?.data
+                                answer?.user?.data?.attributes?.avatar?.data
                                   ?.url
                               }
-                              alt={`Avatar of ${anwser?.user?.data?.attributes?.username}`}
+                              alt={`Avatar of ${answer?.user?.data?.attributes?.username}`}
                             />
                           ) : (
                             <UserCircle size={24} />
                           )}
 
                           <Text fontSize={"xs"}>
-                            {anwser?.user?.data?.attributes?.username}
+                            {answer?.user?.data?.attributes?.username}
                           </Text>
                         </HStack>
-                      </>
-                    ))}
-                  </Box>
+                        {answer?.user?.data?.id === user.id && (
+                          <IconButton
+                            aria-label="Delete"
+                            colorScheme={"red"}
+                            size="xs"
+                            icon={<Trash fontSize={20} />}
+                            top={-3}
+                            right={-3}
+                            position="absolute"
+                            onClick={() =>
+                              handleDeleteAnswer(comment, answer?.id)
+                            }
+                          />
+                        )}
+                      </Box>
+                    )
+                  )}
                 </AccordionPanel>
               </AccordionItem>
             ))}
