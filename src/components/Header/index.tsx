@@ -66,10 +66,15 @@ export const Header = () => {
   );
 
   const MenuMobile = () => (
-    <Menu>
-      <MenuButton as={Button}>
-        <List fontSize={20} />
-      </MenuButton>
+    <Menu colorScheme={"green"}>
+      <MenuButton
+        as={IconButton}
+        icon={<List fontSize={32} fontWeight="bold" />}
+        variant="ghost"
+        colorScheme="green"
+        aria-label="Options"
+        p={4}
+      />
       <MenuList>
         <MenuItem onClick={() => navigateTo("/home")} gap={2}>
           <House weight="bold" />
@@ -84,8 +89,8 @@ export const Header = () => {
         <MenuItem onClick={() => navigateTo("/messages")}>Mensagens</MenuItem>
         <MenuDivider />
         <MenuOptionGroup title="Conteudo Extras" type="checkbox">
-          <MenuItem>Delete</MenuItem>
-          <MenuItem>Attend a Workshop</MenuItem>
+          <MenuItem>item 1</MenuItem>
+          <MenuItem>item 2</MenuItem>
         </MenuOptionGroup>
         <MenuDivider />
         <MenuItem gap={2} bg="gray.100">
