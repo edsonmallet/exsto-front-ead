@@ -24,9 +24,9 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
   const { setCurrentLesson, currentLesson } = useLessonStore();
 
   return (
-    <Accordion w="full" defaultIndex={[0]} allowMultiple>
+    <Accordion w="full" defaultIndex={[0]} allowMultiple pb={150}>
       {modules?.map((module: any) => (
-        <AccordionItem key={module.id} mb={1}>
+        <AccordionItem key={module.id} mb={2}>
           <AccordionButton
             bg="gray.200"
             _expanded={{ bg: "green.500", color: "white" }}

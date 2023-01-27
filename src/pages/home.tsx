@@ -32,6 +32,19 @@ export default function HomePage({ data }: any) {
           </>
         ))}
       </Flex>
+      <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
+        {data?.map((item: any) => (
+          <>
+            {item.attributes.visibility && (
+              <CardCourse
+                course={item.attributes}
+                key={item.id}
+                onClick={() => navigateTo(`/course/${item.id}`)}
+              />
+            )}
+          </>
+        ))}
+      </Flex>
     </Flex>
   );
 
@@ -49,6 +62,14 @@ export const getServerSideProps: GetServerSideProps<{
   endpoint += `&sort[0]=showOrder`;
 
   const courses = await api.get(endpoint, {
+    headers: { Authorization: `Bearer ${Exsto_token}` },
+  });
+
+  endpoint = "/learning-trails";
+  endpoint += `?populate[courses]=*`;
+  endpoint += `&sort[0]=createdAt`;
+
+  const learningTrails = await api.get(endpoint, {
     headers: { Authorization: `Bearer ${Exsto_token}` },
   });
 

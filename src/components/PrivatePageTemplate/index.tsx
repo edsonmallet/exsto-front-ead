@@ -67,16 +67,16 @@ export const PrivatePageTemplate = ({
           bg="gray.50"
           css={{
             "&::-webkit-scrollbar": {
-              background: "#eee",
-              width: "4px",
+              background: "#BDD02F30",
+              width: "8px",
             },
             "&::-webkit-scrollbar-track": {
-              background: "#eee",
-              width: "4px",
+              background: "#BDD02F30",
+              width: "8px",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "#777",
-              borderRadius: "4px",
+              background: "#BDD02F",
+              borderRadius: "8px",
             },
           }}
         >
@@ -90,16 +90,16 @@ export const PrivatePageTemplate = ({
             overflowY="auto"
             css={{
               "&::-webkit-scrollbar": {
-                background: "#eee",
-                width: "4px",
+                background: "#BDD02F30",
+                width: "8px",
               },
               "&::-webkit-scrollbar-track": {
-                background: "#eee",
-                width: "4px",
+                background: "#BDD02F30",
+                width: "8px",
               },
               "&::-webkit-scrollbar-thumb": {
-                background: "#777",
-                borderRadius: "4px",
+                background: "#BDD02F",
+                borderRadius: "8px",
               },
             }}
           >
