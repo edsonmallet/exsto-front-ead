@@ -7,7 +7,7 @@ export const Player = () => {
     <>
       <HStack w="full" bg="black" justify="center">
         {currentLesson?.attributes?.urlVideo ? (
-          <AspectRatio maxW="container.xl" w="full" ratio={16 / 9}>
+          <AspectRatio maxW="1150px" w="full" ratio={16 / 9}>
             <iframe
               width="100%"
               src={`${currentLesson?.attributes?.urlVideo}?autoplay=0&showinfo=0&controls=1&rel=0&modestbranding=1&playsinline=0`}
