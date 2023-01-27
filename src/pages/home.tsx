@@ -106,6 +106,18 @@ export default function HomePage({ data, trails }: any) {
         alignItems={"center"}
         direction={"column"}
       >
+        <Flex
+          alignItems={"center"}
+          justifyContent="flex-start"
+          w="full"
+          gap={4}
+          mb={8}
+        >
+          <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
+          <Text fontSize={24} fontWeight="bold">
+            Cursos Avulsos
+          </Text>
+        </Flex>
         <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
           {data?.map((item: any) => (
             <>
