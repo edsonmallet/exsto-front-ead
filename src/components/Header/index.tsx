@@ -1,20 +1,115 @@
 import {
   Avatar,
+  Box,
   Button,
+  Hide,
   HStack,
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
+  MenuOptionGroup,
+  Show,
 } from "@chakra-ui/react";
-import { ArrowDown, House, SignOut } from "phosphor-react";
+import { ArrowDown, House, List, SignOut } from "phosphor-react";
 import { useSettingsStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
 import { LogoBlack } from "../LogoBlack";
 
 export const Header = () => {
   const { user } = useSettingsStore();
+  const MenuFull = () => (
+    <HStack spacing={2}>
+      <Button
+        aria-label="Home"
+        onClick={() => navigateTo("/home")}
+        leftIcon={<House weight="bold" />}
+        variant="ghost"
+      >
+        Home
+      </Button>
+      <Button variant="ghost" onClick={() => navigateTo("/mycourses")}>
+        Meus Cursos
+      </Button>
+      <Button variant="ghost" onClick={() => navigateTo("/notifications")}>
+        Notificação
+      </Button>
+      <Button variant="ghost" onClick={() => navigateTo("/messages")}>
+        Mensagens
+      </Button>
+      <Menu>
+        <MenuButton as={Button} variant="ghost" rightIcon={<ArrowDown />}>
+          Conteudo Extra
+        </MenuButton>
+        <MenuList>
+          <MenuItem>Download</MenuItem>
+          <MenuItem>Create a Copy</MenuItem>
+        </MenuList>
+      </Menu>
+      <Avatar
+        name={user?.username ?? "Aluno"}
+        cursor={"pointer"}
+        onClick={() => navigateTo("/profile")}
+        bg={"green.500"}
+      />
+      <IconButton
+        aria-label="Sign out"
+        borderRadius={"full"}
+        size={"sm"}
+        colorScheme="red"
+        onClick={() => navigateTo("/logout")}
+        icon={<SignOut weight="bold" />}
+      />
+    </HStack>
+  );
+
+  const MenuMobile = () => (
+    <Menu>
+      <MenuButton as={Button}>
+        <List fontSize={20} />
+      </MenuButton>
+      <MenuList>
+        <MenuItem onClick={() => navigateTo("/home")} gap={2}>
+          <House weight="bold" />
+          Home
+        </MenuItem>
+        <MenuItem onClick={() => navigateTo("/mycourses")}>
+          Meus Cursos
+        </MenuItem>
+        <MenuItem onClick={() => navigateTo("/notifications")}>
+          Notificação
+        </MenuItem>
+        <MenuItem onClick={() => navigateTo("/messages")}>Mensagens</MenuItem>
+        <MenuDivider />
+        <MenuOptionGroup title="Conteudo Extras" type="checkbox">
+          <MenuItem>Delete</MenuItem>
+          <MenuItem>Attend a Workshop</MenuItem>
+        </MenuOptionGroup>
+        <MenuDivider />
+        <MenuItem gap={2} bg="gray.100">
+          <Avatar
+            name={user?.username ?? "Aluno"}
+            cursor={"pointer"}
+            onClick={() => navigateTo("/profile")}
+            bg={"green.500"}
+            size="sm"
+          />
+          {user?.username}
+        </MenuItem>
+        <MenuItem
+          onClick={() => navigateTo("/logout")}
+          gap={2}
+          color="red"
+          bg="red.50"
+        >
+          <SignOut weight="bold" color="red" /> SAIR
+        </MenuItem>
+      </MenuList>
+    </Menu>
+  );
+
   return (
     <HStack
       w="full"
@@ -24,48 +119,12 @@ export const Header = () => {
       bg="transparent"
     >
       <LogoBlack />
-      <HStack spacing={2}>
-        <Button
-          aria-label="Home"
-          onClick={() => navigateTo("/home")}
-          leftIcon={<House weight="bold" />}
-          variant="ghost"
-        >
-          Home
-        </Button>
-        <Button variant="ghost" onClick={() => navigateTo("/mycourses")}>
-          Meus Cursos
-        </Button>
-        <Button variant="ghost" onClick={() => navigateTo("/notifications")}>
-          Notificação
-        </Button>
-        <Button variant="ghost" onClick={() => navigateTo("/messages")}>
-          Mensagens
-        </Button>
-        <Menu>
-          <MenuButton as={Button} variant="ghost" rightIcon={<ArrowDown />}>
-            Conteudo Extra
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Download</MenuItem>
-            <MenuItem>Create a Copy</MenuItem>
-          </MenuList>
-        </Menu>
-        <Avatar
-          name={user?.username ?? "Aluno"}
-          cursor={"pointer"}
-          onClick={() => navigateTo("/profile")}
-          bg={"green.500"}
-        />
-        <IconButton
-          aria-label="Sign out"
-          borderRadius={"full"}
-          size={"sm"}
-          colorScheme="red"
-          onClick={() => navigateTo("/logout")}
-          icon={<SignOut weight="bold" />}
-        />
-      </HStack>
+      <Show breakpoint="(min-width: 1280px)">
+        <MenuFull />
+      </Show>
+      <Show breakpoint="(max-width: 1280px)">
+        <MenuMobile />
+      </Show>
     </HStack>
   );
 };

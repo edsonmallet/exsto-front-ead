@@ -10,12 +10,12 @@ export default function HomePage({ data }: any) {
   const Home = () => (
     <Flex
       my={10}
-      w={{ base: "100%", md: "50%" }}
+      w={{ base: "100%", md: "80%" }}
       alignItems={"center"}
       direction={"column"}
     >
       <Image src="/smart40black.svg" alt="logo big" maxW={400} />
-      <Text my={10} fontSize={24} fontWeight="light">
+      <Text my={10} fontSize={24} fontWeight="light" textAlign={"center"}>
         Aprenda tudo sobre a plataforma didática revolucionaria <b>SMART 4.0</b>{" "}
         e suas tecnologias.
       </Text>
