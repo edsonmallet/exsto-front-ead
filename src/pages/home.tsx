@@ -12,7 +12,7 @@ import { parseHtml } from "../utils/parseHtml";
 export default function HomePage({ data, trails }: any) {
   const Home = () => (
     <>
-      <Flex my={4} w={"full"} alignItems={"center"} direction={"column"}>
+      <Flex my={8} w={"full"} alignItems={"center"} direction={"column"}>
         <Image src="/smart40black.svg" alt="logo big" maxW={400} />
         <Text my={10} fontSize={24} fontWeight="light" textAlign={"center"}>
           Aprenda tudo sobre a plataforma didática revolucionaria{" "}
