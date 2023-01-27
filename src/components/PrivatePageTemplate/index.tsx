@@ -56,14 +56,14 @@ export const PrivatePageTemplate = ({
         justifyContent="center"
       >
         <Flex
-          flex={sidebar ? 2 : 1}
+          flex={sidebar ? 3 : 1}
           h="90vh"
           overflowY="auto"
           direction={"column"}
           alignItems="center"
           justifyContent="flex-start"
           w="full"
-          pb={20}
+          pb={200}
           bg="gray.50"
           css={{
             "&::-webkit-scrollbar": {

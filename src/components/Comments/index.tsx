@@ -6,17 +6,13 @@ import {
   AccordionPanel,
   Alert,
   AlertIcon,
-  Avatar,
   Badge,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
   Image,
-  Spinner,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { Trash, UserCircle } from "phosphor-react";

@@ -5,13 +5,13 @@ export const Player = () => {
   const { currentLesson } = useLessonStore();
   return (
     <>
-      <HStack w="full" bg="gray.100" justify="center">
+      <HStack w="full" bg="black" justify="center">
         {currentLesson?.attributes?.urlVideo ? (
-          <AspectRatio maxW="container.lg" w="full" ratio={16 / 9}>
+          <AspectRatio maxW="container.xl" w="full" ratio={16 / 9}>
             <iframe
-              width="800"
+              width="100%"
               src={`${currentLesson?.attributes?.urlVideo}?autoplay=0&showinfo=0&controls=1&rel=0&modestbranding=1&playsinline=0`}
-              title="YouTube video player"
+              title="video player"
               allowFullScreen
             />
           </AspectRatio>
