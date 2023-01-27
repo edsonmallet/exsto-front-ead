@@ -29,7 +29,7 @@ import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export default function CourseDetailPage({ data }: any) {
-  console.log(data);
+
   const Details = () => (
     <Flex
       w="full"

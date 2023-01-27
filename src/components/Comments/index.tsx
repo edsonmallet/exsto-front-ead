@@ -58,7 +58,6 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
           headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
         });
         setComments(course.data.data);
-        console.log(course.data.data);
       } catch (error) {
         showToast("error", "Erro ao carregar comentários");
       } finally {
