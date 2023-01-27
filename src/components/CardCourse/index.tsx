@@ -25,6 +25,7 @@ export default function CardCourse({ onClick, course }: CardCourseProps) {
       justifyContent={"center"}
       _hover={{ transform: "scale(1.02)" }}
       transition={"all 0.2s ease-in-out"}
+      minW={"350px"}
     >
       <Flex
         zIndex={1}
