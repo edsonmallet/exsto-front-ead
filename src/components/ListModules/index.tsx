@@ -57,14 +57,16 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
                   onClick={() => setCurrentLesson(lesson)}
                   bg={currentLesson?.id === lesson?.id ? "green.100" : ""}
                 >
-                  <Flex direction={"column"} gap={2}>
-                    <Flex alignItems={"center"} gap={2} p={2}>
+                  <Flex direction={{ base: "column", lg: "row" }} gap={2}>
+                    <Flex alignItems={"center"} gap={2}>
                       <CircleWavyCheck
                         fontSize={21}
                         color={false ? "#BDD02F" : "#aaa"}
                         weight={"fill"}
                       />
                       <Text fontSize={"sm"}>{lesson?.attributes?.title}</Text>
+                    </Flex>
+                    <Flex gap={2}>
                       <Badge colorScheme={"gray"}>
                         {lesson?.attributes?.workload}
                       </Badge>
