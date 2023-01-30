@@ -10,13 +10,16 @@ import {
 import Cookies from "js-cookie";
 import { ArrowLeft } from "phosphor-react";
 import React from "react";
-import { Logo } from "../components/Logo";
-import { register } from "../services/login";
-import { useLoadingStore, useToastStore } from "../stores";
-import { navigateTo } from "../utils/navigateTo";
+import { Logo } from "../../components/Logo";
+import { register } from "../../services/login";
+import { useLoadingStore, useToastStore } from "../../stores";
+import { navigateTo } from "../../utils/navigateTo";
 import InputMask from "react-input-mask";
+import { GetServerSideProps } from "next";
+import api from "../../services/api";
 
-export default function Register() {
+export default function RegisterByCompany({ data }: any) {
+  console.log(data);
   const { showToast } = useToastStore();
   const { isLoading, setLoading } = useLoadingStore();
   const [values, setValues] = React.useState({
@@ -164,3 +167,19 @@ export default function Register() {
     </VStack>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  data: any;
+}> = async (context) => {
+  let endpoint = "/companies";
+  endpoint += `?filters[slug][$eq]=${context.params?.slug}`;
+  endpoint += `&populate[0]=logo`;
+
+  const courses = await api.get(endpoint);
+
+  return {
+    props: {
+      data: courses.data.data,
+    },
+  };
+};

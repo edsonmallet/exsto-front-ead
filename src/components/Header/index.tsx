@@ -39,15 +39,6 @@ export const Header = () => {
       <Button variant="ghost" onClick={() => navigateTo("/messages")}>
         Mensagens
       </Button>
-      <Menu>
-        <MenuButton as={Button} variant="ghost" rightIcon={<ArrowDown />}>
-          Conteudo Extra
-        </MenuButton>
-        <MenuList>
-          <MenuItem>Download</MenuItem>
-          <MenuItem>Create a Copy</MenuItem>
-        </MenuList>
-      </Menu>
       <Avatar
         name={user?.username ?? "Aluno"}
         cursor={"pointer"}
@@ -87,11 +78,6 @@ export const Header = () => {
           Notificação
         </MenuItem>
         <MenuItem onClick={() => navigateTo("/messages")}>Mensagens</MenuItem>
-        <MenuDivider />
-        <MenuOptionGroup title="Conteudo Extras" type="checkbox">
-          <MenuItem>item 1</MenuItem>
-          <MenuItem>item 2</MenuItem>
-        </MenuOptionGroup>
         <MenuDivider />
         <MenuItem gap={2} bg="gray.100">
           <Avatar

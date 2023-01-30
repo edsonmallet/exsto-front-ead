@@ -42,7 +42,7 @@ export const register = async (setLoading: any, showToast: any, data: any) => {
     const response = await api.post<Login>("/auth/local/register", data);
     return response.data.jwt;
   } catch (e) {
-    showToast("error", "Erro ao fazer Cadastro! Verifique suas credenciais.");
+    showToast("error", "Erro ao fazer Cadastro! Verifique seus dados");
   } finally {
     setLoading(false);
   }

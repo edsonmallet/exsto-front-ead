@@ -110,7 +110,7 @@ export default function CardCourse({ onClick, course }: CardCourseProps) {
             </Heading>
             <Tooltip label="Carga Horária" aria-label="Carga Horária">
               <Badge colorScheme={"gray"} size="xs" p={1}>
-                {course?.workload} hr
+                {course?.workload}
               </Badge>
             </Tooltip>
           </Flex>
