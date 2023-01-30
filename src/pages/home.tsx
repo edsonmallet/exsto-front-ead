@@ -1,4 +1,5 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
 import { CaretRight } from "phosphor-react";
 import React from "react";
@@ -6,10 +7,45 @@ import CardCourse from "../components/CardCourse";
 import { Header } from "../components/Header";
 import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
 import api from "../services/api";
+import { useSettingsStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 import { parseHtml } from "../utils/parseHtml";
 
 export default function HomePage({ data, trails }: any) {
+  const { user } = useSettingsStore();
+  const { showToast } = useToastStore();
+
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleTrailEnrollment = React.useCallback(
+    async (learningTrailId: number) => {
+      setIsLoading(true);
+      try {
+        const dataSave = {
+          uuid: crypto.randomUUID(),
+          learning_trail: learningTrailId,
+          user: user?.id,
+        };
+
+        await api.post(
+          `/my-learning-trails`,
+          { data: dataSave },
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("Exsto_token")}`,
+            },
+          }
+        );
+        showToast("success", "Inscrição realizada com sucesso!");
+        navigateTo(`/mycourses`);
+      } catch (error) {
+        showToast("error", "Erro ao realizar inscrição!");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [showToast, user?.id]
+  );
   const Home = () => (
     <>
       <Flex my={8} w={"full"} alignItems={"center"} direction={"column"}>
@@ -57,6 +93,10 @@ export default function HomePage({ data, trails }: any) {
                   colorScheme={"green"}
                   size="lg"
                   rightIcon={<CaretRight weight="bold" />}
+                  px={8}
+                  isLoading={isLoading}
+                  isDisabled={isLoading}
+                  onClick={() => handleTrailEnrollment(trail?.id)}
                 >
                   Acessar
                 </Button>

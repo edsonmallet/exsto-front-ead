@@ -71,7 +71,7 @@ export default function MyCoursePage({ data, trails }: any) {
                       <CardCourse
                         course={item.attributes}
                         key={item.id}
-                        onClick={() => navigateTo(`/course/${item.id}`)}
+                        onClick={() => navigateTo(`/course/class/${item.id}`)}
                       />
                     )}
                   </>

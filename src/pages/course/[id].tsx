@@ -9,6 +9,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
 import {
   CircleWavy,
@@ -18,6 +19,7 @@ import {
   Medal,
   PlayCircle,
 } from "phosphor-react";
+import React from "react";
 import {
   BadgeCourseContent,
   CardModuleCourse,
@@ -25,10 +27,42 @@ import {
   PrivatePageTemplate,
 } from "../../components";
 import api from "../../services/api";
+import { useSettingsStore, useToastStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export default function CourseDetailPage({ data }: any) {
+  const { user } = useSettingsStore();
+  const { showToast } = useToastStore();
+
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleCourseEnrollment = React.useCallback(
+    async (courseId: number) => {
+      setIsLoading(true);
+      try {
+        const dataSave = {
+          uuid: crypto.randomUUID(),
+          course: courseId,
+          user: user?.id,
+        };
+        await api.post(
+          `/mycourses`,
+          { data: dataSave },
+          {
+            headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          }
+        );
+        showToast("success", "Inscrição realizada com sucesso!");
+        navigateTo(`/course/class/${courseId}`);
+      } catch (error) {
+        showToast("error", "Erro ao realizar inscrição!");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [showToast, user?.id]
+  );
 
   const Details = () => (
     <Flex
@@ -99,8 +133,11 @@ export default function CourseDetailPage({ data }: any) {
             w="full"
             size="xl"
             colorScheme={"green"}
-            onClick={() => navigateTo(`/course/class/${data?.id}`)}
-            py={8}
+            onClick={() => handleCourseEnrollment(data?.id)}
+            isLoading={isLoading}
+            isDisabled={isLoading}
+            loadingText="Efetuando Inscrição..."
+            py={4}
           >
             Continue Aprendendo
           </Button>
