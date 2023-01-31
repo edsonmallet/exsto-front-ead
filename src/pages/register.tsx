@@ -1,9 +1,11 @@
 import {
   Button,
   Checkbox,
+  Divider,
   HStack,
   Image,
   Input,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -15,10 +17,14 @@ import { register } from "../services/login";
 import { useLoadingStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 import InputMask from "react-input-mask";
+import api from "../services/api";
 
 export default function Register() {
   const { showToast } = useToastStore();
   const { isLoading, setLoading } = useLoadingStore();
+
+  const [loadedByCupom, setLoadedByCupom] = React.useState(false);
+
   const [values, setValues] = React.useState({
     username: "",
     password: "",
@@ -26,6 +32,9 @@ export default function Register() {
     whatsapp: "",
     document: "",
     terms: true,
+    companyId: "",
+    courses: [],
+    learningTrails: [],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -37,6 +46,60 @@ export default function Register() {
     if (token) {
       Cookies.set("Exsto_token", token);
       navigateTo("/home");
+    }
+  };
+
+  const handleChangeCupom = async (value: string) => {
+    if (value) {
+      setLoading(true);
+      try {
+        let endpoint = `/cupoms`;
+        endpoint += `?filters[cupom][$eq]=${value}`;
+        endpoint += `&filters[status][$eq]=true`;
+        endpoint += `&populate[company]=*`;
+        endpoint += `&populate[courses]=*`;
+        endpoint += `&populate[learningTrails]=*`;
+
+        const cupom = await api.get(endpoint);
+
+        console.log(cupom.data.data);
+
+        if (!cupom?.data || cupom?.data.length === 0) {
+          showToast("error", "Cupom inexiste ou inválido!");
+          return;
+        }
+        setLoadedByCupom(true);
+        setValues({
+          ...values,
+          companyId: cupom?.data?.data[0]?.attributes?.company?.data?.id,
+          courses: cupom?.data?.data[0]?.attributes?.courses?.data?.map(
+            (item: any) => item?.id
+          ),
+          learningTrails:
+            cupom?.data?.data[0]?.attributes?.learningTrails?.data?.map(
+              (item: any) => item?.id
+            ),
+          email: cupom?.data?.data[0]?.attributes?.email,
+        });
+        setLoadedByCupom(true);
+      } catch (error) {
+        showToast("error", "Cupom inexiste ou inválido!");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoadedByCupom(false);
+      setValues({
+        username: "",
+        password: "",
+        email: "",
+        whatsapp: "",
+        document: "",
+        terms: true,
+        companyId: "",
+        courses: [],
+        learningTrails: [],
+      });
     }
   };
 
@@ -89,6 +152,31 @@ export default function Register() {
                 border="1px"
                 borderColor="#B3C52D"
                 bg="gray.800"
+                placeholder="Digite seu Cupom"
+                type="text"
+                name="cupom"
+                onBlur={(e) => handleChangeCupom(e.target.value)}
+              />
+
+              <Stack w="full" alignItems={"center"} pt={8}>
+                <Divider w="full" />
+                <Text
+                  position="relative"
+                  top={-7}
+                  bg="whiteAlpha.800"
+                  borderRadius={"full"}
+                  p={2}
+                  color="black"
+                  fontSize={"small"}
+                >
+                  Ou
+                </Text>
+              </Stack>
+
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
                 placeholder="Nome"
                 type="text"
                 name="username"
@@ -102,6 +190,8 @@ export default function Register() {
                 placeholder="E-mail"
                 type="email"
                 name="email"
+                isDisabled={loadedByCupom}
+                value={values.email}
                 onChange={(e) => handleChange(e)}
               />
               <Input
