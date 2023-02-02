@@ -90,26 +90,24 @@ export default function Index() {
             Acesse
           </Text>
 
-          <VStack w="full">
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              placeholder="E-mail"
-              type="email"
-              name="identifier"
-              onChange={(e) => handleChange(e)}
-            />
-            <Input
-              border="1px"
-              borderColor="#B3C52D"
-              bg="gray.800"
-              type="password"
-              name="password"
-              onChange={(e) => handleChange(e)}
-              placeholder="Senha"
-            />
-          </VStack>
+          <Input
+            border="1px"
+            borderColor="#B3C52D"
+            bg="gray.800"
+            placeholder="E-mail"
+            type="email"
+            name="identifier"
+            onChange={(e) => handleChange(e)}
+          />
+          <Input
+            border="1px"
+            borderColor="#B3C52D"
+            bg="gray.800"
+            type="password"
+            name="password"
+            onChange={(e) => handleChange(e)}
+            placeholder="Senha"
+          />
 
           <Button
             onClick={() => navigateTo("/forgot")}
