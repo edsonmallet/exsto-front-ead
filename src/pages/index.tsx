@@ -11,7 +11,7 @@ import { Lock } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
-import { useLoadingStore, useSettingsStore, useToastStore } from "../stores";
+import { useLoadingStore, useToastStore } from "../stores";
 import { signIn } from "next-auth/react";
 
 export default function Index() {
@@ -26,15 +26,22 @@ export default function Index() {
     setValues({ ...values, [e.target.name]: e.target.value });
 
   const handleSubmit = async () => {
-    const res = await signIn("credentials", {
-      ...values,
-      redirect: false,
-      callbackUrl: "/home",
-    });
+    setLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        ...values,
+        redirect: false,
+        callbackUrl: "/home",
+      });
 
-    if (res?.url) navigateTo(res?.url);
+      if (res?.url) navigateTo(res?.url);
 
-    if (res?.error) showToast("error", "Usuário ou senha inválidos.");
+      if (res?.error) showToast("error", "Usuário ou senha inválidos.");
+    } catch (err) {
+      showToast("error", "Usuário ou senha inválidos.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isDisabled = !values.identifier || !values.password;

@@ -22,6 +22,7 @@ import { navigateTo } from "../utils/navigateTo";
 import InputMask from "react-input-mask";
 import api from "../services/api";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 
 export default function Register() {
   const { showToast } = useToastStore();
@@ -54,10 +55,23 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const token = await register(setLoading, showToast, values);
-    if (token) {
-      Cookies.set("Exsto_token", token);
-      navigateTo("/home");
+    setLoading(true);
+    try {
+      await register(setLoading, showToast, values);
+      const res = await signIn("credentials", {
+        identifier: values.email,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/home",
+      });
+
+      if (res?.url) navigateTo(res?.url);
+
+      if (res?.error) showToast("error", "Usuário ou senha inválidos.");
+    } catch (err) {
+      showToast("error", "Usuário ou senha inválidos.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -216,6 +230,7 @@ export default function Register() {
                   colorScheme={"green"}
                   onClick={() => handleChangeCupom(cupom)}
                   icon={<MagnifyingGlass fontSize={20} weight="bold" />}
+                  isLoading={isLoading}
                 />
               </HStack>
 
