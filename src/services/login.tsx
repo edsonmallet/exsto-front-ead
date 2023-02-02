@@ -17,10 +17,10 @@ export interface User {
 }
 
 export const signin = async (
-  setLoading: any,
-  showToast: any,
   identifier: string,
-  password: string
+  password: string,
+  setLoading?: any,
+  showToast?: any
 ) => {
   setLoading(true);
   try {

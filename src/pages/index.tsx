@@ -11,9 +11,8 @@ import { Lock } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";
 import { navigateTo } from "../utils/navigateTo";
-import Cookies from "js-cookie";
-import { signin } from "../services/login";
 import { useLoadingStore, useSettingsStore, useToastStore } from "../stores";
+import { signIn } from "next-auth/react";
 
 export default function Index() {
   const { showToast } = useToastStore();
@@ -28,18 +27,19 @@ export default function Index() {
   const { setUser } = useSettingsStore();
 
   const handleSubmit = async () => {
-    const res: any = await signin(
-      setLoading,
-      showToast,
-      values.identifier,
-      values.password
-    );
+    const res = await signIn("credentials", {
+      ...values,
+      redirect: false,
+      callbackUrl: "/home",
+    });
 
-    if (res?.jwt) {
-      setUser(res.user);
-      Cookies.set("Exsto_token", res.jwt);
-      navigateTo("/home");
+    console.log(res);
+
+    if (res?.url) {
+      navigateTo(res?.url);
     }
+
+    showToast("error", "Usuário ou senha inválidos.");
   };
 
   const isDisabled = !values.identifier || !values.password;

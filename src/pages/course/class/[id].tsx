@@ -1,5 +1,6 @@
 import { Flex, Heading, Image } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import React from "react";
 import { Header } from "../../../components/Header";
 import { Player } from "../../../components/Player";
@@ -52,7 +53,21 @@ export default function CoursePage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  const { Exsto_token } = context.req.cookies;
+  let headers = {};
+  const session: any = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (session) {
+    headers = { Authorization: `Bearer ${session.jwt}` };
+  }
   let endpoint = `/courses/${context?.params?.id}`;
   endpoint += `?populate[course_modules][sort][0]=showOrder`;
   endpoint += `&populate[course_modules][populate][lessons][sort][0]=showOrder`;
@@ -62,7 +77,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   endpoint += `&sort[0]=name`;
 
   const course = await api.get(endpoint, {
-    headers: { Authorization: `Bearer ${Exsto_token}` },
+    headers: headers,
   });
 
   return {

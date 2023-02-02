@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import {
   CircleWavy,
   CircleWavyCheck,
@@ -341,7 +342,21 @@ export default function CourseDetailPage({ data }: any) {
 export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
-  const { Exsto_token } = context.req.cookies;
+  let headers = {};
+  const session: any = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (session) {
+    headers = { Authorization: `Bearer ${session.jwt}` };
+  }
 
   let endpoint = `/courses/${context?.params?.id}`;
   endpoint += `?populate[categories]=*`;
@@ -352,7 +367,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   endpoint += `&sort[0]=showOrder`;
 
   const course = await api.get(endpoint, {
-    headers: { Authorization: `Bearer ${Exsto_token}` },
+    headers: headers,
   });
 
   return {

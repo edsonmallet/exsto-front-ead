@@ -13,6 +13,7 @@ import {
   MenuOptionGroup,
   Show,
 } from "@chakra-ui/react";
+import { signOut } from "next-auth/react";
 import { ArrowDown, House, List, SignOut } from "phosphor-react";
 import { useSettingsStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
@@ -50,7 +51,7 @@ export const Header = () => {
         borderRadius={"full"}
         size={"sm"}
         colorScheme="red"
-        onClick={() => navigateTo("/logout")}
+        onClick={() => signOut({ callbackUrl: "/logout" })}
         icon={<SignOut weight="bold" />}
       />
     </HStack>
@@ -90,7 +91,7 @@ export const Header = () => {
           {user?.username}
         </MenuItem>
         <MenuItem
-          onClick={() => navigateTo("/logout")}
+          onClick={() => signOut({ callbackUrl: "/logout" })}
           gap={2}
           color="red"
           bg="red.50"

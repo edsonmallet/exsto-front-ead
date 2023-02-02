@@ -1,6 +1,8 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import authOptions from "../pages/api/auth/[...nextauth]";
 import { CaretRight } from "phosphor-react";
 import React from "react";
 import CardCourse from "../components/CardCourse";
@@ -10,6 +12,7 @@ import api from "../services/api";
 import { useSettingsStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 import { parseHtml } from "../utils/parseHtml";
+import { getSession } from "next-auth/react";
 
 export default function HomePage({ data, trails }: any) {
   const { user } = useSettingsStore();
@@ -182,7 +185,21 @@ export const getServerSideProps: GetServerSideProps<{
   data: any;
   trails: any;
 }> = async (context) => {
-  const { Exsto_token } = context.req.cookies;
+  let headers = {};
+  const session: any = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (session) {
+    headers = { Authorization: `Bearer ${session.jwt}` };
+  }
 
   let endpoint = "/courses";
   endpoint += `?populate[categories]=*`;
@@ -190,7 +207,7 @@ export const getServerSideProps: GetServerSideProps<{
   endpoint += `&sort[0]=showOrder`;
 
   const courses = await api.get(endpoint, {
-    headers: { Authorization: `Bearer ${Exsto_token}` },
+    headers: headers,
   });
 
   endpoint = "/learning-trails";
@@ -200,7 +217,7 @@ export const getServerSideProps: GetServerSideProps<{
   endpoint += `&sort[0]=createdAt`;
 
   const learningTrails = await api.get(endpoint, {
-    headers: { Authorization: `Bearer ${Exsto_token}` },
+    headers: headers,
   });
 
   return {
