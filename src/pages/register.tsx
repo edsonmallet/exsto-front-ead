@@ -2,15 +2,18 @@ import {
   Button,
   Checkbox,
   Divider,
+  Flex,
   HStack,
+  IconButton,
   Image,
   Input,
+  Select,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import { ArrowLeft } from "phosphor-react";
+import { ArrowLeft, MagnifyingGlass } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";
 import { register } from "../services/login";
@@ -18,12 +21,17 @@ import { useLoadingStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 import InputMask from "react-input-mask";
 import api from "../services/api";
+import axios from "axios";
 
 export default function Register() {
   const { showToast } = useToastStore();
   const { isLoading, setLoading } = useLoadingStore();
 
   const [loadedByCupom, setLoadedByCupom] = React.useState(false);
+  const [cupom, setCupom] = React.useState("");
+  const [company, setCompany] = React.useState("");
+  const [states, setStates] = React.useState([]);
+  const [cities, setCities] = React.useState([]);
 
   const [values, setValues] = React.useState({
     username: "",
@@ -33,12 +41,16 @@ export default function Register() {
     document: "",
     terms: true,
     companyId: "",
+    position: "",
     courses: [],
+    state: "",
+    city: "",
     learningTrails: [],
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => setValues({ ...values, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,13 +74,10 @@ export default function Register() {
 
         const cupom = await api.get(endpoint);
 
-        console.log(cupom.data.data);
-
         if (!cupom?.data || cupom?.data.length === 0) {
           showToast("error", "Cupom inexiste ou inválido!");
           return;
         }
-        setLoadedByCupom(true);
         setValues({
           ...values,
           companyId: cupom?.data?.data[0]?.attributes?.company?.data?.id,
@@ -81,6 +90,9 @@ export default function Register() {
             ),
           email: cupom?.data?.data[0]?.attributes?.email,
         });
+        setCompany(
+          cupom?.data?.data[0]?.attributes?.company?.data?.attributes?.name
+        );
         setLoadedByCupom(true);
       } catch (error) {
         showToast("error", "Cupom inexiste ou inválido!");
@@ -97,14 +109,40 @@ export default function Register() {
         document: "",
         terms: true,
         companyId: "",
+        position: "",
         courses: [],
+        state: "",
+        city: "",
         learningTrails: [],
       });
     }
   };
 
+  const getStates = React.useCallback(async () => {
+    const states = await axios.get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
+    );
+    const uf = states?.data.map((item: any) => item?.sigla);
+    setStates(uf);
+  }, []);
+
+  const getCityByState = React.useCallback(async (state: string) => {
+    const cities = await axios.get(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/distritos?orderBy=nome`
+    );
+    const list = cities?.data.map((item: any) => item?.nome);
+    setCities(list);
+  }, []);
+
+  React.useEffect(() => {
+    getStates();
+  }, [getStates]);
+
   return (
-    <VStack
+    <Flex
+      direction={"column"}
+      justifyItems="center"
+      alignItems="center"
       w="full"
       bgGradient="linear(to-b, gray.900, gray.700)"
       backgroundImage={"url(/homebg.webp)"}
@@ -112,11 +150,25 @@ export default function Register() {
       backgroundSize={"cover"}
       backgroundPosition={"center"}
       color="gray.50"
-      minH="100vh"
-      spacing="0"
-      pt={32}
+      h="100vh"
+      overflowY={"auto"}
+      p={8}
+      css={{
+        "&::-webkit-scrollbar": {
+          background: "#BDD02F30",
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "#BDD02F30",
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "#BDD02F",
+          borderRadius: "8px",
+        },
+      }}
     >
-      <HStack w="full" maxW="container.lg" minH="50vh" spacing="16">
+      <HStack w="full" maxW="container.lg" spacing="16">
         <VStack w="full" align="flex-start" spacing="8">
           <Logo />
           <Text
@@ -140,6 +192,7 @@ export default function Register() {
           bgColor="#ffffff20"
           borderRadius="lg"
           p={12}
+          my={8}
           spacing={8}
           align="flex-end"
         >
@@ -148,15 +201,23 @@ export default function Register() {
           </Text>
           <form onSubmit={(e) => handleSubmit(e)}>
             <VStack w="full" gap={2}>
-              <Input
-                border="1px"
-                borderColor="#B3C52D"
-                bg="gray.800"
-                placeholder="Digite seu Cupom"
-                type="text"
-                name="cupom"
-                onBlur={(e) => handleChangeCupom(e.target.value)}
-              />
+              <HStack w="full">
+                <Input
+                  border="1px"
+                  borderColor="#B3C52D"
+                  bg="gray.800"
+                  placeholder="Digite seu Cupom"
+                  type="text"
+                  name="cupom"
+                  onChange={(e) => setCupom(e.target.value)}
+                />
+                <IconButton
+                  aria-label="Search database"
+                  colorScheme={"green"}
+                  onClick={() => handleChangeCupom(cupom)}
+                  icon={<MagnifyingGlass fontSize={20} weight="bold" />}
+                />
+              </HStack>
 
               <Stack w="full" alignItems={"center"} pt={8}>
                 <Divider w="full" />
@@ -194,6 +255,18 @@ export default function Register() {
                 value={values.email}
                 onChange={(e) => handleChange(e)}
               />
+
+              <Input
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                placeholder="Empresa"
+                type="text"
+                name="Empresa"
+                isDisabled={loadedByCupom}
+                value={company}
+                onChange={(e) => handleChange(e)}
+              />
               <Input
                 as={InputMask}
                 mask="(99) 9 9999-9999"
@@ -206,6 +279,80 @@ export default function Register() {
                 name="whatsapp"
                 onChange={(e) => handleChange(e)}
               />
+
+              <Select
+                placeholder="Cargo"
+                _placeholder={{ color: "gray.900" }}
+                name="position"
+                iconColor="#B3C52D"
+                onChange={(e) => handleChange(e)}
+                border="1px"
+                value={values.position}
+                borderColor="#B3C52D"
+                bg="gray.900"
+              >
+                <option value="Diretor" style={{ color: "black" }}>
+                  Diretor
+                </option>
+                <option value="Professor" style={{ color: "black" }}>
+                  Professor
+                </option>
+                <option value="Coordernador" style={{ color: "black" }}>
+                  Coordernador
+                </option>
+                <option value="Aluno" style={{ color: "black" }}>
+                  Aluno
+                </option>
+              </Select>
+
+              <Select
+                placeholder="Estado"
+                _placeholder={{ color: "gray.900" }}
+                name="state"
+                iconColor="#B3C52D"
+                onChange={(e) => {
+                  handleChange(e);
+                  getCityByState(e.target.value);
+                }}
+                border="1px"
+                value={values.state}
+                borderColor="#B3C52D"
+                bg="gray.900"
+              >
+                {states.map((uf) => (
+                  <option
+                    key={Math.random()}
+                    value={uf}
+                    style={{ color: "black" }}
+                  >
+                    {uf}
+                  </option>
+                ))}
+              </Select>
+
+              <Select
+                placeholder="Cidade"
+                _placeholder={{ color: "gray.900" }}
+                name="city"
+                iconColor="#B3C52D"
+                onChange={(e) => handleChange(e)}
+                border="1px"
+                value={values.city}
+                isDisabled={!values.state}
+                borderColor="#B3C52D"
+                bg="gray.900"
+              >
+                {cities.map((city) => (
+                  <option
+                    key={Math.random()}
+                    value={city}
+                    style={{ color: "black" }}
+                  >
+                    {city}
+                  </option>
+                ))}
+              </Select>
+
               <Input
                 border="1px"
                 borderColor="#B3C52D"
@@ -215,6 +362,7 @@ export default function Register() {
                 name="password"
                 onChange={(e) => handleChange(e)}
               />
+
               <Checkbox
                 colorScheme="green"
                 defaultChecked={values.terms}
@@ -223,8 +371,8 @@ export default function Register() {
                 onChange={(e) => handleChange(e)}
               >
                 <Text fontSize={"small"} fontWeight="hairline">
-                  Ao informar seus dados a seguir para a próxima etapa. Você
-                  automaticamente con- corda com nossa Política de privacidade.
+                  Ao informar seus dados e seguir para a próxima etapa. Você
+                  automaticamente concorda com nossa Política de Privacidade.
                 </Text>
               </Checkbox>
             </VStack>
@@ -251,6 +399,6 @@ export default function Register() {
           </Button>
         </VStack>
       </HStack>
-    </VStack>
+    </Flex>
   );
 }
