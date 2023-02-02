@@ -24,7 +24,6 @@ export default function Index() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues({ ...values, [e.target.name]: e.target.value });
-  const { setUser } = useSettingsStore();
 
   const handleSubmit = async () => {
     const res = await signIn("credentials", {
@@ -33,13 +32,9 @@ export default function Index() {
       callbackUrl: "/home",
     });
 
-    console.log(res);
+    if (res?.url) navigateTo(res?.url);
 
-    if (res?.url) {
-      navigateTo(res?.url);
-    }
-
-    showToast("error", "Usuário ou senha inválidos.");
+    if (res?.error) showToast("error", "Usuário ou senha inválidos.");
   };
 
   const isDisabled = !values.identifier || !values.password;
