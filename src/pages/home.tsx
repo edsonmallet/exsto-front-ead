@@ -1,8 +1,5 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import authOptions from "../pages/api/auth/[...nextauth]";
 import { CaretRight } from "phosphor-react";
 import React from "react";
 import CardCourse from "../components/CardCourse";
@@ -12,11 +9,21 @@ import api from "../services/api";
 import { useSettingsStore, useToastStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
 import { parseHtml } from "../utils/parseHtml";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 export default function HomePage({ data, trails }: any) {
-  const { user } = useSettingsStore();
+  const { data: session } = useSession();
+  const { user, setUser } = useSettingsStore();
   const { showToast } = useToastStore();
+
+  const getUserLogged = React.useCallback(async () => {
+    const res = await api.get(`/users/me`, {
+      headers: {
+        Authorization: `Bearer ${(session as any).jwt}`,
+      },
+    });
+    setUser(res?.data);
+  }, [session, setUser]);
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -35,7 +42,7 @@ export default function HomePage({ data, trails }: any) {
           { data: dataSave },
           {
             headers: {
-              Authorization: `Bearer ${Cookies.get("Exsto_token")}`,
+              Authorization: `Bearer ${(session as any).jwt}`,
             },
           }
         );
@@ -47,8 +54,13 @@ export default function HomePage({ data, trails }: any) {
         setIsLoading(false);
       }
     },
-    [showToast, user?.id]
+    [session, showToast, user?.id]
   );
+
+  React.useEffect(() => {
+    getUserLogged();
+  }, []);
+
   const Home = () => (
     <>
       <Flex my={8} w={"full"} alignItems={"center"} direction={"column"}>

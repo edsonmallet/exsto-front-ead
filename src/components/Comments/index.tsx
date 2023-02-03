@@ -51,7 +51,9 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         endpoint += `&filters[course][id][$eq]=${courseId}`;
         endpoint += `&filters[lesson][id][$eq]=${lessonId}`;
         const course = await api.get(endpoint, {
-          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          headers: {
+            Authorization: `Bearer ${Cookies.get("next-auth.session-token")}`,
+          },
         });
         setComments(course.data.data);
       } catch (error) {

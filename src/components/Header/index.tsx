@@ -14,13 +14,14 @@ import {
   Show,
 } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
-import { ArrowDown, House, List, SignOut } from "phosphor-react";
+import { House, List, SignOut } from "phosphor-react";
 import { useSettingsStore } from "../../stores";
 import { navigateTo } from "../../utils/navigateTo";
 import { LogoBlack } from "../LogoBlack";
 
 export const Header = () => {
   const { user } = useSettingsStore();
+
   const MenuFull = () => (
     <HStack spacing={2}>
       <Button

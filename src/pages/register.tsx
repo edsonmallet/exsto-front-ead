@@ -12,7 +12,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 import { ArrowLeft, MagnifyingGlass } from "phosphor-react";
 import React from "react";
 import { Logo } from "../components/Logo";

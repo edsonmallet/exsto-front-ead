@@ -65,8 +65,6 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
     headers: headers,
   });
 
-  console.log(notifications.data.data);
-
   return {
     props: {
       data: notifications.data.data,
