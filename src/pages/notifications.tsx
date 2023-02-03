@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Alert, AlertIcon, Flex } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import {
@@ -26,6 +26,11 @@ export default function NotificationsPage({ data }: any) {
         justifyContent="center"
         alignItems="center"
       >
+        {(!data || data?.length === 0) && (
+          <Alert status="info">
+            <AlertIcon /> Sem notificações!
+          </Alert>
+        )}
         <TableData head={Object?.keys(data[0]?.attributes)} body={data} />
       </Flex>
     </Flex>
