@@ -52,10 +52,15 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
     headers = { Authorization: `Bearer ${session.jwt}` };
   }
   let endpoint = "/notifications";
+  endpoint += `?fields[0]=message`;
+  endpoint += `&fields[1]=title`;
+  endpoint += `&fields[2]=createdAt`;
 
   const notifications = await api.get(endpoint, {
     headers: headers,
   });
+
+  console.log(notifications.data.data);
 
   return {
     props: {

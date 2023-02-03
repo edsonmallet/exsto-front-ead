@@ -14,6 +14,13 @@ import React from "react";
 import { parseHtml } from "../../utils/parseHtml";
 import { formatDate } from "../../utils/convertDate";
 
+const columnsTranslation = {
+  message: "Mensagem",
+  title: "Título",
+  createdAt: "Criado em",
+  updatedAt: "Publicado em",
+};
+
 interface Messages {
   attributes: {
     message: string;
@@ -43,10 +50,9 @@ export const TableData: React.FC<TableDataProps> = ({
       <TableCaption>{caption}</TableCaption>
       <Thead>
         <Tr>
-          {head?.map((item) => (
-            <Th key={Math.random()}>{item}</Th>
+          {head?.map((item: any) => (
+            <Th key={Math.random()}>{(columnsTranslation as any)[item]}</Th>
           ))}
-          <Th>Ações</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -55,21 +61,13 @@ export const TableData: React.FC<TableDataProps> = ({
             {Object.keys(item?.attributes).map((row) => (
               <Td key={Math.random()}>{format(row, item?.attributes[row])}</Td>
             ))}
-            <Td>
-              <IconButton
-                aria-label="Delete"
-                icon={<Trash fontSize={20} weight="bold" />}
-                colorScheme="red"
-                size="sm"
-              />
-            </Td>
           </Tr>
         ))}
       </Tbody>
       <Tfoot>
         <Tr>
           {head?.map((item) => (
-            <Th key={Math.random()}>{item}</Th>
+            <Th key={Math.random()}>{(columnsTranslation as any)[item]}</Th>
           ))}
         </Tr>
       </Tfoot>
