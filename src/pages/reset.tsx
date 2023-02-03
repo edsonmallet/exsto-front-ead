@@ -47,7 +47,7 @@ export default function Reset() {
           <Text fontWeight="bold" fontSize="lg" w={"full"}>
             Resetar sua senha
           </Text>
-          <VStack w="full">
+          <VStack w="full" gap={2}>
             <Input
               border="1px"
               borderColor="#B3C52D"

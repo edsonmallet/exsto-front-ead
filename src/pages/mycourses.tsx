@@ -12,75 +12,86 @@ import { navigateTo } from "../utils/navigateTo";
 import { parseHtml } from "../utils/parseHtml";
 
 export default function MyCoursePage({ data, trails }: any) {
+  console.log(trails);
   const MyCourses = () => (
     <>
       <TitlePage title="Meus Cursos" />
       {trails?.map((trail: any) => (
-        <React.Fragment key={trail?.id}>
-          <Flex
-            gap={10}
-            wrap="wrap"
-            justifyContent="center"
-            alignItems="stretch"
-            py={10}
-            bg="#BDD02F40"
-            w="full"
-          >
-            <Flex w={{ base: "100%", md: "80%" }} gap={8} direction={"column"}>
-              <Flex alignItems={"center"} gap={4}>
-                <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
-                <Flex direction={"column"}>
-                  <Flex>
-                    <Text fontSize={24} fontWeight="bold">
-                      Trilha de Aprendizado:
-                    </Text>
-                    <Text fontSize={24} fontWeight="light">
-                      {trail?.attributes?.title}
-                    </Text>
-                  </Flex>
-                  <Text fontSize={12} fontWeight="light">
-                    {parseHtml(trail?.attributes?.description)}
-                  </Text>
-                </Flex>
-              </Flex>
+        <>
+          {trail?.attributes?.learningTrails?.data?.map((item: any) => (
+            <React.Fragment key={item?.id}>
               <Flex
                 gap={10}
-                wrap="nowrap"
-                justifyContent="flex-start"
+                wrap="wrap"
+                justifyContent="center"
                 alignItems="stretch"
-                overflowX={"auto"}
-                overflowY={"hidden"}
-                p={4}
-                css={{
-                  "&::-webkit-scrollbar": {
-                    background: "#BDD02F30",
-                    height: "4px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    background: "#BDD02F30",
-                    height: "4px",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "#BDD02F",
-                    borderRadius: "4px",
-                  },
-                }}
+                py={10}
+                bg="#BDD02F40"
+                w="full"
               >
-                {trail?.attributes?.courses?.data?.map((item: any) => (
-                  <>
-                    {item.attributes.visibility && (
-                      <CardCourse
-                        course={item.attributes}
-                        key={item.id}
-                        onClick={() => navigateTo(`/course/class/${item.id}`)}
-                      />
-                    )}
-                  </>
-                ))}
+                <Flex
+                  w={{ base: "100%", md: "80%" }}
+                  gap={8}
+                  direction={"column"}
+                >
+                  <Flex alignItems={"center"} gap={4}>
+                    <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
+                    <Flex direction={"column"}>
+                      <Flex>
+                        <Text fontSize={24} fontWeight="bold">
+                          Trilha de Aprendizado:
+                        </Text>
+                        <Text fontSize={24} fontWeight="light">
+                          {item?.attributes?.title}
+                        </Text>
+                      </Flex>
+                      <Text fontSize={12} fontWeight="light">
+                        {parseHtml(item?.attributes?.description)}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                  <Flex
+                    gap={10}
+                    wrap="nowrap"
+                    justifyContent="flex-start"
+                    alignItems="stretch"
+                    overflowX={"auto"}
+                    overflowY={"hidden"}
+                    p={4}
+                    css={{
+                      "&::-webkit-scrollbar": {
+                        background: "#BDD02F30",
+                        height: "4px",
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        background: "#BDD02F30",
+                        height: "4px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: "#BDD02F",
+                        borderRadius: "4px",
+                      },
+                    }}
+                  >
+                    {item?.attributes?.courses?.data?.map((course: any) => (
+                      <>
+                        {course.attributes.visibility && (
+                          <CardCourse
+                            course={course.attributes}
+                            key={course.id}
+                            onClick={() =>
+                              navigateTo(`/course/class/${course.id}`)
+                            }
+                          />
+                        )}
+                      </>
+                    ))}
+                  </Flex>
+                </Flex>
               </Flex>
-            </Flex>
-          </Flex>
-        </React.Fragment>
+            </React.Fragment>
+          ))}
+        </>
       ))}
       <Flex
         my={10}
@@ -103,13 +114,13 @@ export default function MyCoursePage({ data, trails }: any) {
         <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
           {data?.map((item: any) => (
             <>
-              {item.attributes.visibility && (
+              {item?.attributes?.courses?.data?.map((course: any) => (
                 <CardCourse
-                  course={item.attributes}
-                  key={item.id}
-                  onClick={() => navigateTo(`/course/class/${item.id}`)}
+                  course={course.attributes}
+                  key={course.id}
+                  onClick={() => navigateTo(`/course/class/${course.id}`)}
                 />
-              )}
+              ))}
             </>
           ))}
         </Flex>
@@ -140,19 +151,22 @@ export const getServerSideProps: GetServerSideProps<{
     headers = { Authorization: `Bearer ${session.jwt}` };
   }
 
-  let endpoint = "/courses";
-  endpoint += `?populate[categories]=*`;
-  endpoint += `&populate[coverImage]=*`;
-  endpoint += `&sort[0]=showOrder`;
+  let endpoint = "/mycourses";
+  endpoint += `?populate[user]=*`;
+  endpoint += `&populate[courses][populate]=categories`;
+  endpoint += `&populate[courses][populate]=coverImage`;
+  endpoint += `&filters[user][id][$eq]=${session.id}`;
+  endpoint += `&sort[0]=createdAt`;
 
   const courses = await api.get(endpoint, {
     headers: headers,
   });
 
-  endpoint = "/learning-trails";
-  endpoint += `?populate[0]=courses`;
-  endpoint += `&populate[1]=courses.coverImage`;
-  endpoint += `&populate[2]=courses.categories`;
+  endpoint = "/my-learning-trails";
+  endpoint += `?populate[user]=*`;
+  endpoint += `&populate[learningTrails][populate][courses][populate]=categories`;
+  endpoint += `&populate[learningTrails][populate][courses][populate]=coverImage`;
+  endpoint += `&filters[user][id][$eq]=${session.id}`;
   endpoint += `&sort[0]=createdAt`;
 
   const learningTrails = await api.get(endpoint, {

@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   HStack,
   Image,
@@ -47,7 +48,10 @@ export default function Index() {
   const isDisabled = !values.identifier || !values.password;
 
   return (
-    <VStack
+    <Flex
+      direction={"column"}
+      justifyItems="center"
+      alignItems="center"
       w="full"
       bgGradient="linear(to-b, gray.900, gray.700)"
       backgroundImage={"url(/homebg.webp)"}
@@ -55,9 +59,23 @@ export default function Index() {
       backgroundSize={"cover"}
       backgroundPosition={"center"}
       color="gray.50"
-      minH="100vh"
-      spacing="0"
-      pt={32}
+      h="100vh"
+      overflowY={"auto"}
+      p={8}
+      css={{
+        "&::-webkit-scrollbar": {
+          background: "#BDD02F30",
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "#BDD02F30",
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "#BDD02F",
+          borderRadius: "8px",
+        },
+      }}
     >
       <HStack w="full" maxW="container.lg" minH="50vh" spacing="16">
         <VStack w="full" align="flex-start" spacing="8">
@@ -89,25 +107,26 @@ export default function Index() {
           <Text fontWeight="bold" fontSize="lg" w="full">
             Acesse
           </Text>
-
-          <Input
-            border="1px"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            placeholder="E-mail"
-            type="email"
-            name="identifier"
-            onChange={(e) => handleChange(e)}
-          />
-          <Input
-            border="1px"
-            borderColor="#B3C52D"
-            bg="gray.800"
-            type="password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-            placeholder="Senha"
-          />
+          <VStack w="full" gap={2}>
+            <Input
+              border="1px"
+              borderColor="#B3C52D"
+              bg="gray.800"
+              placeholder="E-mail"
+              type="email"
+              name="identifier"
+              onChange={(e) => handleChange(e)}
+            />
+            <Input
+              border="1px"
+              borderColor="#B3C52D"
+              bg="gray.800"
+              type="password"
+              name="password"
+              onChange={(e) => handleChange(e)}
+              placeholder="Senha"
+            />
+          </VStack>
 
           <Button
             onClick={() => navigateTo("/forgot")}
@@ -140,6 +159,6 @@ export default function Index() {
           </Button>
         </VStack>
       </HStack>
-    </VStack>
+    </Flex>
   );
 }

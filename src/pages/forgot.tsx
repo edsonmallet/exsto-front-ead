@@ -75,19 +75,19 @@ export default function Forgot() {
               name="email"
               onChange={(e) => handleChange(e)}
             />
-
-            <Button
-              onClick={() => handleSubmit()}
-              type="submit"
-              colorScheme="green"
-              isDisabled={isLoading || !values.email}
-              isLoading={isLoading}
-              loadingText="Cadastrando..."
-              w="full"
-            >
-              Recuperar
-            </Button>
           </VStack>
+          <Button
+            onClick={() => handleSubmit()}
+            type="submit"
+            colorScheme="green"
+            isDisabled={isLoading || !values.email}
+            isLoading={isLoading}
+            loadingText="Cadastrando..."
+            w="full"
+          >
+            Recuperar
+          </Button>
+
           <Button
             onClick={() => navigateTo("/")}
             colorScheme="green"
