@@ -12,7 +12,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import Cookies from "js-cookie";
+import { useSession } from "next-auth/react";
 import React from "react";
 import api from "../../services/api";
 import { useSettingsStore, useToastStore } from "../../stores";
@@ -28,6 +28,7 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
   answers,
   refreshComments,
 }) => {
+  const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useSettingsStore();
   const { showToast } = useToastStore();
@@ -37,7 +38,10 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
 
   const handleSendComment = React.useCallback(async () => {
     const dataSave = {
-      answers: [...answers, { answer: newAnswer, user: user.id }],
+      answers: [
+        ...answers,
+        { answer: newAnswer, user: user.id, created: new Date() },
+      ],
     };
 
     try {
@@ -45,7 +49,7 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
         `/forums/${commentId}`,
         { data: dataSave },
         {
-          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          headers: { Authorization: `Bearer ${(session as any).jwt}` },
         }
       );
       refreshComments();
@@ -61,6 +65,7 @@ export const AnswerComments: React.FC<AnswerCommentsProps> = ({
     newAnswer,
     onClose,
     refreshComments,
+    session,
     showToast,
     user.id,
   ]);

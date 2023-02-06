@@ -15,6 +15,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
+import { useSession } from "next-auth/react";
 import { Trash, UserCircle } from "phosphor-react";
 import React from "react";
 import api from "../../services/api";
@@ -30,6 +31,7 @@ interface CommentsProps {
 }
 
 export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
+  const { data: session } = useSession();
   const [comments, setComments] = React.useState<any[]>([]);
 
   const { setLoading, isLoading } = useLoadingStore();
@@ -52,7 +54,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         endpoint += `&filters[lesson][id][$eq]=${lessonId}`;
         const course = await api.get(endpoint, {
           headers: {
-            Authorization: `Bearer ${Cookies.get("next-auth.session-token")}`,
+            Authorization: `Bearer ${(session as any)?.jwt}`,
           },
         });
         setComments(course.data.data);
@@ -62,7 +64,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         setLoading(false);
       }
     },
-    [courseId, lessonId, setLoading, showToast]
+    [courseId, lessonId, session, setLoading, showToast]
   );
 
   const handleDeleteComment = React.useCallback(
@@ -71,14 +73,14 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         let endpoint = `/forums/${id}`;
 
         await api.delete(endpoint, {
-          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          headers: { Authorization: `Bearer ${(session as any)?.jwt}` },
         });
         getQuestions(false);
       } catch (error) {
         showToast("error", "Erro ao deletar comentários");
       }
     },
-    [getQuestions, showToast]
+    [getQuestions, session, showToast]
   );
 
   const handleDeleteAnswer = React.useCallback(
@@ -95,7 +97,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
           endpoint,
           { data: dataSave },
           {
-            headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+            headers: { Authorization: `Bearer ${(session as any)?.jwt}` },
           }
         );
         getQuestions(false);
@@ -103,7 +105,7 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
         showToast("error", "Erro ao deletar comentários");
       }
     },
-    [getQuestions, showToast]
+    [getQuestions, session, showToast]
   );
 
   React.useEffect(() => {
@@ -239,6 +241,9 @@ export const Comments: React.FC<CommentsProps> = ({ courseId, lessonId }) => {
 
                           <Text fontSize={"xs"}>
                             {answer?.user?.data?.attributes?.username}
+                          </Text>
+                          <Text fontSize={"xs"}>
+                            {formatDate(answer?.created, true)}
                           </Text>
                         </HStack>
                         {answer?.user?.data?.id === user.id && (

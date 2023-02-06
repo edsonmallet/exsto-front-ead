@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
+import { useSession } from "next-auth/react";
 import React from "react";
 import api from "../../services/api";
 import { useSettingsStore, useToastStore } from "../../stores";
@@ -31,6 +32,7 @@ export const NewComments: React.FC<NewCommentsProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useSettingsStore();
   const { showToast } = useToastStore();
+  const { data: session } = useSession();
 
   const [title, setTitle] = React.useState("");
   const [question, setQuestion] = React.useState("");
@@ -50,7 +52,7 @@ export const NewComments: React.FC<NewCommentsProps> = ({
         `/forums`,
         { data: dataSave },
         {
-          headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+          headers: { Authorization: `Bearer ${(session as any).jwt}` },
         }
       );
       refreshComments();
@@ -69,6 +71,7 @@ export const NewComments: React.FC<NewCommentsProps> = ({
     onClose,
     question,
     refreshComments,
+    session,
     showToast,
     title,
     user?.id,
