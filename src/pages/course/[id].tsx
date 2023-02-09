@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import {
   CircleWavy,
   CircleWavyCheck,
@@ -33,6 +33,7 @@ import { navigateTo } from "../../utils/navigateTo";
 import { parseHtml } from "../../utils/parseHtml";
 
 export default function CourseDetailPage({ data }: any) {
+  const { data: session } = useSession();
   const { user } = useSettingsStore();
   const { showToast } = useToastStore();
 
@@ -51,7 +52,7 @@ export default function CourseDetailPage({ data }: any) {
           `/mycourses`,
           { data: dataSave },
           {
-            headers: { Authorization: `Bearer ${Cookies.get("Exsto_token")}` },
+            headers: { Authorization: `Bearer ${(session as any).jwt}` },
           }
         );
         showToast("success", "Inscrição realizada com sucesso!");
@@ -62,7 +63,7 @@ export default function CourseDetailPage({ data }: any) {
         setIsLoading(false);
       }
     },
-    [showToast, user?.id]
+    [session, showToast, user?.id]
   );
 
   const Details = () => (
