@@ -17,6 +17,8 @@ import { useRouter } from "next/router";
 import { useLessonStore } from "../../stores";
 import { parseHtml } from "../../utils/parseHtml";
 import { Comments } from "../Comments";
+import { CompleteLesson } from "../CompleteLesson";
+import { Quiz } from "../Quiz";
 
 export const VideoInformation = () => {
   const { currentLesson } = useLessonStore();
@@ -36,12 +38,16 @@ export const VideoInformation = () => {
         <Flex
           w={{ base: "100%", md: "80%" }}
           alignItems="flex-start"
-          justifyContent="flex-start"
+          justifyContent="space-between"
           gap={2}
         >
           <Text fontWeight="bold" fontSize="xl">
             {currentLesson?.attributes?.title}
           </Text>
+          <Flex gap={2}>
+            <Quiz />
+            <CompleteLesson />
+          </Flex>
         </Flex>
       </Flex>
       <Flex
