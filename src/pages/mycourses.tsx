@@ -65,15 +65,15 @@ export default function MyCoursePage({ data, trails }: any) {
         </Flex>
         <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
           {data?.map((item: any) => (
-            <>
-              {item?.attributes?.courses?.data?.map((course: any) => (
-                <CardCourse
-                  course={course.attributes}
-                  key={course.id}
-                  onClick={() => navigateTo(`/course/class/${course.id}`)}
-                />
-              ))}
-            </>
+            <CardCourse
+              course={item?.attributes?.course?.data?.attributes}
+              key={item?.attributes?.course?.data?.id}
+              onClick={() =>
+                navigateTo(
+                  `/course/class/${item?.attributes?.course?.data?.id}`
+                )
+              }
+            />
           ))}
         </Flex>
       </Flex>
@@ -105,8 +105,8 @@ export const getServerSideProps: GetServerSideProps<{
 
   let endpoint = "/mycourses";
   endpoint += `?populate[user]=*`;
-  endpoint += `&populate[courses][populate]=categories`;
-  endpoint += `&populate[courses][populate]=coverImage`;
+  endpoint += `&populate[course][populate]=categories`;
+  endpoint += `&populate[course][populate]=coverImage`;
   endpoint += `&filters[user][id][$eq]=${session.id}`;
   endpoint += `&sort[0]=createdAt`;
 
