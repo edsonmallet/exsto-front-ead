@@ -66,7 +66,6 @@ export const MessagesCourses: React.FC<MessagesProps> = ({ courseId }) => {
             Authorization: `Bearer ${(session as any)?.jwt}`,
           },
         });
-        console.log(course.data.data);
         setMessages(course.data.data);
       } catch (error) {
         showToast("error", "Erro ao carregar comentários");

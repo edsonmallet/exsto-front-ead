@@ -1,4 +1,5 @@
 export * from "./CardCourse";
+export * from "./CardLearningTrail";
 export * from "./Header";
 export * from "./Logo";
 export * from "./LogoBlack";
