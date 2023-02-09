@@ -57,7 +57,7 @@ export const PrivatePageTemplate = ({
       >
         <Flex
           flex={sidebar ? 3 : 1}
-          h="90vh"
+          h="93vh"
           overflowY="auto"
           direction={"column"}
           alignItems="center"
