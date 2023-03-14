@@ -38,9 +38,9 @@ export const Quiz: React.FC = () => {
     <>
       <Flex w="full" justifyContent={"flex-start"}>
         <Button
-          colorScheme={"green"}
+          colorScheme={"blue"}
           onClick={onOpen}
-          size="md"
+          size="sm"
           leftIcon={<Question fontSize={24} weight="bold" />}
         >
           Fazer Teste

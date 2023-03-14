@@ -14,7 +14,6 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 import { useSession } from "next-auth/react";
 import { Trash, UserCircle } from "phosphor-react";
 import React from "react";

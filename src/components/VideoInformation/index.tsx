@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 import { useLessonStore } from "../../stores";
 import { parseHtml } from "../../utils/parseHtml";
 import { Comments } from "../Comments";
@@ -82,8 +83,8 @@ export const VideoInformation = () => {
                 <HStack w="full" justify="space-between" spacing="8">
                   {currentLesson?.attributes?.authors?.data?.map(
                     (author: any) => (
-                      <>
-                        <Flex gap={2} key={author.id}>
+                      <React.Fragment key={author.id}>
+                        <Flex gap={2}>
                           <Avatar
                             bg="green.500"
                             color="white"
@@ -103,7 +104,7 @@ export const VideoInformation = () => {
                             </Text>
                           </VStack>
                         </Flex>
-                      </>
+                      </React.Fragment>
                     )
                   )}
                 </HStack>

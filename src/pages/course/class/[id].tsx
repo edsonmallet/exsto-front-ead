@@ -10,12 +10,14 @@ import { VideoInformation } from "../../../components/VideoInformation";
 import api from "../../../services/api";
 import { useLessonStore } from "../../../stores";
 
-export default function CoursePage({ data }: any) {
-  const { currentLesson, setCurrentLesson } = useLessonStore();
+export default function CoursePage({ data, lessonsCompleted }: any) {
+  const { currentLesson, setCurrentLesson, setCompletedLessons } =
+    useLessonStore();
 
   React.useEffect(() => {
     setCurrentLesson(null);
-  }, [setCurrentLesson]);
+    setCompletedLessons(lessonsCompleted);
+  }, []);
 
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
@@ -50,9 +52,10 @@ export default function CoursePage({ data }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<{
+  data: any;
+  lessonsCompleted: any;
+}> = async (context) => {
   let headers = {};
   const session: any = await getSession(context);
 
@@ -63,26 +66,36 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
         permanent: false,
       },
     };
-  }
-
-  if (session) {
+  } else {
     headers = { Authorization: `Bearer ${session.jwt}` };
+
+    let endpoint = `/courses/${context?.params?.id}`;
+    endpoint += `?populate[course_modules][sort][0]=showOrder`;
+    endpoint += `&populate[course_modules][populate][lessons][sort][0]=showOrder`;
+    endpoint += `&populate[course_modules][populate][lessons][populate][authors][populate]=*`;
+    endpoint += `&populate[course_modules][populate][lessons][populate][supportMaterial][populate]=file`;
+    endpoint += `&fields[0]=name`;
+    endpoint += `&sort[0]=name`;
+
+    const course = await api.get(endpoint, {
+      headers: headers,
+    });
+
+    endpoint = `/lessons-completeds`;
+    endpoint += `?populate[o]=lesson`;
+    endpoint += `&populate[lesson][fields][0]=id`;
+    endpoint += `&filters[course][id][$eq]=${context?.params?.id}`;
+    endpoint += `&filters[user][id][$eq]=${session?.id}`;
+
+    const lessonsCompleteds = await api.get(endpoint, {
+      headers: headers,
+    });
+
+    return {
+      props: {
+        data: course.data.data,
+        lessonsCompleted: lessonsCompleteds.data.data,
+      },
+    };
   }
-  let endpoint = `/courses/${context?.params?.id}`;
-  endpoint += `?populate[course_modules][sort][0]=showOrder`;
-  endpoint += `&populate[course_modules][populate][lessons][sort][0]=showOrder`;
-  endpoint += `&populate[course_modules][populate][lessons][populate][authors][populate]=*`;
-  endpoint += `&populate[course_modules][populate][lessons][populate][supportMaterial][populate]=file`;
-  endpoint += `&fields[0]=name`;
-  endpoint += `&sort[0]=name`;
-
-  const course = await api.get(endpoint, {
-    headers: headers,
-  });
-
-  return {
-    props: {
-      data: course.data.data,
-    },
-  };
 };

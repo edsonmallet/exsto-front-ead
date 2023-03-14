@@ -21,7 +21,8 @@ interface ListModulesProps {
 }
 
 export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
-  const { setCurrentLesson, currentLesson } = useLessonStore();
+  const { setCurrentLesson, currentLesson, completedLessons } =
+    useLessonStore();
 
   return (
     <Accordion w="full" defaultIndex={[0]} allowMultiple pb={150}>
@@ -61,13 +62,26 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
                     <Flex alignItems={"center"} gap={2}>
                       <CircleWavyCheck
                         fontSize={21}
-                        color={false ? "#BDD02F" : "#aaa"}
+                        color={
+                          completedLessons
+                            .map(
+                              (lesson: any) =>
+                                lesson?.attributes?.lesson?.data?.id
+                            )
+                            .includes(lesson?.id)
+                            ? "#BDD02F"
+                            : "#aaa"
+                        }
                         weight={"fill"}
                       />
                       <Text fontSize={"sm"}>{lesson?.attributes?.title}</Text>
                     </Flex>
                     <Flex gap={2}>
-                      <Badge colorScheme={"gray"}>
+                      <Badge
+                        colorScheme={"gray"}
+                        alignItems="center"
+                        justifyContent={"center"}
+                      >
                         {lesson?.attributes?.workload}
                       </Badge>
                       <Badge colorScheme={"gray"}>

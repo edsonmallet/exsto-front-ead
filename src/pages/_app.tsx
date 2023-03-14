@@ -42,10 +42,10 @@ export default function MyApp({
         </Head>
         <ToastContainer limit={3} />
         <NextNProgress
-          color="#29D"
+          color="#B3C52D"
           startPosition={0.3}
           stopDelayMs={200}
-          height={3}
+          height={5}
           showOnShallow={true}
         />
         <Component {...pageProps} />
