@@ -12,7 +12,6 @@ import {
 import { CaretLeft, CaretRight, Check } from "phosphor-react";
 import React from "react";
 import { useLessonStore } from "../../stores";
-import { Loading } from "../Loading";
 import { QuizQuestion } from "./Question";
 
 interface QuizProps {
@@ -34,8 +33,6 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
       currentLesson?.attributes?.quiz?.data?.attributes?.questions?.data
     );
   }, [currentLesson]);
-
-  console.log(questions);
 
   return (
     <Modal size={"6xl"} isCentered isOpen={isOpen} onClose={onClose}>
