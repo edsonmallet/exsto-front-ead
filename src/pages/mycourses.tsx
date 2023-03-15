@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Flex, Image, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import React from "react";
@@ -14,6 +14,7 @@ export default function MyCoursePage({ data, trails }: any) {
   const MyCourses = () => (
     <>
       <TitlePage title="Meus Cursos" />
+
       <Flex
         my={10}
         w={{ base: "100%", md: "80%" }}
@@ -33,18 +34,26 @@ export default function MyCoursePage({ data, trails }: any) {
             Trilhas de aprendizagem
           </Text>
         </Flex>
-      </Flex>
-      {trails?.map((trail: any) => (
-        <>
-          {trail?.attributes?.learningTrails?.data?.map((item: any) => (
-            <CardLearningTrail
-              key={item?.id}
-              trail={item}
-              onClick={() => navigateTo(`/learning-trails/${item?.id}`)}
-            />
+        {!trails ||
+          (trails?.length === 0 && (
+            <Alert status="info">
+              <AlertIcon />
+              Nenhuma trilha de aprendizagem encontrada
+            </Alert>
           ))}
-        </>
-      ))}
+      </Flex>
+      {trails?.length > 0 &&
+        trails?.map((trail: any) => (
+          <>
+            {trail?.attributes?.learningTrails?.data?.map((item: any) => (
+              <CardLearningTrail
+                key={item?.id}
+                trail={item}
+                onClick={() => navigateTo(`/learning-trails/${item?.id}`)}
+              />
+            ))}
+          </>
+        ))}
       <Flex
         my={10}
         w={{ base: "100%", md: "80%" }}
@@ -64,17 +73,25 @@ export default function MyCoursePage({ data, trails }: any) {
           </Text>
         </Flex>
         <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
-          {data?.map((item: any) => (
-            <CardCourse
-              course={item?.attributes?.course?.data?.attributes}
-              key={item?.attributes?.course?.data?.id}
-              onClick={() =>
-                navigateTo(
-                  `/course/class/${item?.attributes?.course?.data?.id}`
-                )
-              }
-            />
-          ))}
+          {!data && data?.length === 0 && (
+            <Alert status="info">
+              <AlertIcon />
+              Nenhuma trilha de aprendizagem encontrada
+            </Alert>
+          )}
+
+          {data?.length > 0 &&
+            data?.map((item: any) => (
+              <CardCourse
+                course={item?.attributes?.course?.data?.attributes}
+                key={item?.attributes?.course?.data?.id}
+                onClick={() =>
+                  navigateTo(
+                    `/course/class/${item?.attributes?.course?.data?.id}`
+                  )
+                }
+              />
+            ))}
         </Flex>
       </Flex>
     </>

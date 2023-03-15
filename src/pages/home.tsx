@@ -38,35 +38,37 @@ export default function HomePage({ data, trails }: any) {
           <b>SMART 4.0</b> e suas tecnologias.
         </Text>
       </Flex>
-      <Flex
-        my={10}
-        w={{ base: "100%", md: "80%" }}
-        alignItems={"center"}
-        justifyContent={"space-evenly"}
-        direction={"column"}
-      >
+      {trails?.length > 0 && (
         <Flex
+          my={10}
+          w={{ base: "100%", md: "80%" }}
           alignItems={"center"}
-          justifyContent="flex-start"
-          w="full"
-          gap={4}
-          mb={8}
+          justifyContent={"space-evenly"}
+          direction={"column"}
         >
-          <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
-          <Text fontSize={24} fontWeight="bold">
-            Trilhas de aprendizagem
-          </Text>
+          <Flex
+            alignItems={"center"}
+            justifyContent="flex-start"
+            w="full"
+            gap={4}
+            mb={8}
+          >
+            <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
+            <Text fontSize={24} fontWeight="bold">
+              Trilhas de aprendizagem
+            </Text>
+          </Flex>
+          {trails?.map((trail: any) => (
+            <>
+              <CardLearningTrail
+                key={trail?.id}
+                trail={trail}
+                onClick={() => navigateTo(`/learning-trails/${trail?.id}`)}
+              />
+            </>
+          ))}
         </Flex>
-        {trails?.map((trail: any) => (
-          <>
-            <CardLearningTrail
-              key={trail?.id}
-              trail={trail}
-              onClick={() => navigateTo(`/learning-trails/${trail?.id}`)}
-            />
-          </>
-        ))}
-      </Flex>
+      )}
       <Flex
         my={10}
         w={{ base: "100%", md: "80%" }}
