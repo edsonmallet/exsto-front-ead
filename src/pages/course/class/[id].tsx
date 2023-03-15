@@ -73,6 +73,7 @@ export const getServerSideProps: GetServerSideProps<{
     endpoint += `?populate[course_modules][sort][0]=showOrder`;
     endpoint += `&populate[course_modules][populate][lessons][sort][0]=showOrder`;
     endpoint += `&populate[course_modules][populate][lessons][populate][authors][populate]=*`;
+    endpoint += `&populate[course_modules][populate][lessons][populate][quiz][populate][questions][populate]=*`;
     endpoint += `&populate[course_modules][populate][lessons][populate][supportMaterial][populate]=file`;
     endpoint += `&fields[0]=name`;
     endpoint += `&sort[0]=name`;
