@@ -35,7 +35,7 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
   }, [currentLesson]);
 
   return (
-    <Modal size={"6xl"} isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal size={"5xl"} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader display={"flex"} flexDirection={"column"}>
