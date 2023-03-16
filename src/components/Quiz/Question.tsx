@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   Image,
+  Text,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
@@ -31,7 +32,7 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
         color={selected !== id ? "gray.700" : "white"}
         alignItems={"center"}
         justifyContent="space-between"
-        gap={2}
+        mb={"3px"}
         borderRadius={8}
         cursor={"pointer"}
         transition={"all 0.2s ease-in-out"}
@@ -41,13 +42,13 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
         <Flex alignItems={"center"} justifyContent="flex-start" gap={2}>
           <Circle size={20} weight={selected !== id ? "bold" : "fill"} />
           <Flex direction={"column"}>
-            <p>{value}</p>
+            <Text fontWeight={700}>{value}</Text>
             <small>{description}</small>
           </Flex>
         </Flex>
         {image && (
           <Image
-            alt="Gibbresh"
+            alt={`Quiz Image - ${value}`}
             src={image}
             fallbackSrc="https://via.placeholder.com/150"
           />
