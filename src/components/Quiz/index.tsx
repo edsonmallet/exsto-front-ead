@@ -1,8 +1,7 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { Question } from "phosphor-react";
 import React from "react";
-import { useLessonStore, useToastStore } from "../../stores";
+import { useLessonStore } from "../../stores";
 import { QuizModalQuestions } from "./Modal";
 
 export const Quiz: React.FC = () => {
