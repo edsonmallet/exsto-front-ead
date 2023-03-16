@@ -35,25 +35,34 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
   }, [currentLesson]);
 
   return (
-    <Modal size={"5xl"} isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal size={"6xl"} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader display={"flex"} flexDirection={"column"}>
-          {currentLesson?.attributes?.quiz?.data?.attributes?.name}
-          <small>
-            {currentLesson?.attributes?.quiz?.data?.attributes?.title}
-          </small>
-          <small>
-            {currentLesson?.attributes?.quiz?.data?.attributes?.descriptions}
-          </small>
+        <ModalHeader
+          display={"flex"}
+          flexDirection={"column"}
+          bgColor="gray.200"
+        >
+          <Flex alignItems={"center"} justifyContent="flex-start" gap={5}>
+            <CaretRight size={32} weight="bold" />
+            <Flex direction={"column"}>
+              {currentLesson?.attributes?.quiz?.data?.attributes?.name}
+              <small>
+                {
+                  currentLesson?.attributes?.quiz?.data?.attributes
+                    ?.descriptions
+                }
+              </small>
+            </Flex>
+          </Flex>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody my={10}>
           {questions?.length > 0 && (
             <QuizQuestion question={questions[current]?.attributes} />
           )}
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter bgColor={"gray.200"}>
           <Flex w="full" alignItems={"center"} justifyContent="space-between">
             <Button
               colorScheme="gray"
@@ -62,6 +71,7 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
                 setCurrent((old) => (old === 0 ? old : old - 1));
               }}
               leftIcon={<CaretLeft fontSize={24} weight="bold" />}
+              isDisabled={current === 0}
             >
               Anterior
             </Button>
@@ -75,6 +85,7 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
             <Button
               colorScheme="gray"
               mr={3}
+              isDisabled={current === questions.length - 1}
               onClick={() => {
                 setCurrent((old) =>
                   old === questions.length - 1 ? old : old + 1
