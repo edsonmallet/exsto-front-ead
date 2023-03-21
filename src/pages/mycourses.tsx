@@ -42,18 +42,19 @@ export default function MyCoursePage({ data, trails }: any) {
             </Alert>
           ))}
       </Flex>
-      {trails?.length > 0 &&
-        trails?.map((trail: any) => (
-          <>
-            {trail?.attributes?.learningTrails?.data?.map((item: any) => (
-              <CardLearningTrail
-                key={item?.id}
-                trail={item}
-                onClick={() => navigateTo(`/learning-trails/${item?.id}`)}
-              />
-            ))}
-          </>
-        ))}
+      {trails?.map((trail: any) => (
+        <>
+          <CardLearningTrail
+            key={trail?.attributes?.learning_trail?.data?.id}
+            trail={trail?.attributes?.learning_trail?.data}
+            onClick={() =>
+              navigateTo(
+                `/learning-trails/${trail?.attributes?.learning_trail?.data?.id}`
+              )
+            }
+          />
+        </>
+      ))}
       <Flex
         my={10}
         w={{ base: "100%", md: "80%" }}
@@ -133,9 +134,9 @@ export const getServerSideProps: GetServerSideProps<{
 
   endpoint = "/my-learning-trails";
   endpoint += `?populate[user]=*`;
-  endpoint += `&populate[learningTrails][populate][image]=*`;
-  endpoint += `&populate[learningTrails][populate][courses][populate]=categories`;
-  endpoint += `&populate[learningTrails][populate][courses][populate]=coverImage`;
+  endpoint += `&populate[learning_trail][populate][image]=*`;
+  endpoint += `&populate[learning_trail][populate][courses][populate]=categories`;
+  endpoint += `&populate[learning_trail][populate][courses][populate]=coverImage`;
   endpoint += `&filters[user][id][$eq]=${session.id}`;
   endpoint += `&sort[0]=createdAt`;
 
