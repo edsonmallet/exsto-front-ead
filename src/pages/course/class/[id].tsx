@@ -10,14 +10,25 @@ import { VideoInformation } from "../../../components/VideoInformation";
 import api from "../../../services/api";
 import { useLessonStore } from "../../../stores";
 
-export default function CoursePage({ data, lessonsCompleted }: any) {
-  const { currentLesson, setCurrentLesson, setCompletedLessons } =
-    useLessonStore();
+export default function CoursePage({
+  data,
+  lessonsCompleted,
+  quizCompleteds,
+}: any) {
+  const {
+    currentLesson,
+    setCurrentLesson,
+    setCompletedLessons,
+    setQuizCompleted,
+  } = useLessonStore();
 
   React.useEffect(() => {
     setCurrentLesson(null);
     setCompletedLessons(lessonsCompleted);
+    setQuizCompleted(quizCompleteds);
   }, []);
+
+  console.log(quizCompleteds);
 
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 
@@ -92,10 +103,19 @@ export const getServerSideProps: GetServerSideProps<{
       headers: headers,
     });
 
+    endpoint = `/quiz-responses`;
+    endpoint += `?populate[quiz][populate]=*`;
+    endpoint += `&filters[user][id][$eq]=${session?.id}`;
+
+    const quizCompleteds = await api.get(endpoint, {
+      headers: headers,
+    });
+
     return {
       props: {
         data: course.data.data,
         lessonsCompleted: lessonsCompleteds.data.data,
+        quizCompleteds: quizCompleteds.data.data,
       },
     };
   }

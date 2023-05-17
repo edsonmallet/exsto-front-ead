@@ -22,7 +22,7 @@ interface ListModulesProps {
 }
 
 export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
-  const { setCurrentLesson, currentLesson, completedLessons } =
+  const { setCurrentLesson, currentLesson, completedLessons, quizCompleted } =
     useLessonStore();
 
   return (

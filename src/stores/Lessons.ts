@@ -3,7 +3,9 @@ import { create } from "zustand";
 type State = {
   currentLesson: any | null;
   completedLessons: any[];
+  quizCompleted: any | null;
   setCurrentLesson: (lesson: any) => void;
+  setQuizCompleted: (quiz: any) => void;
   setCompletedLessons: (lesson: any) => void;
   addCompletedLesson: (lessonId: string) => void;
   removeCompletedLesson: (lessonId: string) => void;
@@ -12,6 +14,9 @@ type State = {
 export const useLessonStore = create<State>((set) => ({
   currentLesson: null,
   setCurrentLesson: (lesson: any) => set(() => ({ currentLesson: lesson })),
+
+  quizCompleted: null,
+  setQuizCompleted: (quiz: any) => set(() => ({ quizCompleted: quiz })),
 
   completedLessons: [],
   setCompletedLessons: (lesson: any) =>

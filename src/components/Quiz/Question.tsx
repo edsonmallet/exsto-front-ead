@@ -41,10 +41,6 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
       setData((session as any)?.id, question?.attributes?.quiz?.data?.id);
   }, [user, quiz, setData, session, question?.attributes?.quiz?.data?.id]);
 
-  React.useEffect(() => {
-    console.log(responses);
-  }, [responses]);
-
   const Options = ({ value, description, image, id }: any) => {
     return (
       <Flex

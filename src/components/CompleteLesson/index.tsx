@@ -4,12 +4,7 @@ import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
 import React from "react";
 import api from "../../services/api";
-import {
-  useLessonStore,
-  useLoadingStore,
-  useSettingsStore,
-  useToastStore,
-} from "../../stores";
+import { useLessonStore, useLoadingStore, useToastStore } from "../../stores";
 
 export const CompleteLesson: React.FC = () => {
   const {
@@ -17,6 +12,7 @@ export const CompleteLesson: React.FC = () => {
     completedLessons,
     addCompletedLesson,
     removeCompletedLesson,
+    quizCompleted,
   } = useLessonStore();
   const { showToast } = useToastStore();
   const { isLoading, setLoading } = useLoadingStore();
@@ -72,6 +68,12 @@ export const CompleteLesson: React.FC = () => {
     showToast,
   ]);
 
+  const existsinQuizCompleted = quizCompleted.find(
+    (quiz: any) =>
+      quiz?.attributes?.quiz?.data?.id ===
+      currentLesson?.attributes?.quiz?.data?.id
+  );
+
   return (
     <>
       <Flex w="full" justifyContent={"flex-start"}>
@@ -80,7 +82,7 @@ export const CompleteLesson: React.FC = () => {
           leftIcon={<CheckCircle fontSize={24} weight="bold" />}
           onClick={onToggleLesson}
           size="sm"
-          isDisabled={isLoading}
+          isDisabled={isLoading || !existsinQuizCompleted}
           isLoading={isLoading}
           loadingText="Aguarde ..."
         >
