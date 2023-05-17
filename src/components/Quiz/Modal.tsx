@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -9,9 +10,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { CaretLeft, CaretRight, Check } from "phosphor-react";
+import { useRouter } from "next/router";
+import { CaretLeft, CaretRight, Check, CheckCircle } from "phosphor-react";
 import React from "react";
 import api from "../../services/api";
 import {
@@ -31,6 +34,7 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
   isOpen,
   onClose,
 }) => {
+  const router = useRouter();
   const { currentLesson } = useLessonStore();
   const { data: session } = useSession();
   const { showToast } = useToastStore();
@@ -44,15 +48,22 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
 
   const _getResultQuiz = React.useCallback(
     (responses: any[]) => {
-      const total = questions.length;
-      const corrects = responses.filter(
-        (r) =>
-          r?.answerSelected ===
-          r?.attributes?.answers.find((a: any) => a.isCorrect === true)?.id
-      )?.length;
+      const total = questions.reduce(
+        (acc, curr) => acc + curr?.attributes?.points,
+        0
+      );
+
+      const corrects = responses
+        .filter(
+          (r) =>
+            r?.answerSelected ===
+            r?.attributes?.answers.find((a: any) => a.isCorrect === true)?.id
+        )
+        .reduce((acc, curr) => acc + curr?.attributes?.points, 0);
+
       return `${corrects}/${total}`;
     },
-    [questions.length]
+    [questions]
   );
 
   const handleFinishQuiz = React.useCallback(async () => {
@@ -92,8 +103,13 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
     setFinalized(false);
   }, [isOpen]);
 
+  const handleClose = () => {
+    onClose();
+    router.reload();
+  };
+
   return (
-    <Modal size={"6xl"} isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal size={"6xl"} isCentered isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
@@ -118,9 +134,23 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
         <ModalBody my={10}>
           {finalized && (
             <Flex w="full" alignItems={"center"} justifyContent="center">
-              <Heading as="h3" size={"lg"}>
-                Resultado: {_getResultQuiz(responses)}
-              </Heading>
+              <Flex
+                direction={"column"}
+                alignItems={"center"}
+                justifyContent="center"
+                py={10}
+                px={6}
+              >
+                <CheckCircle fontSize={150} weight="fill" color={"green"} />
+                <Heading as="h2" size="xl" mt={6} mb={2}>
+                  Você terminou o quiz!
+                </Heading>
+                <Text color={"gray.500"}>
+                  <Heading as="h3" size={"lg"}>
+                    Resultado: {_getResultQuiz(responses)}
+                  </Heading>
+                </Text>
+              </Flex>
             </Flex>
           )}
 
@@ -169,7 +199,7 @@ export const QuizModalQuestions: React.FC<QuizProps> = ({
             </Flex>
           )}
           {finalized && (
-            <Button colorScheme="green" size={"lg"} onClick={onClose}>
+            <Button colorScheme="green" size={"lg"} onClick={handleClose}>
               Fechar
             </Button>
           )}

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type State = {
   currentLesson: any | null;
@@ -11,25 +12,32 @@ type State = {
   removeCompletedLesson: (lessonId: string) => void;
 };
 
-export const useLessonStore = create<State>((set) => ({
-  currentLesson: null,
-  setCurrentLesson: (lesson: any) => set(() => ({ currentLesson: lesson })),
+export const useLessonStore = create(
+  persist<State>(
+    (set) => ({
+      currentLesson: null,
+      setCurrentLesson: (lesson: any) => set(() => ({ currentLesson: lesson })),
 
-  quizCompleted: null,
-  setQuizCompleted: (quiz: any) => set(() => ({ quizCompleted: quiz })),
+      quizCompleted: null,
+      setQuizCompleted: (quiz: any) => set(() => ({ quizCompleted: quiz })),
 
-  completedLessons: [],
-  setCompletedLessons: (lesson: any) =>
-    set(() => ({ completedLessons: lesson })),
+      completedLessons: [],
+      setCompletedLessons: (lesson: any) =>
+        set(() => ({ completedLessons: lesson })),
 
-  addCompletedLesson: (lesson: any) =>
-    set((state) => ({
-      completedLessons: [...state.completedLessons, lesson.data],
-    })),
-  removeCompletedLesson: (lessonId: string) =>
-    set((state) => ({
-      completedLessons: state.completedLessons.filter(
-        (lesson: any) => lesson?.id !== lessonId
-      ),
-    })),
-}));
+      addCompletedLesson: (lesson: any) =>
+        set((state) => ({
+          completedLessons: [...state.completedLessons, lesson.data],
+        })),
+      removeCompletedLesson: (lessonId: string) =>
+        set((state) => ({
+          completedLessons: state.completedLessons.filter(
+            (lesson: any) => lesson?.id !== lessonId
+          ),
+        })),
+    }),
+    {
+      name: "@Exsto_lesson",
+    }
+  )
+);
