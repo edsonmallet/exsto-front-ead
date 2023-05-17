@@ -28,7 +28,7 @@ export default function CoursePage({
     setQuizCompleted(quizCompleteds);
   }, []);
 
-  console.log(quizCompleteds);
+  console.log(data);
 
   const Title = () => <Flex>{data?.attributes?.name}</Flex>;
 

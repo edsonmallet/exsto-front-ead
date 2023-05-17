@@ -68,11 +68,13 @@ export const CompleteLesson: React.FC = () => {
     showToast,
   ]);
 
-  const existsinQuizCompleted = quizCompleted.find(
-    (quiz: any) =>
-      quiz?.attributes?.quiz?.data?.id ===
-      currentLesson?.attributes?.quiz?.data?.id
-  );
+  const existsinQuizCompleted =
+    currentLesson?.attributes?.quiz?.data !== null &&
+    quizCompleted.findIndex(
+      (quiz: any) =>
+        quiz?.attributes?.quiz?.data?.id ===
+        currentLesson?.attributes?.quiz?.data?.id
+    ) >= 0;
 
   return (
     <>
@@ -82,7 +84,7 @@ export const CompleteLesson: React.FC = () => {
           leftIcon={<CheckCircle fontSize={24} weight="bold" />}
           onClick={onToggleLesson}
           size="sm"
-          isDisabled={isLoading || !existsinQuizCompleted}
+          isDisabled={isLoading || existsinQuizCompleted}
           isLoading={isLoading}
           loadingText="Aguarde ..."
         >
