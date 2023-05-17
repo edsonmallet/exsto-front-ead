@@ -173,8 +173,11 @@ export const MessagesCourses: React.FC<MessagesProps> = ({ courseId }) => {
                             flex="1"
                             textAlign="left"
                           >
-                            <Text fontSize={"lg"}>
+                            <Text fontSize={"xl"} fontWeight="bold">
                               {comment?.attributes?.title}
+                            </Text>
+                            <Text fontSize={"md"}>
+                              {comment?.attributes?.message}
                             </Text>
                             <HStack
                               marginTop="2"
