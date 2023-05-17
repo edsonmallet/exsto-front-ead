@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { CircleWavyCheck } from "phosphor-react";
 import React from "react";
@@ -75,18 +76,17 @@ export const ListModules: React.FC<ListModulesProps> = ({ modules }) => {
                         weight={"fill"}
                       />
                       <Text fontSize={"sm"}>{lesson?.attributes?.title}</Text>
-                    </Flex>
-                    <Flex gap={2}>
-                      <Badge
-                        colorScheme={"gray"}
-                        alignItems="center"
-                        justifyContent={"center"}
-                      >
-                        {lesson?.attributes?.workload}
-                      </Badge>
-                      <Badge colorScheme={"gray"}>
-                        {typesLessons(lesson?.attributes?.type)}
-                      </Badge>
+                      <Tooltip label={typesLessons(lesson?.attributes?.type)}>
+                        <Badge
+                          colorScheme={"green"}
+                          size="xs"
+                          py={1}
+                          px={2}
+                          borderRadius={16}
+                        >
+                          {typesLessons(lesson?.attributes?.type)[0]}
+                        </Badge>
+                      </Tooltip>
                     </Flex>
                   </Flex>
                 </ListItem>

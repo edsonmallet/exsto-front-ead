@@ -72,79 +72,95 @@ export const VideoInformation = () => {
             colorScheme={"green"}
           >
             <TabList fontWeight={"bold"}>
-              <Tab>Autor</Tab>
-              <Tab>Sinopse</Tab>
-              <Tab>Habilidades e Competências</Tab>
-              <Tab>Material de apoio</Tab>
+              {currentLesson?.attributes?.authors?.data?.length > 0 && (
+                <Tab>Autor</Tab>
+              )}
+              {currentLesson?.attributes?.sinopse && <Tab>Sinopse</Tab>}
+
+              {currentLesson?.attributes?.skillAndCompetence?.length > 0 && (
+                <Tab>Habilidades e Competências</Tab>
+              )}
+              {currentLesson?.attributes?.supportMaterial?.length > 0 && (
+                <Tab>Material de apoio</Tab>
+              )}
+
               <Tab>Comentários e Dúvidas</Tab>
             </TabList>
             <TabPanels>
-              <TabPanel>
-                <HStack w="full" justify="space-between" spacing="8">
-                  {currentLesson?.attributes?.authors?.data?.map(
-                    (author: any) => (
-                      <React.Fragment key={author.id}>
-                        <Flex gap={2}>
-                          <Avatar
-                            bg="green.500"
-                            color="white"
-                            size="2xl"
-                            src={
-                              author?.attributes?.avatar?.data?.attributes
-                                ?.url ?? ""
-                            }
-                            name={author?.attributes?.name}
-                          />
-                          <VStack w="full" align="flex-start" spacing="0">
-                            <Text fontWeight={"bold"}>
-                              {author?.attributes?.name}
-                            </Text>
-                            <Text fontSize="xs" color="gray.600">
-                              {parseHtml(author?.attributes?.minibio)}
-                            </Text>
-                          </VStack>
-                        </Flex>
-                      </React.Fragment>
-                    )
-                  )}
-                </HStack>
-              </TabPanel>
-              <TabPanel>
-                <Text lineHeight={1.5} color="gray.600">
-                  {parseHtml(currentLesson?.attributes?.sinopse)}
-                </Text>
-              </TabPanel>
-              <TabPanel>
-                <Text lineHeight={1.5} color="gray.600">
-                  {parseHtml(currentLesson?.attributes?.skillAndCompetence)}
-                </Text>
-              </TabPanel>
-              <TabPanel>
-                <Flex direction={"column"} gap={2} w="full">
-                  <UnorderedList>
-                    {currentLesson?.attributes?.supportMaterial?.map(
-                      (material: any) => (
-                        <ListItem
-                          key={material.id}
-                          _hover={{ bg: "gray.100", cursor: "pointer" }}
-                          fontWeight="bold"
-                          borderBottom={"1px solid"}
-                          borderBottomColor={"gray.300"}
-                          p={2}
-                        >
-                          <Link
-                            href={material?.file?.data[0]?.attributes?.url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {material?.name}
-                          </Link>
-                        </ListItem>
+              {currentLesson?.attributes?.authors?.data?.length > 0 && (
+                <TabPanel>
+                  <HStack w="full" justify="space-between" spacing="8">
+                    {currentLesson?.attributes?.authors?.data?.map(
+                      (author: any) => (
+                        <React.Fragment key={author.id}>
+                          <Flex gap={2}>
+                            <Avatar
+                              bg="green.500"
+                              color="white"
+                              size="2xl"
+                              src={
+                                author?.attributes?.avatar?.data?.attributes
+                                  ?.url ?? ""
+                              }
+                              name={author?.attributes?.name}
+                            />
+                            <VStack w="full" align="flex-start" spacing="0">
+                              <Text fontWeight={"bold"}>
+                                {author?.attributes?.name}
+                              </Text>
+                              <Text fontSize="xs" color="gray.600">
+                                {parseHtml(author?.attributes?.minibio)}
+                              </Text>
+                            </VStack>
+                          </Flex>
+                        </React.Fragment>
                       )
                     )}
-                  </UnorderedList>
-                </Flex>
-              </TabPanel>
+                  </HStack>
+                </TabPanel>
+              )}
+              {currentLesson?.attributes?.sinopse && (
+                <TabPanel>
+                  <Text lineHeight={1.5} color="gray.600">
+                    {parseHtml(currentLesson?.attributes?.sinopse)}
+                  </Text>
+                </TabPanel>
+              )}
+              {currentLesson?.attributes?.skillAndCompetence?.length > 0 && (
+                <TabPanel>
+                  <Text lineHeight={1.5} color="gray.600">
+                    {parseHtml(currentLesson?.attributes?.skillAndCompetence)}
+                  </Text>
+                </TabPanel>
+              )}
+              {currentLesson?.attributes?.supportMaterial?.length > 0 && (
+                <TabPanel>
+                  <Flex direction={"column"} gap={2} w="full">
+                    <UnorderedList>
+                      {currentLesson?.attributes?.supportMaterial?.map(
+                        (material: any) => (
+                          <ListItem
+                            key={material.id}
+                            _hover={{ bg: "gray.100", cursor: "pointer" }}
+                            fontWeight="bold"
+                            borderBottom={"1px solid"}
+                            borderBottomColor={"gray.300"}
+                            p={2}
+                          >
+                            <Link
+                              href={material?.file?.data[0]?.attributes?.url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {material?.name}
+                            </Link>
+                          </ListItem>
+                        )
+                      )}
+                    </UnorderedList>
+                  </Flex>
+                </TabPanel>
+              )}
               <TabPanel>
                 <Comments
                   courseId={Number(router?.query?.id)}
