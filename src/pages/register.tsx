@@ -43,6 +43,7 @@ export default function Register() {
     terms: true,
     companyId: "",
     position: "",
+    other_position: "",
     courses: [],
     state: "",
     city: "",
@@ -124,6 +125,7 @@ export default function Register() {
         terms: true,
         companyId: "",
         position: "",
+        other_position: "",
         courses: [],
         state: "",
         city: "",
@@ -355,6 +357,19 @@ export default function Register() {
                   Outro
                 </option>
               </Select>
+
+              {values.position === "Outro" && (
+                <Input
+                  border="1px"
+                  borderColor="#B3C52D"
+                  bg="gray.800"
+                  placeholder="Seu Cargo"
+                  type="text"
+                  name="other_position"
+                  value={values.other_position}
+                  onChange={(e) => handleChange(e)}
+                />
+              )}
 
               <Select
                 placeholder="Estado"
