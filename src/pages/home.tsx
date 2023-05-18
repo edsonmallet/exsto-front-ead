@@ -121,3 +121,37 @@ export default function HomePage({ data }: any) {
 
   return <PrivatePageTemplate header={<Header />} main={<Home />} />;
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  data: any;
+}> = async (context) => {
+  let headers = {};
+  const session: any = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (session) {
+    headers = { Authorization: `Bearer ${session.jwt}` };
+  }
+
+  let endpoint = "/classes";
+  endpoint += `?populate[courses][populate]=*`;
+  endpoint += `&populate[learning_trails][populate]=*`;
+
+  const classes = await api.get(endpoint, {
+    headers: headers,
+  });
+
+  return {
+    props: {
+      data: classes.data.data,
+    },
+  };
+};
