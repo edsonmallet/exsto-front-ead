@@ -23,7 +23,7 @@ export default function CoursePage({
   } = useLessonStore();
 
   React.useEffect(() => {
-    setCurrentLesson(null);
+    setCurrentLesson(currentLesson);
     setCompletedLessons(lessonsCompleted);
     setQuizCompleted(quizCompleteds);
   }, []);

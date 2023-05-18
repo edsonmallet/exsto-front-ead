@@ -16,7 +16,6 @@ export default function MyCoursePage({ data, trails }: any) {
       <TitlePage title="Meus Cursos" />
 
       <Flex
-        my={10}
         w={{ base: "100%", md: "80%" }}
         alignItems={"center"}
         justifyContent={"space-evenly"}
@@ -27,11 +26,10 @@ export default function MyCoursePage({ data, trails }: any) {
           justifyContent="flex-start"
           w="full"
           gap={4}
-          mb={8}
         >
           <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
           <Text fontSize={24} fontWeight="bold">
-            Trilhas de aprendizagem
+            Trilhas e Cursos Matriculados
           </Text>
         </Flex>
         {!trails ||
@@ -42,58 +40,37 @@ export default function MyCoursePage({ data, trails }: any) {
             </Alert>
           ))}
       </Flex>
-      {trails?.map((trail: any) => (
-        <>
-          <CardLearningTrail
-            key={trail?.attributes?.learning_trail?.data?.id}
-            trail={trail?.attributes?.learning_trail?.data}
-            onClick={() =>
-              navigateTo(
-                `/learning-trails/${trail?.attributes?.learning_trail?.data?.id}`
-              )
-            }
-          />
-        </>
-      ))}
       <Flex
-        my={10}
-        w={{ base: "100%", md: "80%" }}
-        alignItems={"center"}
-        direction={"column"}
+        gap={10}
+        wrap="wrap"
+        justifyContent="flex-start"
+        alignItems="stretch"
       >
-        <Flex
-          alignItems={"center"}
-          justifyContent="flex-start"
-          w="full"
-          gap={4}
-          mb={8}
-        >
-          <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
-          <Text fontSize={24} fontWeight="bold">
-            Cursos
-          </Text>
-        </Flex>
-        {!data ||
-          (data?.length === 0 && (
-            <Alert status="info">
-              <AlertIcon />
-              Nenhum curso de aprendizagem encontrada
-            </Alert>
+        {trails?.map((trail: any) => (
+          <>
+            <CardLearningTrail
+              key={trail?.attributes?.learning_trail?.data?.id}
+              trail={trail?.attributes?.learning_trail?.data}
+              onClick={() =>
+                navigateTo(
+                  `/learning-trails/${trail?.attributes?.learning_trail?.data?.id}`
+                )
+              }
+            />
+          </>
+        ))}
+        {data?.length > 0 &&
+          data?.map((item: any) => (
+            <CardCourse
+              course={item?.attributes?.course?.data?.attributes}
+              key={item?.attributes?.course?.data?.id}
+              onClick={() =>
+                navigateTo(
+                  `/course/class/${item?.attributes?.course?.data?.id}`
+                )
+              }
+            />
           ))}
-        <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
-          {data?.length > 0 &&
-            data?.map((item: any) => (
-              <CardCourse
-                course={item?.attributes?.course?.data?.attributes}
-                key={item?.attributes?.course?.data?.id}
-                onClick={() =>
-                  navigateTo(
-                    `/course/class/${item?.attributes?.course?.data?.id}`
-                  )
-                }
-              />
-            ))}
-        </Flex>
       </Flex>
     </>
   );
