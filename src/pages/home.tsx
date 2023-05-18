@@ -143,7 +143,9 @@ export const getServerSideProps: GetServerSideProps<{
 
   let endpoint = "/classes";
   endpoint += `?populate[courses][populate]=*`;
+  endpoint += `&populate[users][populate]=*`;
   endpoint += `&populate[learning_trails][populate]=*`;
+  endpoint += `&filters[users][id][$eq]=${session?.id}`;
 
   const classes = await api.get(endpoint, {
     headers: headers,
