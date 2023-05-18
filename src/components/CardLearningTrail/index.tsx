@@ -42,7 +42,7 @@ export default function CardLearningTrail({ onClick, trail }: CardCourseProps) {
         justifyContent={"center"}
         boxShadow={"lg"}
       >
-        {trail?.scheduling ? (
+        {trail?.atrributes?.scheduling ? (
           <>
             <HourglassMedium size={24} weight="bold" />
             <Text fontSize={"md"} fontWeight="bold">
@@ -72,7 +72,7 @@ export default function CardLearningTrail({ onClick, trail }: CardCourseProps) {
         border="8px solid"
         borderColor={"green.500"}
       >
-        <Box h={"170px"} bg={"green.100"} pos={"relative"}>
+        <Box bg={"green.100"} pos={"relative"}>
           {trail?.attributes?.image?.data?.attributes?.url && (
             <Image
               alt={trail?.attributes?.image?.data?.attributes?.alternativeText}
@@ -95,8 +95,11 @@ export default function CardLearningTrail({ onClick, trail }: CardCourseProps) {
               <Image w="full" alt="Generico" src="/courseGenericImage.png" />
             )}
         </Box>
-        <Flex direction="column" p={4} gap={2} bgColor="green.100" pt={6}>
+        <Flex direction="column" p={4} gap={2} bgColor="green.100" h="full">
           <Flex gap={2}>
+            <Badge size="xs" colorScheme="red" p={1}>
+              Trilha
+            </Badge>
             {trail?.categories?.data?.map((category: any) => (
               <Badge size="xs" colorScheme="green" key={category.id} p={1}>
                 {category?.attributes?.name}

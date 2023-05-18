@@ -1,20 +1,20 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Flex, Image, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import React from "react";
 import CardCourse from "../components/CardCourse";
 import { Header } from "../components/Header";
 import { PrivatePageTemplate } from "../components/PrivatePageTemplate";
 import api from "../services/api";
-import { useSettingsStore, useToastStore } from "../stores";
+import { useSettingsStore } from "../stores";
 import { navigateTo } from "../utils/navigateTo";
+import { formatDate } from "../utils/convertDate";
 import { getSession, useSession } from "next-auth/react";
 import CardLearningTrail from "../components/CardLearningTrail";
+import { ArrowRight } from "phosphor-react";
 
-export default function HomePage({ data, trails }: any) {
+export default function HomePage({ data }: any) {
   const { data: session } = useSession();
-  const [isLoading, setIsLoading] = React.useState(false);
   const { user, setUser } = useSettingsStore();
-  const { showToast } = useToastStore();
 
   const getUserLogged = React.useCallback(async () => {
     const res = await api.get(`/users/me`, {
@@ -38,74 +38,86 @@ export default function HomePage({ data, trails }: any) {
           <b>SMART 4.0</b> e suas tecnologias.
         </Text>
       </Flex>
-      {trails?.length > 0 && (
-        <Flex
-          my={10}
-          w={{ base: "100%", md: "80%" }}
-          alignItems={"center"}
-          justifyContent={"space-evenly"}
-          direction={"column"}
-        >
-          <Flex
-            alignItems={"center"}
-            justifyContent="flex-start"
-            w="full"
-            gap={4}
-            mb={8}
-          >
-            <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
-            <Text fontSize={24} fontWeight="bold">
-              Trilhas de aprendizagem
-            </Text>
-          </Flex>
-          {trails?.map((trail: any) => (
-            <>
-              <CardLearningTrail
-                key={trail?.id}
-                trail={trail}
-                onClick={() => navigateTo(`/learning-trails/${trail?.id}`)}
-              />
-            </>
-          ))}
-        </Flex>
-      )}
-      <Flex
-        my={10}
-        w={{ base: "100%", md: "80%" }}
-        alignItems={"center"}
-        direction={"column"}
-      >
-        <Flex
-          alignItems={"center"}
-          justifyContent="flex-start"
-          w="full"
-          gap={4}
-          mb={8}
-        >
-          <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
-          <Text fontSize={24} fontWeight="bold">
-            Cursos Avulsos
-          </Text>
-        </Flex>
-        <Flex
-          gap={10}
-          wrap="wrap"
-          justifyContent={"space-evenly"}
-          alignItems="stretch"
-        >
-          {data?.map((item: any) => (
-            <>
-              {item.attributes.visibility && (
-                <CardCourse
-                  course={item.attributes}
-                  key={item.id}
-                  onClick={() => navigateTo(`/course/${item.id}`)}
-                />
-              )}
-            </>
-          ))}
-        </Flex>
-      </Flex>
+
+      {data?.length > 0 &&
+        data?.map((classes: any) => (
+          <>
+            <Flex
+              mb={5}
+              w={{ base: "100%", md: "80%" }}
+              alignItems={"center"}
+              justifyContent={"space-evenly"}
+              direction={"column"}
+            >
+              <Alert status="success">
+                <AlertIcon />
+                <Flex direction={"column"}>
+                  <Flex gap={2} align="center">
+                    <Text fontWeight={"bold"}>{classes?.attributes?.Nome}</Text>
+                    <Text fontSize={12}>
+                      {classes?.attributes?.description}
+                    </Text>
+                  </Flex>
+
+                  <Flex gap={2} align="center">
+                    {formatDate(classes?.attributes?.initial_data, false)}{" "}
+                    <ArrowRight />{" "}
+                    {formatDate(classes?.attributes?.final_date, false)}
+                  </Flex>
+                </Flex>
+              </Alert>
+            </Flex>
+            {(classes?.attributes?.learning_trails?.data?.length > 0 ||
+              classes?.attributes?.courses?.data?.length > 0) && (
+              <Flex
+                mb={10}
+                w={{ base: "100%", md: "80%" }}
+                alignItems={"center"}
+                justifyContent={"space-evenly"}
+                direction={"column"}
+              >
+                <Flex
+                  alignItems={"center"}
+                  justifyContent="flex-start"
+                  w="full"
+                  gap={4}
+                  mb={8}
+                >
+                  <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
+                  <Text fontSize={24} fontWeight="bold">
+                    Trilhas e Cursos
+                  </Text>
+                </Flex>
+                <Flex gap={8}>
+                  {classes?.attributes?.learning_trails?.data?.map(
+                    (trail: any) => (
+                      <>
+                        <CardLearningTrail
+                          key={trail?.id}
+                          trail={trail}
+                          onClick={() =>
+                            navigateTo(`/learning-trails/${trail?.id}`)
+                          }
+                        />
+                      </>
+                    )
+                  )}
+                  {classes?.attributes?.courses?.data?.map((item: any) => (
+                    <>
+                      {item.attributes.visibility && (
+                        <CardCourse
+                          course={item.attributes}
+                          key={item.id}
+                          onClick={() => navigateTo(`/course/${item.id}`)}
+                        />
+                      )}
+                    </>
+                  ))}
+                </Flex>
+              </Flex>
+            )}
+          </>
+        ))}
     </>
   );
 
@@ -114,7 +126,6 @@ export default function HomePage({ data, trails }: any) {
 
 export const getServerSideProps: GetServerSideProps<{
   data: any;
-  trails: any;
 }> = async (context) => {
   let headers = {};
   const session: any = await getSession(context);
@@ -132,27 +143,17 @@ export const getServerSideProps: GetServerSideProps<{
     headers = { Authorization: `Bearer ${session.jwt}` };
   }
 
-  let endpoint = "/courses";
-  endpoint += `?populate[categories]=*`;
-  endpoint += `&populate[coverImage]=*`;
-  endpoint += `&sort[0]=showOrder`;
+  let endpoint = "/classes";
+  endpoint += `?populate[courses][populate]=*`;
+  endpoint += `&populate[learning_trails][populate]=*`;
 
-  const courses = await api.get(endpoint, {
-    headers: headers,
-  });
-
-  endpoint = "/learning-trails";
-  endpoint += `?populate[0]=image`;
-  endpoint += `&sort[0]=createdAt`;
-
-  const learningTrails = await api.get(endpoint, {
+  const classes = await api.get(endpoint, {
     headers: headers,
   });
 
   return {
     props: {
-      data: courses.data.data,
-      trails: learningTrails.data.data,
+      data: classes.data.data,
     },
   };
 };
