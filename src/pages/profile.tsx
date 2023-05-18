@@ -70,7 +70,8 @@ export default function ProfilePage({ userData }: any) {
 
   React.useEffect(() => {
     getStates();
-  }, [getStates]);
+    if (user?.state) getCityByState(user?.state);
+  }, [getCityByState, getStates, user?.state]);
 
   const Profile = () => (
     <Flex
@@ -149,7 +150,7 @@ export default function ProfilePage({ userData }: any) {
               placeholder="Whatsapp"
               type="text"
               name="wathsapp"
-              defaultValue={user?.wathsapp}
+              defaultValue={user?.whatsapp}
               onBlur={(e) => handleChange(e)}
             />
           </Flex>

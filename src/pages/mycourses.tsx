@@ -70,17 +70,17 @@ export default function MyCoursePage({ data, trails }: any) {
         >
           <Image src="/iconeSmart.svg" alt="logo big" w={"48px"} />
           <Text fontSize={24} fontWeight="bold">
-            Cursos Avulsos
+            Cursos
           </Text>
         </Flex>
-        <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
-          {!data && data?.length === 0 && (
+        {!data ||
+          (data?.length === 0 && (
             <Alert status="info">
               <AlertIcon />
-              Nenhuma trilha de aprendizagem encontrada
+              Nenhum curso de aprendizagem encontrada
             </Alert>
-          )}
-
+          ))}
+        <Flex gap={10} wrap="wrap" justifyContent="center" alignItems="stretch">
           {data?.length > 0 &&
             data?.map((item: any) => (
               <CardCourse

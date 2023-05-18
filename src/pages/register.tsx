@@ -30,6 +30,7 @@ export default function Register() {
   const [loadedByCupom, setLoadedByCupom] = React.useState(false);
   const [cupom, setCupom] = React.useState("");
   const [company, setCompany] = React.useState("");
+  const [companyList, setCompanyList] = React.useState([]);
   const [states, setStates] = React.useState([]);
   const [cities, setCities] = React.useState([]);
 
@@ -132,6 +133,12 @@ export default function Register() {
   };
 
   const getStates = React.useCallback(async () => {
+    let endpoint = `/companies`;
+    const companies = await api.get(endpoint);
+    setCompanyList(companies.data.data);
+  }, []);
+
+  const getCompanies = React.useCallback(async () => {
     const states = await axios.get(
       "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
     );
@@ -149,7 +156,8 @@ export default function Register() {
 
   React.useEffect(() => {
     getStates();
-  }, [getStates]);
+    getCompanies();
+  }, [getCompanies, getStates]);
 
   return (
     <Flex
@@ -270,17 +278,28 @@ export default function Register() {
                 onChange={(e) => handleChange(e)}
               />
 
-              <Input
-                border="1px"
-                borderColor="#B3C52D"
-                bg="gray.800"
+              <Select
                 placeholder="Empresa"
-                type="text"
-                name="Empresa"
-                isDisabled={loadedByCupom}
-                value={company}
+                _placeholder={{ color: "gray.900" }}
+                name="company"
+                iconColor="#B3C52D"
                 onChange={(e) => handleChange(e)}
-              />
+                border="1px"
+                value={values.companyId}
+                borderColor="#B3C52D"
+                bg="gray.900"
+              >
+                {companyList.map((company: any) => (
+                  <option
+                    key={company?.id}
+                    value={company?.id}
+                    style={{ color: "black" }}
+                  >
+                    {company?.attributes?.name}
+                  </option>
+                ))}
+              </Select>
+
               <Input
                 as={InputMask}
                 mask="(99) 9 9999-9999"
@@ -290,7 +309,22 @@ export default function Register() {
                 bg="gray.800"
                 placeholder="Whatsapp"
                 type="text"
+                value={values.whatsapp}
                 name="whatsapp"
+                onChange={(e) => handleChange(e)}
+              />
+
+              <Input
+                as={InputMask}
+                mask="999.999.999-99"
+                maskChar={null}
+                border="1px"
+                borderColor="#B3C52D"
+                bg="gray.800"
+                placeholder="CPF"
+                type="text"
+                value={values.document}
+                name="document"
                 onChange={(e) => handleChange(e)}
               />
 
@@ -316,6 +350,9 @@ export default function Register() {
                 </option>
                 <option value="Aluno" style={{ color: "black" }}>
                   Aluno
+                </option>
+                <option value="Outro" style={{ color: "black" }}>
+                  Outro
                 </option>
               </Select>
 
@@ -374,6 +411,7 @@ export default function Register() {
                 type="password"
                 placeholder="Senha"
                 name="password"
+                value={values.password}
                 onChange={(e) => handleChange(e)}
               />
 
@@ -382,7 +420,9 @@ export default function Register() {
                 defaultChecked={values.terms}
                 size="lg"
                 name="terms"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) =>
+                  setValues((old) => ({ ...old, [e.target.name]: !old.terms }))
+                }
               >
                 <Text fontSize={"small"} fontWeight="hairline">
                   Ao informar seus dados e seguir para a próxima etapa. Você
@@ -395,6 +435,7 @@ export default function Register() {
               w="full"
               type="submit"
               colorScheme="green"
+              isDisabled={isLoading || !values.terms}
               isLoading={isLoading}
               loadingText="Cadastrando..."
             >
