@@ -281,7 +281,7 @@ export default function Register() {
               <Select
                 placeholder="Empresa"
                 _placeholder={{ color: "gray.900" }}
-                name="company"
+                name="companyId"
                 iconColor="#B3C52D"
                 onChange={(e) => handleChange(e)}
                 border="1px"

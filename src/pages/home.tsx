@@ -88,18 +88,16 @@ export default function HomePage({ data }: any) {
                     Trilhas e Cursos
                   </Text>
                 </Flex>
-                <Flex gap={8}>
+                <Flex gap={4} w={{ base: "100%", md: "90%" }} wrap={"wrap"}>
                   {classes?.attributes?.learning_trails?.data?.map(
                     (trail: any) => (
-                      <>
-                        <CardLearningTrail
-                          key={trail?.id}
-                          trail={trail}
-                          onClick={() =>
-                            navigateTo(`/learning-trails/${trail?.id}`)
-                          }
-                        />
-                      </>
+                      <CardLearningTrail
+                        key={trail?.id}
+                        trail={trail}
+                        onClick={() =>
+                          navigateTo(`/learning-trails/${trail?.id}`)
+                        }
+                      />
                     )
                   )}
                   {classes?.attributes?.courses?.data?.map((item: any) => (
@@ -123,37 +121,3 @@ export default function HomePage({ data }: any) {
 
   return <PrivatePageTemplate header={<Header />} main={<Home />} />;
 }
-
-export const getServerSideProps: GetServerSideProps<{
-  data: any;
-}> = async (context) => {
-  let headers = {};
-  const session: any = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  if (session) {
-    headers = { Authorization: `Bearer ${session.jwt}` };
-  }
-
-  let endpoint = "/classes";
-  endpoint += `?populate[courses][populate]=*`;
-  endpoint += `&populate[learning_trails][populate]=*`;
-
-  const classes = await api.get(endpoint, {
-    headers: headers,
-  });
-
-  return {
-    props: {
-      data: classes.data.data,
-    },
-  };
-};
